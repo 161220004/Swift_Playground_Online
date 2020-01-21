@@ -1,0 +1,18 @@
+version: "3.6"
+services:
+    mysql:
+        build:
+            context: ./MySQL
+        image: aldebarain/spo-mysql:0.1
+        command: --default-authentication-plugin=caching_sha2_password
+        ports:
+            - 3306:3306
+        environment:
+            - MYSQL_ROOT_PASSWORD_FILE=/run/mysql/password
+            - MYSQL_DATABASE_FILE=/run/mysql/db
+            - MYSQL_USER_FILE=/run/mysql/user
+            - MYSQL_PASSWORD_FILE=/run/mysql/password
+        volumes:
+            - ./MySQL/data:/var/lib/mysql
+#networks:
+#    - myNet
