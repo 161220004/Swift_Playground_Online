@@ -12,9 +12,13 @@
 
 - 命令行输入：
 
-  `docker-compose build`   # 创建MySQL镜像“aldebarain/spo-mysql:0.1”
+  - 创建MySQL镜像“aldebarain/spo-mysql:0.1”与SPO项目镜像“aldebarain/spo-vapor:0.1”
 
-  `docker-compose up`  # 创建容器“spo_mysql_1”并运行
+    `docker-compose build`  
+
+  - 创建两个镜像的容器并运行
+
+    `docker-compose up` 
 
 - 可以使用MySQL可视化工具（如Navicat），建立连接：
 

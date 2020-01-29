@@ -22,12 +22,32 @@ public func configure(_ config: inout Config, _ env: inout Environment, _ servic
     middlewares.use(ErrorMiddleware.self) // Catches errors and converts to HTTP response
     services.register(middlewares)
     
+    let mysqlHostname: String
+    let mysqlPort: Int
+    let mysqlDB: String
+    let mysqlUser: String
+    let mysqlPassword: String
+    if (env == .development || env == .testing) {
+        print("Under Development or Testing Mode")
+        mysqlHostname = "127.0.0.1"
+        mysqlPort = 3306
+        mysqlDB = "spo"
+        mysqlUser = "aldebarain"
+        mysqlPassword = "mysql"
+    } else {
+        print("Under production mode")
+        mysqlHostname = Environment.get("MYSQL_HOSTNAME")!
+        mysqlPort = 3306
+        mysqlDB = Environment.get("MYSQL_DATABASE")!
+        mysqlUser = Environment.get("MYSQL_USER")!
+        mysqlPassword = Environment.get("MYSQL_PASSWORD")!
+    }
     let mysqlConfig = MySQLDatabaseConfig(
-        hostname: "127.0.0.1",
-        port: 3306,
-        username: "aldebarain",
-        password: "mysql",
-        database: "spo",
+        hostname: mysqlHostname,
+        port: mysqlPort,
+        username: mysqlUser,
+        password: mysqlPassword,
+        database: mysqlDB,
         transport: .unverifiedTLS)
     let mydb = MySQLDatabase(config: mysqlConfig)
     
@@ -39,7 +59,10 @@ public func configure(_ config: inout Config, _ env: inout Environment, _ servic
     // 注册migrations
     var migrations = MigrationConfig()
     migrations.add(model: Puzzle.self, database: .mysql)
-    if (env == .development) { // 仅开发环境下使用Seed
+    if (Environment.get("ENVIRONMENT") == "docker") {
+        print("Build & Run in Docker")
+    } else if (env == .development) { // 仅开发环境下使用Seed
+        print("Use Seed Under Development Mode")
         migrations.add(migration: PuzzleSeeder.self, database: .mysql)
     }
     services.register(migrations)
