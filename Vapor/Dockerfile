@@ -30,6 +30,11 @@ COPY --from=builder /build/lib/* /usr/lib/
 COPY --from=builder /app/Public ./Public
 # Uncomment the next line if you are using Leaf
 COPY --from=builder /app/Resources ./Resources
-ENV ENVIRONMENT=$env
 
-ENTRYPOINT ./Run serve --env $ENVIRONMENT --hostname 0.0.0.0 --port 8080
+# Add the wait script to the image
+ADD https://github.com/ufoscout/docker-compose-wait/releases/download/2.7.3/wait /wait
+RUN chmod +x /wait
+
+ENV ENVIRONMENT=$env
+## Launch the wait tool and then your application
+ENTRYPOINT /wait && ./Run serve --env $ENVIRONMENT --hostname 0.0.0.0 --port 8080

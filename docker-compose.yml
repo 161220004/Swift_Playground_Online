@@ -3,7 +3,7 @@ services:
   mysql:
     build:
       context: ./MySQL
-    image: aldebarain/spo-mysql:0.1
+    image: aldebarain/spo-mysql:latest
     command: --default-authentication-plugin=caching_sha2_password
     ports:
       - 3306:3306
@@ -21,7 +21,7 @@ services:
       context: ./Vapor
       args:
         env: docker
-    image: aldebarain/spo-vapor:0.1
+    image: aldebarain/spo-vapor:latest
     depends_on:
       - mysql
     links:
@@ -29,6 +29,7 @@ services:
     ports:
       - 8080:8080
     environment:
+      WAIT_HOSTS: mysql:3306
       MYSQL_HOSTNAME: mysql
       MYSQL_DATABASE: spo
       MYSQL_USER: aldebarain
