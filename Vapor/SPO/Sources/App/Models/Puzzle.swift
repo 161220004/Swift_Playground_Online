@@ -27,5 +27,7 @@ final class Puzzle: MySQLModel, Content {
     }
 }
 
+extension Puzzle: Migration { }
+
 /// Allows to be used as a dynamic parameter in route definitions.
 extension Puzzle: Parameter { }
