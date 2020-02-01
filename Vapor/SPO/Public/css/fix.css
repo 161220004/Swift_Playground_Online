@@ -1,0 +1,42 @@
+.my-fix-menu {
+  margin-top: 10px;
+}
+
+.my-fix-run-btn {
+  margin-left: 16px;
+}
+
+.my-nav-height-large {
+  height: 84px;
+  line-height: 84px;
+}
+
+.my-nav-height-small {
+  height: 56px;
+  line-height: 56px;
+}
+
+.my-fix-container {
+  width: 90%;
+}
+
+.my-add-top {
+  margin-top: 32px;
+}
+
+.my-add-bottom {
+  margin-bottom: 32px;
+}
+
+.my-space-line {
+  margin-top: 40px;
+}
+
+.my-space-line-large {
+  margin-top: 80px;
+}
+
+.waves-effect.waves-indigo .waves-ripple {
+     /* The alpha value allows the text and background color of the button to still show through. */
+      background-color: rgba(62, 66, 85, 0.45);
+    }
