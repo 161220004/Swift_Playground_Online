@@ -70,14 +70,15 @@
     <!-- 代码区 -->
     <div class="col s12 m12 l6">
       <nav class="black my-nav-height-small" role="navigation">
-        <a class="indigo lighten-3 waves-effect waves-light btn my-fix-run-btn" href="#"> > Run</a>
+        <a class="indigo lighten-3 waves-effect waves-light btn my-fix-run-btn" id="run_code">
+          > Run</a>
       </nav>
       <div class="divider"></div>
-      <div id="pz_editor">import Foundation
-      </div>
+      <div id="pz_editor">import Foundation</div>
     </div>
     <!-- LiveView区 -->
-    <div class="col s12 m12 l6">
+    <div class="col s12 m12 l6 indigo lighten-5">
+      <span class="my-nav-height-large" id="test_live_view">Default</span>
     </div>
   </div>
 
