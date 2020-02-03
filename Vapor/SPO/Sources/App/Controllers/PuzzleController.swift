@@ -12,18 +12,13 @@ struct Code: Codable, Content {
     var lines: String?
 }
 
-struct Pace: Content {
-    var dx: Int
-    var dy: Int
-}
-struct Actions: Content {
-    var isLegal: Bool
-    var isRight: Bool
-    var steps: [Pace]
-}
-
 final class PuzzleController: RouteCollection {
     
+    // 临时当做属性；考虑到多个用户同时Run的问题，以后会废弃
+    /// Actions ToDo in the Last Run
+    var currentActions: Actions = Actions(isLegal: true, isRight: true, steps: [Pace(dx: 0, dy: 0)])
+    
+    /// Router
     func boot(router: Router) throws {
         
         router.group("spo") { group in
@@ -33,8 +28,6 @@ final class PuzzleController: RouteCollection {
             group.get("p0", use: getPuzzle0)
             
             group.post("p0", "code", use: postCode)
-            
-            group.get("p0", "result", use: getResult)
             
         }
     }
@@ -53,21 +46,39 @@ extension PuzzleController {
     }
     
     /// Post: User Code
-    func postCode(_ req: Request) throws -> Future<HTTPStatus> {
+    func postCode(_ req: Request) throws -> Actions {
         if let codeJson = req.http.body.data {
             let codeObj = try JSONDecoder().decode(Code.self, from: String(data: codeJson, encoding:.utf8)!)
             let code = codeObj.lines
             // TODO: 编译运行
-            sleep(5)
-            print("I Am Awaked Now")
+            compile()
         }
-        return try req.content.decode(Code.self).transform(to: HTTPStatus.created)
+        return currentActions
     }
     
-    /// Get: Result
-    func getResult(_ req: Request) throws -> Actions {
-        let actions: Actions = Actions(isLegal: true, isRight: true, steps: [Pace(dx: 0, dy: 0)])
-        return actions
+    /// Compile & Run User's Code
+    func compile() {
+        
+        let path = PROJECT_PATH + "/Resources/Code/"
+        let fileMain = path + "main.swift"
+        let fileCode = path + "code.swift"
+        let fileUtils = ["hello.swift", "move.swift"].map() { util in
+            return path + util
+        }
+        let projName = path + "spo-proj"
+        
+        var compileLine = "swiftc "
+        for fileUtil in fileUtils {
+            compileLine += fileUtil + " "
+        }
+        compileLine += fileCode + " " + fileMain + " -o " + projName
+        let runLine = projName
+        
+//        print(Bash.run(command: "pwd")!)
+        print(Bash.run(command: compileLine)!)
+//        print(Bash.run(command: runLine)!)
+        currentActions.log = Bash.run(command: runLine)
+        print("Compile & Run Finished")
     }
     
 }

@@ -25,15 +25,12 @@
     $("#run_code").click(function(){
       var code = Object();
       code.lines = editor.getValue();
-      alert("Get Value: \n" + $("#test_live_view").html());
+      // alert("Get Value: \n" + $("#test_live_view").html());
+      $("#test_live_view").html("Running...")
       $.post("/spo/p0/code", JSON.stringify(code), function(data){
-        // Get放在Post内，确保编译运行结束后才从后端取结果
-        $.get("/spo/p0/result", function(data){
-          $('.result').html(data);
-          alert("Get Result: \n" + JSON.stringify(data));
-          // Test: 更改LiveView区内容为后端返回的data
-          $("#test_live_view").html(JSON.stringify(data))
-        })
+        alert("Get Result: \n" + JSON.stringify(data));
+        // Test: 更改LiveView区内容为后端返回的data
+        $("#test_live_view").html(JSON.stringify(data))
       })
     });
 
