@@ -126,4 +126,46 @@ final class RunManager {
         return Actions(isLegal: true, isRight: true, paces: paces, description: description)
     }
     
+    /// 取到一个带时间戳文件名内的时间戳（code-..., stamp-..., spo-proj-..., result-...）
+    static private func getStampInFilename(_ filename: String) -> String? {
+        if (filename.contains("code-")) {
+            return String(filename.dropFirst(5).dropLast(6))
+        } else if (filename.contains("stamp-")) {
+            return String(filename.dropFirst(6).dropLast(6))
+        } else if (filename.contains("spo-proj-")) {
+            return String(filename.dropFirst(9))
+        } else if (filename.contains("result-")) {
+            return String(filename.dropFirst(7))
+        } else {
+            return nil
+        }
+    }
+    
+    // TODO: 应该使用并行以防占用太长时间
+    /// 清除10分钟前的运行相关文件（code-..., stamp-..., spo-proj-..., result-...）
+    static public func clear() throws {
+        
+        // 当前600秒之前的时间戳
+        let oldStamp = Double(Date().timeIntervalSince1970.advanced(by: -600))
+        let contentsOfCode = try FileManager.default.contentsOfDirectory(atPath: CODE_PATH)
+        let contentsOfResult = try FileManager.default.contentsOfDirectory(atPath: RESULT_PATH)
+        print("Clearing Old Files: ")
+        for filename in contentsOfCode {
+            if let fileStampStr = self.getStampInFilename(filename), let fileStamp = Double(fileStampStr) {
+                if (fileStamp < oldStamp) {
+                    try FileManager.default.removeItem(atPath: CODE_PATH + filename)
+                    print("- " + filename)
+                }
+            }
+        }
+        for filename in contentsOfResult {
+            if let fileStampStr = self.getStampInFilename(filename), let fileStamp = Double(fileStampStr) {
+                if (fileStamp < oldStamp) {
+                    try FileManager.default.removeItem(atPath: RESULT_PATH + filename)
+                    print("- " + filename)
+                }
+            }
+        }
+    }
+    
 }

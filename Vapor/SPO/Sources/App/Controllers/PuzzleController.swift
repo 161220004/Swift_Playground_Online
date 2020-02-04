@@ -48,6 +48,8 @@ extension PuzzleController {
             let codeObj = try JSONDecoder().decode(Code.self, from: String(data: codeJson, encoding:.utf8)!)
             // TODO: 编译运行
             if let codeStr  = codeObj.lines {
+                // 清除旧文件
+                try RunManager.clear()
                 // 获取时间戳
                 let stamp = RunManager.getStamp()
                 // 编译运行
