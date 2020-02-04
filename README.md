@@ -1,8 +1,8 @@
-# SPO
+# Swift Playground Online
 
- Swift Playground Online
+项目开发中……
 
-
+（下述Docker部署的Vapor部分有几率失效，若遇到失效的情况，`docker-compose build`  之后直接用`docker start swift_playground_online_mysql_1`开启MySQL，再进入SPO目录使用`vapor build` `vapor run` ）
 
 ### 部署
 
@@ -31,6 +31,8 @@
 
 
 ### 数据库文件导入与导出
+
+（当前数据库未引入有效数据）
 
 - 导出
 

@@ -6,19 +6,19 @@
 
   - 在此目录下（“/SPO”）打开终端
 
-  - 若没有xcodeproj文件，命令行输入：
+  - 命令行输入以下指令分别构建和运行：
 
+    `vapor build`
+
+    `vapor run`
+
+  - 若使用xcode，命令行输入：
+  
     `swift package generate-xcodeproj`
-
+  
     （若失败可尝试删除文件Package.resolved后重试）
-
-  - 命令行输入以下指令打开Xcode：
   
     `vapor xcode -y`
+  
     
-  - 命令行输入以下指令分别构建和运行：
-  
-    `vapor build`
-  
-    `vapor run`
 

@@ -48,9 +48,23 @@
     <div class="col s12 m12 l12">
       <div class="card indigo lighten-5">
         <div class="card-content indigo-text text-darken-4">
-          <span class="card-title">Card Title</span>
-          <p>I am a very simple card. I am good at containing small bits of information.
-          I am convenient because I require little markup to use effectively.</p>
+          <span class="card-title">Test</span>
+          <p>测试阶段，当前可用函数有：</p>
+          <p>(1) hello(), 返回一个字符串；</p>
+          <p>(2) goForward(), 前行1步；</p>
+          <p>(3) goForward(step: Int), 前行step步；</p>
+          <p>(4) turn(to: Direction), 转向某方向（.Left/.Up/.Right/.Down）；</p>
+          <p>(5) turnLeft(), turnRight(), 向左转/向右转；</p>
+          <p>(6) log(_ content: String), 说一句话；</p>
+          <p>注意：当前不支持 import</p>
+          <p>推荐测试代码：</p>
+          <p>goForward()</p>
+          <p>turnLeft()</p>
+          <p>log(hello())</p>
+          <p>goForward(step: 3)</p>
+          <p>turnRight()</p>
+          <p>goForward(step: 5)</p>
+          <p>turn(to: .Down)</p>
         </div>
         <div class="card-action">
           <div class="row">
@@ -70,14 +84,15 @@
     <!-- 代码区 -->
     <div class="col s12 m12 l6">
       <nav class="black my-nav-height-small" role="navigation">
-        <a class="indigo lighten-3 waves-effect waves-light btn my-fix-run-btn" href="#"> > Run</a>
+        <a class="indigo lighten-3 waves-effect waves-light btn my-fix-run-btn" id="run_code">
+          > Run</a>
       </nav>
       <div class="divider"></div>
-      <div id="pz_editor">import Foundation
-      </div>
+      <div id="pz_editor"></div>
     </div>
     <!-- LiveView区 -->
-    <div class="col s12 m12 l6">
+    <div class="col s12 m12 l6 indigo lighten-5">
+      <p class="my-editor-height" id="test_live_view">Default</p>
     </div>
   </div>
 

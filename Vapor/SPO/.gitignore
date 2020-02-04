@@ -6,3 +6,7 @@ DerivedData/
 .DS_Store
 .swiftpm
 db.sqlite
+Resources/Code/spo-proj-*
+Resources/Code/code-*
+Resources/Code/stamp-*
+Resources/Results/result-*
