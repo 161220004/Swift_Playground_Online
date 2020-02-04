@@ -30,37 +30,29 @@ final class RunManager {
         return CODE_PATH + "stamp-" + stamp + ".swift"
     }
     
-    /// 保存用户的代码文件，并生成时间戳定义文件
-    static private func saveCode(_ content: String, stamp: String) {
+    /// 保存用户的源代码，并生成时间戳变量定义源代码
+    static private func saveCode(_ content: String, stamp: String) throws {
         
         let fileURL = getCodeFilename(stamp: stamp)
         let stampURL = getStampFilename(stamp: stamp)
         let stampLine = "let CURRENT_STAMP = \"" + stamp + "\""
         do {
             try content.write(to: URL(fileURLWithPath: fileURL), atomically: true, encoding: .utf8)
-        } catch { print("Error: Failed to Write Code in " + fileURL) }
+        } catch {
+            print("[ Error ] RunManager.saveCode: Failed to Write Code in " + fileURL)
+            throw FileManagerError.SaveCodeFileFailed
+        }
         do {
             try stampLine.write(to: URL(fileURLWithPath: stampURL), atomically: true, encoding: .utf8)
-        } catch { print("Error: Failed to Write Stamp in " + stampURL) }
-    }
-    
-    /// 读取运行结果文件
-    static private func readResult(stamp: String) -> [String] {
-        
-        let fileResult = RESULT_PATH + "result-" + stamp
-        var resultContent = ""
-        do {
-            resultContent = try String(contentsOf: URL(fileURLWithPath: fileResult), encoding: .utf8)
         } catch {
-            print("Error: Failed to Read Result in " + fileResult)
-            return []
+            print("[ Error ] RunManager.saveCode: Failed to Write Stamp in " + stampURL)
+            throw FileManagerError.SaveStampFileFailed
         }
-        return resultContent.components(separatedBy: "\n")
     }
     
     /// 编译运行
+    /// - Returns: 返回运行结果（失败或运行成功的bash输出内容）
     static public func compile(code mainbody: String, stamp: String) -> String {
-        print(mainbody)
         
         // 使用用户代码组装main函数
         let funcHead = "func main() {\n"
@@ -68,7 +60,12 @@ final class RunManager {
         let code = funcHead + mainbody + funcTail
         
         // 保存组装后的代码为code-$(stamp).swift文件
-        self.saveCode(code, stamp: stamp)
+        do {
+            try self.saveCode(code, stamp: stamp)
+        } catch {
+            print("[ Error ] RunManager.compile: Failed in Calling saveCode")
+            return "Compile Failed"
+        }
         
         // 用户代码及其依赖文件
         let fileMain = CODE_PATH + "main.swift" // main文件
@@ -87,39 +84,71 @@ final class RunManager {
             compileLine += fileUtil + " "
         }
         compileLine += fileStamp + " " + fileCode + " " + fileSave + " " + fileMain + " -o " + projName
-        let runLine = projName
         
-        // 打印编译结果/返回运行结果
+        // 打印编译结果
         print(Bash.run(command: compileLine) ?? "")
-        return Bash.run(command: runLine) ?? ""
+        
+        // 确认可运行项目是否存在
+        if (!FileManager.default.fileExists(atPath: projName)) {
+            print("[ Error ] RunManager.compile: Failed to Generate spo-proj")
+            return "Compile Failed"
+        }
+        return Bash.run(command: projName) ?? ""
+    }
+    
+    /// 读取并解析运行结果文件
+    /// - Returns: 返回运行结果文件每一行作为一个String后合成的数组
+    static private func readResult(stamp: String) throws -> [String] {
+        
+        let fileResult = RESULT_PATH + "result-" + stamp
+        var resultContent = ""
+        do {
+            resultContent = try String(contentsOf: URL(fileURLWithPath: fileResult), encoding: .utf8)
+        } catch {
+            print("[ Error ] RunManager.readResult: Failed to Read Result in " + fileResult)
+            throw FileManagerError.ReadResultFileFailed
+        }
+        return resultContent.components(separatedBy: "\n")
     }
     
     /// 根据运行结果的输出文件，得到动画动作
+    /// - Parameters:
+    ///   - description: 对整套动作的描述
+    /// - Returns: 返回的Action将在前端被解析并转化为动画展示
     static public func translateActions(stamp: String, description: String) -> Actions {
-        let actions = self.readResult(stamp: stamp)
         
-        // 初始方向为：Right
-        var direction = Direction.Right
+        var actions: [String]
+        do {
+            actions = try self.readResult(stamp: stamp)
+        } catch {
+            print("[ Error ] RunManager.translateActions: Failed in Calling readResult")
+            return Actions()
+        }
         var paces: [Pace] = []
-        
+        print("\nActions to Perform: ")
         for action in actions {
             if (action.count <= 3) { continue }
-            print(action)
+            print("+ " + action)
             if (action.contains(Keyword.GO.rawValue)) {
                 // GO: $(Int)
                 if let step = Int(action.dropFirst(4)) {
-                    paces.append(Pace(step: step, dir: direction))
-                }
+                    paces.append(Pace(step: step))
+                } else {
+                    print("[ Error ] RunManager.translateActions: Failed to Analyse GO Action")                }
             } else if (action.contains(Keyword.LOG.rawValue)) {
                 // LOG: $(String)
-                let log = action.dropFirst(5)
-                paces.append(Pace(log: String(log)))
-                
+                let log = String(action.dropFirst(5))
+                if (log.count > 0) {
+                    paces.append(Pace(log: log))
+                } else {
+                    print("[ Error ] RunManager.translateActions: Failed to Analyse LOG Action")
+                }
             } else if (action.contains(Keyword.TURN.rawValue)) {
                 // TURN: $(Direction)
                 if let dir = Direction(rawValue: String(action.dropFirst(6))) {
                     paces.append(Pace(dir: dir))
-                    direction = dir
+                } else {
+                    print("[ Error ] RunManager.translateActions: Failed to Analyse TURN Action")
                 }
             }
         }
@@ -127,6 +156,7 @@ final class RunManager {
     }
     
     /// 取到一个带时间戳文件名内的时间戳（code-..., stamp-..., spo-proj-..., result-...）
+    /// - Returns: 返回Optional，当文件名中不存在时间戳时为nil，否则返回文件名上的时间戳
     static private func getStampInFilename(_ filename: String) -> String? {
         if (filename.contains("code-")) {
             return String(filename.dropFirst(5).dropLast(6))
@@ -141,30 +171,52 @@ final class RunManager {
         }
     }
     
-    // TODO: 应该使用并行以防占用太长时间
-    /// 清除10分钟前的运行相关文件（code-..., stamp-..., spo-proj-..., result-...）
-    static public func clear() throws {
-        
-        // 当前600秒之前的时间戳
-        let oldStamp = Double(Date().timeIntervalSince1970.advanced(by: -600))
-        let contentsOfCode = try FileManager.default.contentsOfDirectory(atPath: CODE_PATH)
-        let contentsOfResult = try FileManager.default.contentsOfDirectory(atPath: RESULT_PATH)
-        print("Clearing Old Files: ")
-        for filename in contentsOfCode {
-            if let fileStampStr = self.getStampInFilename(filename), let fileStamp = Double(fileStampStr) {
+    /// 删除过老的文件（仅供clear函数使用）
+    static private func removeOld(_ path: String, _ filename: String, _ oldStamp: Double) throws {
+        if let fileStampStr = self.getStampInFilename(filename) {
+            if let fileStamp = Double(fileStampStr) {
                 if (fileStamp < oldStamp) {
-                    try FileManager.default.removeItem(atPath: CODE_PATH + filename)
-                    print("- " + filename)
+                    do {
+                        try FileManager.default.removeItem(atPath: path + filename)
+                        print("- " + filename)
+                    } catch {
+                        print("[ Error ] RunManager.removeOld: Failed to Remove Old File " + path + filename)
+                        throw FileManagerError.RemoveOldFileFailed
+                    }
                 }
+            } else {
+                print("[ Error ] RunManager.removeOld: Failed to Fetch (Double)Stamp from " + filename)
+                throw TransformError.TypeCastingFailed
             }
         }
-        for filename in contentsOfResult {
-            if let fileStampStr = self.getStampInFilename(filename), let fileStamp = Double(fileStampStr) {
-                if (fileStamp < oldStamp) {
-                    try FileManager.default.removeItem(atPath: RESULT_PATH + filename)
-                    print("- " + filename)
-                }
+    }
+    
+    // TODO: 应该使用并行以防占用太长时间
+    /// 清除10分钟前的运行相关文件（code-..., stamp-..., spo-proj-..., result-...）
+    static public func clear() {
+        
+        print("\nClearing Old Files: ")
+        // 当前600秒之前的时间戳
+        let oldStamp = Double(Date().timeIntervalSince1970.advanced(by: -600))
+        var contentsOfCode: [String]
+        var contentsOfResult: [String]
+        do {
+            contentsOfCode = try FileManager.default.contentsOfDirectory(atPath: CODE_PATH)
+            contentsOfResult = try FileManager.default.contentsOfDirectory(atPath: RESULT_PATH)
+        } catch {
+            print("[ Error ] RunManager.clear: Failed to Get Content in Directory /Code or /Result")
+            return
+        }
+        do {
+            for filename in contentsOfCode {
+                try self.removeOld(CODE_PATH, filename, oldStamp)
             }
+            for filename in contentsOfResult {
+                try self.removeOld(RESULT_PATH, filename, oldStamp)
+            }
+        } catch {
+            print("[ Error ] RunManager.clear: Failed in Calling removeOld")
+            return
         }
     }
     

@@ -32,7 +32,7 @@ final class PuzzleController: RouteCollection {
 extension PuzzleController {
     
     /// Get: a list of all puzzles
-    func getPuzzleList(_ req: Request) throws -> Future<[Puzzle]> {
+    func getPuzzleList(_ req: Request) -> Future<[Puzzle]> {
         return Puzzle.query(on: req).all()
     }
     
@@ -42,23 +42,35 @@ extension PuzzleController {
     }
     
     /// Post: User Code
-    func postCode(_ req: Request) throws -> Actions {
+    func postCode(_ req: Request) -> Actions {
         
         if let codeJson = req.http.body.data {
-            let codeObj = try JSONDecoder().decode(Code.self, from: String(data: codeJson, encoding:.utf8)!)
-            // TODO: 编译运行
+            // 从Json转换为Object
+            var codeObj: Code
+            do {
+                codeObj = try JSONDecoder().decode(Code.self, from: String(data: codeJson, encoding:.utf8)!)
+            } catch {
+                print("[ Error] PuzzleController.postCode: Failed to Decode Json Data to Object")
+                return Actions()
+            }
+            // 编译运行
             if let codeStr  = codeObj.lines {
                 // 清除旧文件
-                try RunManager.clear()
+                RunManager.clear()
                 // 获取时间戳
                 let stamp = RunManager.getStamp()
                 // 编译运行
                 let output = RunManager.compile(code: codeStr, stamp: stamp)
                 // 获取运行结果
                 return RunManager.translateActions(stamp: stamp, description: output)
+            } else {
+                print("[ Error] PuzzleController.postCode: Failed to Get Code from Decoded Data")
+                return Actions()
             }
+        } else {
+            print("[ Error] PuzzleController.postCode: Failed to Get Data from Request")
+            return Actions()
         }
-        return Actions()
     }
     
 }
