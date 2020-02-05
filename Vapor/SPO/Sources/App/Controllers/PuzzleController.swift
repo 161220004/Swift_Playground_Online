@@ -55,8 +55,11 @@ extension PuzzleController {
             }
             // 编译运行
             if let codeStr  = codeObj.lines {
-                // 清除旧文件
-                RunManager.clear()
+                DispatchQueue.global(qos: .background).async {
+                    //sleep(5)
+                    // 清除旧文件
+                    RunManager.clear()
+                }
                 // 获取时间戳
                 let stamp = RunManager.getStamp()
                 // 编译运行

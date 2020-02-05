@@ -191,7 +191,6 @@ final class RunManager {
         }
     }
     
-    // TODO: 应该使用并行以防占用太长时间
     /// 清除10分钟前的运行相关文件（code-..., stamp-..., spo-proj-..., result-...）
     static public func clear() {
         
