@@ -8,7 +8,7 @@
 
   <!-- CSS  -->
   <!-- My CSS -->
-	<link rel="stylesheet" href="/css/editor.css">
+	<link rel="stylesheet" href="/css/view.css">
 	<link rel="stylesheet" href="/css/fix.css">
   <!--Import Google Icon Font-->
   <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
@@ -92,7 +92,15 @@
     </div>
     <!-- LiveView区 -->
     <div class="col s12 m12 l6 indigo lighten-5">
-      <p class="my-editor-height" id="test_live_view">Default</p>
+      <!-- <p class="my-editor-height" id="test_live_view">Default</p> -->
+      <div id="canvas_all">
+        <canvas id="canvas_back" width="416" height="416"></canvas>
+        <canvas id="canvas_items" width="416" height="416"></canvas>
+        <canvas id="canvas_L_b" width="416" height="416"></canvas>
+        <canvas id="canvas_L_m" width="416" height="416"></canvas>
+        <canvas id="canvas_L_c" width="416" height="416"></canvas>
+        <canvas id="canvas_L_f" width="416" height="416"></canvas>
+      </div>
     </div>
   </div>
 
@@ -137,14 +145,60 @@
     </div>
   </footer>
 
+  <!-- Images -->
+  <!-- Background -->
+  <img src="/images/Background.jpg" id="img_bg" style="display:none;">
+  <!-- Right Direction -->
+  <img src="/images/Lappland/R/ArmB.png" id="imgr_ab" style="display:none;">
+  <img src="/images/Lappland/R/ArmB-0.png" id="imgr_ab_0" style="display:none;">
+  <img src="/images/Lappland/R/ArmB-1.png" id="imgr_ab_1" style="display:none;">
+  <img src="/images/Lappland/R/ArmB-2.png" id="imgr_ab_2" style="display:none;">
+  <img src="/images/Lappland/R/ArmB-3.png" id="imgr_ab_3" style="display:none;">
+  <img src="/images/Lappland/R/ArmB-4.png" id="imgr_ab_4" style="display:none;">
+  <img src="/images/Lappland/R/ArmB-5.png" id="imgr_ab_5" style="display:none;">
+  <img src="/images/Lappland/R/ArmB-6.png" id="imgr_ab_6" style="display:none;">
+  <img src="/images/Lappland/R/ArmF.png" id="imgr_af" style="display:none;">
+  <img src="/images/Lappland/R/ArmF-0.png" id="imgr_af_0" style="display:none;">
+  <img src="/images/Lappland/R/ArmF-1.png" id="imgr_af_1" style="display:none;">
+  <img src="/images/Lappland/R/ArmF-2.png" id="imgr_af_2" style="display:none;">
+  <img src="/images/Lappland/R/ArmF-3.png" id="imgr_af_3" style="display:none;">
+  <img src="/images/Lappland/R/ArmF-4.png" id="imgr_af_4" style="display:none;">
+  <img src="/images/Lappland/R/ArmF-5.png" id="imgr_af_5" style="display:none;">
+  <img src="/images/Lappland/R/ArmF-6.png" id="imgr_af_6" style="display:none;">
+  <img src="/images/Lappland/R/Clothes.png" id="imgr_cl" style="display:none;">
+  <img src="/images/Lappland/R/Face-0.png" id="imgr_f_0" style="display:none;">
+  <img src="/images/Lappland/R/Face-1.png" id="imgr_f_1" style="display:none;">
+  <img src="/images/Lappland/R/Face-2.png" id="imgr_f_2" style="display:none;">
+  <img src="/images/Lappland/R/Hair-0.png" id="imgr_h_0" style="display:none;">
+  <img src="/images/Lappland/R/Hair-1.png" id="imgr_h_1" style="display:none;">
+  <img src="/images/Lappland/R/Hair-2.png" id="imgr_h_2" style="display:none;">
+  <img src="/images/Lappland/R/Leg-0.png" id="imgr_l_0" style="display:none;">
+  <img src="/images/Lappland/R/Leg-1.png" id="imgr_l_1" style="display:none;">
+  <img src="/images/Lappland/R/Leg-2.png" id="imgr_l_2" style="display:none;">
+  <img src="/images/Lappland/R/Leg-3.png" id="imgr_l_3" style="display:none;">
+  <img src="/images/Lappland/R/Leg-4.png" id="imgr_l_4" style="display:none;">
+  <img src="/images/Lappland/R/Leg-5.png" id="imgr_l_5" style="display:none;">
+  <img src="/images/Lappland/R/Leg-6.png" id="imgr_l_6" style="display:none;">
+  <img src="/images/Lappland/R/Ribbon-0.png" id="imgr_r_0" style="display:none;">
+  <img src="/images/Lappland/R/Ribbon-1.png" id="imgr_r_1" style="display:none;">
+  <img src="/images/Lappland/R/Ribbon-2.png" id="imgr_r_2" style="display:none;">
+  <img src="/images/Lappland/R/Tail-0.png" id="imgr_t_0" style="display:none;">
+  <img src="/images/Lappland/R/Tail-1.png" id="imgr_t_1" style="display:none;">
+  <img src="/images/Lappland/R/Tail-2.png" id="imgr_t_2" style="display:none;">
+
   <!--JavaScript at end of body for optimized loading-->
-  <!-- For Materialize -->
+  <!-- jQuery -->
   <script src="https://code.jquery.com/jquery-2.1.1.min.js"></script>
-  <script type="text/javascript" src="/js/materialize.min.js"></script>
-  <script src="/js/init.js"></script>
+  <!-- For Materialize -->
+  <script src="/js/Materialize/materialize.min.js" type="text/javascript"></script>
+  <script src="/js/Materialize/init.js" type="text/javascript"></script>
   <!-- For Ace-Editor -->
-  <script src="/js/ace-builds/src/ace.js" type="text/javascript" charset="utf-8"></script>
-  <script src="/js/ace-builds/src/ext-language_tools.js" type="text/javascript" charset="utf-8"></script>
-  <script src="/js/editor.js"></script>
+  <script src="/js/Ace/src/ace.js" type="text/javascript" charset="utf-8"></script>
+  <script src="/js/Ace/src/ext-language_tools.js" type="text/javascript" charset="utf-8"></script>
+  <script src="/js/Ace/editor.js" type="text/javascript"></script>
+  <!-- For LiveView (Canvas) -->
+  <script src="/js/LiveView/view.js" type="text/javascript"></script>
+  <script src="/js/LiveView/sets.js" type="text/javascript"></script>
+  <script src="/js/LiveView/lappland.js" type="text/javascript"></script>
 </body>
 </html>
