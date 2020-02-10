@@ -1,7 +1,7 @@
 #canvas_all {
   position: relative;
-  width: 416px;
-  height: 416px;
+  width: 476px;
+  height: 476px;
   margin: 0 auto;
 }
 
@@ -12,37 +12,51 @@
   z-index: 0;
 }
 
-#canvas_items {
+#canvas_fore {
   position: absolute;
   top: 0;
   left: 0;
   z-index: 1;
 }
 
-#canvas_L_b {
+#canvas_item {
   position: absolute;
   top: 0;
   left: 0;
   z-index: 2;
 }
 
-#canvas_L_m {
+#canvas_L_s {
   position: absolute;
   top: 0;
   left: 0;
   z-index: 3;
 }
 
-#canvas_L_c {
+#canvas_L_b {
   position: absolute;
   top: 0;
   left: 0;
   z-index: 4;
 }
 
-#canvas_L_f {
+#canvas_L_m {
   position: absolute;
   top: 0;
   left: 0;
   z-index: 5;
+}
+
+#canvas_L_c {
+  position: absolute;
+  top: 0;
+  left: 0;
+  z-index: 6;
+}
+
+#canvas_L_f {
+  position: absolute;
+  top: 0;
+  left: 0;
+  z-index: 7;
 }

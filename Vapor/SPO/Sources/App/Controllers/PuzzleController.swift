@@ -50,7 +50,7 @@ extension PuzzleController {
             do {
                 codeObj = try JSONDecoder().decode(Code.self, from: String(data: codeJson, encoding:.utf8)!)
             } catch {
-                print("[ Error] PuzzleController.postCode: Failed to Decode Json Data to Object")
+                print("[ Error ] PuzzleController.postCode: Failed to Decode Json Data to Object")
                 return Actions()
             }
             // 编译运行
@@ -67,11 +67,11 @@ extension PuzzleController {
                 // 获取运行结果
                 return RunManager.translateActions(stamp: stamp, description: output)
             } else {
-                print("[ Error] PuzzleController.postCode: Failed to Get Code from Decoded Data")
+                print("[ Error ] PuzzleController.postCode: Failed to Get Code from Decoded Data")
                 return Actions()
             }
         } else {
-            print("[ Error] PuzzleController.postCode: Failed to Get Data from Request")
+            print("[ Error ] PuzzleController.postCode: Failed to Get Data from Request")
             return Actions()
         }
     }
