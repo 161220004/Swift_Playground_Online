@@ -52,7 +52,7 @@ final class RunManager {
     
     /// 编译运行
     /// - Returns: 返回运行结果（失败或运行成功的bash输出内容）
-    static public func compile(code mainbody: String, stamp: String) -> String {
+    static public func compile(code mainbody: String, dependencies: [String], stamp: String) -> String {
         
         // 使用用户代码组装main函数
         let funcHead = "func main() {\n"
@@ -73,8 +73,9 @@ final class RunManager {
         let fileStamp = self.getStampFilename(stamp: stamp) // 定义时间戳以便查询运行结果
         let fileSave = CODE_PATH + "SaveResult.swift" // 运行结果的存储管理，以便展示动画
         // 其他依赖，不同的Puzzle的依赖不同
-        let fileUtils = ["Hello.swift", "Move.swift", "Turn.swift", "Log.swift"].map() { util in
-            return CODE_PATH + util
+        let fileUtils = dependencies.map() { util -> String in
+            if (util == "") { return "" }
+            else { return CODE_PATH + util }
         }
         let projName = CODE_PATH + "spo-proj-" + stamp
         

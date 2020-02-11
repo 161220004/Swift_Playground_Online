@@ -62,12 +62,14 @@ public func configure(_ config: inout Config, _ env: inout Environment, _ servic
     // 注册migrations
     var migrations = MigrationConfig()
     migrations.add(model: Puzzle.self, database: .mysql)
+    migrations.add(model: Block.self, database: .mysql)
     if (Environment.get("ENVIRONMENT") == "docker") {
         print("Run in Docker")
-    } else if (env == .development) { // 仅开发环境下使用Seed
-        print("Use Seed Under Development Mode")
-        migrations.add(migration: PuzzleSeeder.self, database: .mysql)
     }
+    // 使用Seed初始化数据库
+    print("Use Seed - Puzzle & Block & Dependency")
+    migrations.add(migration: PuzzleSeeder.self, database: .mysql)
+    migrations.add(migration: BlockSeeder.self, database: .mysql)
     services.register(migrations)
     
     // 注册Fluent中实现的命令

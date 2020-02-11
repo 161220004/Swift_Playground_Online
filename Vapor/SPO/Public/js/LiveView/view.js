@@ -2,8 +2,14 @@
 
   // 初始化变量
   function init() {
-    // 从后端获取数据
-    initFromServer();
+    // GET方法从后端获取数据
+    var pid = 0;
+    $.get("/spo/" + pid + "/scene", function(data, status) {
+      alert("Get Scene " + pid + ": \n" + JSON.stringify(data));
+      // 利用后端得到的数据初始化
+      initFromServer()
+    })
+    
     // 初始化对象
     camera = new Camera();
     lappland = new Lappland();

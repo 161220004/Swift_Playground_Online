@@ -29,7 +29,8 @@
     code.lines = editor.getValue();
     // alert("Get Value: \n" + $("#test_live_view").html());
     $("#test_live_view").html("Running...")
-    $.post("/spo/p0/code", JSON.stringify(code), function(data){
+    var pid = 0;
+    $.post("/spo/" + pid + "/code", JSON.stringify(code), function(data) {
       alert("Get Result: \n" + JSON.stringify(data));
       // 解析结果并开启动画
       getActionsFromServer(data);
