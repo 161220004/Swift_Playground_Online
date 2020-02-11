@@ -5,11 +5,18 @@
 //  Created by 曹洋笛 on 2020/1/31.
 //
 
+import Fluent
+import FluentMySQL
 import Vapor
 import HTTP
 
 struct Code: Codable, Content {
     var lines: String?
+}
+
+struct Scene: Codable, Content {
+    var puzzle: Puzzle
+    var blocks: [Block]
 }
 
 final class PuzzleController: RouteCollection {
@@ -21,9 +28,11 @@ final class PuzzleController: RouteCollection {
             
             group.get("list", use: getPuzzleList)
             
-            group.get("p0", use: getPuzzle0)
+            group.get(Int.parameter, use: getPuzzle)
             
-            group.post("p0", "code", use: postCode)
+            group.post(Int.parameter, "code", use: postCode)
+            
+            group.get(Int.parameter, "scene", use: getScene)
             
         }
     }
@@ -37,20 +46,47 @@ extension PuzzleController {
     }
     
     /// Get: one puzzle
-    func getPuzzle0(_ req: Request) throws -> Future<View> {
-        return try req.view().render("spo_p0")
+    func getPuzzle(_ req: Request) throws -> Future<View> {
+        let pid = try req.parameters.next(Int.self)
+        return try req.view().render("spo_p\(pid)")
+    }
+    
+    func getScene(_ req: Request) throws -> Future<Response> {
+        let pid = try req.parameters.next(Int.self)
+        return Puzzle.find(pid, on: req).flatMap(to: Response.self) { puzzleOpt in
+            // Filter Blocks
+            guard let puzzle = puzzleOpt else { throw Abort(.notFound) } // 未找到id匹配的Puzzle则Error
+            return Block.query(on: req)
+                .filter(\.puzzleId == puzzle.id!)
+                .all().map() {
+                    return Scene(
+                        puzzle: puzzle,
+                        blocks: $0)
+                }
+                .encode(status: .ok, for: req)
+        }
     }
     
     /// Post: User Code
     func postCode(_ req: Request) -> Actions {
-        
+        var dependencies: [String] = []
+        do {
+            // 获取当前PuzzleId
+            let pid = try req.parameters.next(Int.self)
+            // 根据pid获取所需依赖
+            dependencies = PuzzleDependency.use(pid: pid)
+            print("Set Puzzle \(pid) Dependencies: \(dependencies)")
+        } catch {
+            print("[ Error ] PuzzleController.postCode: Failed to Get Pid From URL")
+            return Actions()
+        }
         if let codeJson = req.http.body.data {
             // 从Json转换为Object
             var codeObj: Code
             do {
                 codeObj = try JSONDecoder().decode(Code.self, from: String(data: codeJson, encoding:.utf8)!)
             } catch {
-                print("[ Error] PuzzleController.postCode: Failed to Decode Json Data to Object")
+                print("[ Error ] PuzzleController.postCode: Failed to Decode Json Data to Object")
                 return Actions()
             }
             // 编译运行
@@ -63,15 +99,15 @@ extension PuzzleController {
                 // 获取时间戳
                 let stamp = RunManager.getStamp()
                 // 编译运行
-                let output = RunManager.compile(code: codeStr, stamp: stamp)
+                let output = RunManager.compile(code: codeStr, dependencies: dependencies, stamp: stamp)
                 // 获取运行结果
                 return RunManager.translateActions(stamp: stamp, description: output)
             } else {
-                print("[ Error] PuzzleController.postCode: Failed to Get Code from Decoded Data")
+                print("[ Error ] PuzzleController.postCode: Failed to Get Code from Decoded Data")
                 return Actions()
             }
         } else {
-            print("[ Error] PuzzleController.postCode: Failed to Get Data from Request")
+            print("[ Error ] PuzzleController.postCode: Failed to Get Data from Request")
             return Actions()
         }
     }

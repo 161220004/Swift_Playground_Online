@@ -1,3 +1,8 @@
+#pz_editor {
+  width: 100%;
+  height: 420px;
+}
+
 .my-fix-menu {
   margin-top: 10px;
 }
@@ -17,7 +22,7 @@
 }
 
 .my-editor-height {
-  height: 388px;
+  height: 448px;
 }
 
 .my-fix-container {

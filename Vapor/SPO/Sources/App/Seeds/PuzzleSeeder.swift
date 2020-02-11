@@ -14,14 +14,11 @@ final class PuzzleSeeder: Migration {
     typealias Database = MySQLDatabase
     
     static func prepare(on conn: Database.Connection) -> Future<Void> {
-        let dataNum = 5
         var puzzles = [Future<Puzzle>]()
-        // 一个填充好数据的数组，并将其载入Puzzle表
-        for i in 1...dataNum {
-            //let puzzle = Puzzle(id: i, description: "The No.\(i) Puzzle").create(on: conn)
-            let puzzle = Puzzle(description: "The No.\(i) Puzzle").create(on: conn)
-            puzzles.append(puzzle)
-        }
+        print("PuzzleSeeder: Create Puzzles")
+        // Puzzle 0 (Test)
+        let puzzle0 = Puzzle(pid: 0, lx: 300, ly: 300, ld: 2, fx: 300, fy: 300, bx: 0, by: 0, "Puzzle 0 For Test").create(on: conn)
+        puzzles.append(puzzle0)
         return puzzles
             .flatten(on: conn)          // [Future<Puzzle>] -> Future<[Puzzle]>
             .transform(to: Void())      // Future<[Puzzle]> -> Future<Void>

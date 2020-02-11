@@ -8,10 +8,10 @@
 import Foundation
 
 /// 定义方向（仅四种），用于规范化Pace的dir字符串
-enum Direction: String {
+enum Direction: Int {
     
-    case Right = "Right"
-    case Left = "Left"
-    case Up = "Up"
-    case Down = "Down"
+    case Left = 0
+    case Up = 1
+    case Right = 2
+    case Down = 3
 }
