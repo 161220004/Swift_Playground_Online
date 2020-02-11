@@ -58,13 +58,15 @@
           <p>(6) log(_ content: String), 说一句话；</p>
           <p>注意：当前不支持 import</p>
           <p>推荐测试代码：</p>
-          <p>goForward()</p>
-          <p>turnLeft()</p>
-          <p>log(hello())</p>
-          <p>goForward(step: 3)</p>
+          <p>goForward(step: 4)</p>
+          <p>turn(to: .Left)</p>
           <p>turnRight()</p>
-          <p>goForward(step: 5)</p>
-          <p>turn(to: .Down)</p>
+          <p>turnRight()</p>
+          <p>for _ in 1...4 { </p>
+          <p>goForward(step: 3)</p>
+          <p>turnLeft()</p>
+          <p>}</p>
+          <p>log(hello())</p>
         </div>
         <div class="card-action">
           <div class="row">

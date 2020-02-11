@@ -5,8 +5,10 @@ var Lappland = function() {
   this.count; // 摇摆动作执行到第几帧（0/1/2/3/4/5）
   this.timerBlink; // 眨眼动作计时器
   this.countBlink; // 眨眼动作执行到第几帧（0/1/2）
+  this.timerBreak; // 休息计时器
   this.timerWalk; // 行走动作计时器
   this.countWalk; // 行走动作执行到第几帧 (0/.../11)
+  this.timerTurn; // 转向动作计时器
   // 当前图片
   this.hairImg;
   this.ribbonImg;
@@ -59,19 +61,33 @@ Lappland.prototype.init = function() {
   this.count = 0;
   this.timerBlink = 0;
   this.countBlink = 0;
+  this.timerBreak = 0;
   this.timerWalk = 0;
   this.countWalk = 0;
-  this.setImageR();
-  // 调整Camera
+  this.timerTurn = 0;
+  // 调整Lappland方向以及Camera
   camera.setY();
-  if (lappInitDirection == 0) { // Left
-      camera.setXR();
-  } else { // Right ...
+  if (lappInitDir == 0 || lappInitDir == 3) { // Left, Down
+    camera.setXR();
+    this.setImageL();
+  } else if (currentDirection == 2 || currentDirection == 1) { // Right, Up
     camera.setXL();
+    this.setImageR();
+  } else {
+    alert("lappland.js - init(): No Direction !");
   }
 }
 
 Lappland.prototype.draw = function() {
+  // 是否休息中
+  if (isRunning && actions[actionCount].isFinished) {
+    this.timerBreak += interval;
+    console.log("- Zzz...");
+    if (this.timerBreak > BreakInterval) {
+      actions[actionCount].next();
+      this.timerBreak = 0;
+    }
+  }
   // 摇摆动画
   this.timer += interval;
   if (this.timer > LappRockInterval) {
@@ -89,7 +105,7 @@ Lappland.prototype.draw = function() {
   // 行走动画
   if (stepsRest <= 0) { // 停止行走
     this.timerWalk = 0; // 重置行走计时器
-  } else if (isRunning && (currentDirection == 0 || currentDirection == 2)
+  } else if (isRunning && !actions[actionCount].isFinished
              && actions[actionCount].type == ActionType.GO) { // 正在行走
     this.timerWalk += interval;
     if (this.timerWalk > LappWalkInterval) {
@@ -101,7 +117,7 @@ Lappland.prototype.draw = function() {
         // 若没有剩余步数了，判定当前行走动作执行完毕
         if (stepsRest <= 0) {
           if (actions[actionCount].type == ActionType.GO) {
-            actions[actionCount].finish();
+            actions[actionCount].break();
           }
       }
       }
@@ -112,9 +128,15 @@ Lappland.prototype.draw = function() {
       var dx = 0;
       var dy = 0;
       if (currentDirection == 2) { // Right
-        dx = LappPaceWidth;
+        dx = LappPaceXBia;
       } else if (currentDirection == 0) { // Left
-        dx = -LappPaceWidth;
+        dx = -LappPaceXBia;
+      } else if (currentDirection == 1) { // Up
+        dx = -LappPaceYBiaX;
+        dy = -LappPaceYBiaY;
+      } else if (currentDirection == 3) { // Down
+        dx = LappPaceYBiaX;
+        dy = LappPaceYBiaY;
       } else {
         alert("lappland.js - draw(): No Direction !");
       }
@@ -124,15 +146,39 @@ Lappland.prototype.draw = function() {
       camera.move(dx, dy);
     }
   }
-  // 根据左右选择图片并调整相机
-  if (currentDirection == 2) { // Right
-    this.setImageR();
-    camera.setXL();
-  } else if (currentDirection == 0) { // Left
-    this.setImageL();
-    camera.setXR();
-  } else {
-    alert("lappland.js - draw(): No Direction !");
+  // 转向动画
+  if (isRunning && !actions[actionCount].isFinished
+      && actions[actionCount].type == ActionType.TURN) {
+    // 计数，转向时间
+    this.timerTurn += 1;
+    // 立刻根据方向换Lappland左右图片
+    if (this.timerTurn < 3) { // 为减少此段代码执行次数所作的尝试
+      if (currentDirection == 2 || currentDirection == 1) { // Right, Up
+        this.setImageR();
+      } else if (currentDirection == 0 || currentDirection == 3) { // Left, Down
+        this.setImageL();
+      } else {
+        alert("lappland.js - draw(): No Direction !");
+      }
+    }
+    if (this.timerTurn <= LappTurnInterval) { // 正在转向
+      if (currentDirection + lastDirection != 3) { // 缓慢移动相机焦点
+        if (currentDirection == 2 || currentDirection == 1) { // 移向左焦点
+          camera.move(CameraLRSpace / LappTurnInterval, 0);
+        } else { // 移向右焦点
+          camera.move(-CameraLRSpace / LappTurnInterval, 0);
+        }
+      }
+    } else { // 结束转向
+      this.timerTurn = 0;
+      // 确认相机焦点
+      if (currentDirection == 2 || currentDirection == 1) {
+        camera.setXL();
+      } else { // 移向右焦点
+        camera.setXR();
+      }
+      actions[actionCount].break();
+    }
   }
   // 绘制开始
   ctxtLB.save();
@@ -141,35 +187,35 @@ Lappland.prototype.draw = function() {
   ctxtLF.save();
   ctxtS.save();
   // 原点设为(x, y)
-  var ox = this.x - lappWidth / 2 - camera.x;
-  var oy = this.y - lappHeight / 2 - camera.y;
+  var ox = this.x - LappWidth / 2 - camera.x;
+  var oy = this.y - LappHeight / 2 - camera.y;
   ctxtLB.translate(ox, oy);
   ctxtLM.translate(ox, oy);
   ctxtLC.translate(ox, oy);
   ctxtLF.translate(ox, oy);
   ctxtS.translate(ox, oy);
   // 摇摆动画: Tail (ctxtLB), Hair/Ribbon (ctxtLF)
-  ctxtLB.drawImage(this.tailImg[this.count], 0, 0, lappWidth, lappHeight);
-  ctxtLF.drawImage(this.hairImg[this.count], 0, 0, lappWidth, lappHeight);
-  ctxtLF.drawImage(this.ribbonImg[this.count], 0, 0, lappWidth, lappHeight);
+  ctxtLB.drawImage(this.tailImg[this.count], 0, 0, LappWidth, LappHeight);
+  ctxtLF.drawImage(this.hairImg[this.count], 0, 0, LappWidth, LappHeight);
+  ctxtLF.drawImage(this.ribbonImg[this.count], 0, 0, LappWidth, LappHeight);
   // 眨眼动画: Face (ctxtLM)
-  ctxtLM.drawImage(this.faceImg[this.countBlink], 0, 0, lappWidth, lappHeight);
+  ctxtLM.drawImage(this.faceImg[this.countBlink], 0, 0, LappWidth, LappHeight);
   // 行走动画: Leg (ctxtLM), ArmB (ctxtLB), ArmF (ctxtLF)
-  if (stepsRest > 0 && (currentDirection == 0 || currentDirection == 2)
+  if (stepsRest > 0 && isRunning && !actions[actionCount].isFinished
       && actions[actionCount].type == ActionType.GO) { // 正在行走
-    ctxtLM.drawImage(this.legImg[this.countWalk], 0, 0, lappWidth, lappHeight);
-    ctxtLB.drawImage(this.armbImg[this.countWalk], 0, 0, lappWidth, lappHeight);
-    ctxtLF.drawImage(this.armfImg[this.countWalk], 0, 0, lappWidth, lappHeight);
+    ctxtLM.drawImage(this.legImg[this.countWalk], 0, 0, LappWidth, LappHeight);
+    ctxtLB.drawImage(this.armbImg[this.countWalk], 0, 0, LappWidth, LappHeight);
+    ctxtLF.drawImage(this.armfImg[this.countWalk], 0, 0, LappWidth, LappHeight);
   } else {
-    ctxtLM.drawImage(this.legnImg, 0, 0, lappWidth, lappHeight);
-    ctxtLB.drawImage(this.armbnImg, 0, 0, lappWidth, lappHeight);
-    ctxtLF.drawImage(this.armfnImg, 0, 0, lappWidth, lappHeight);
+    ctxtLM.drawImage(this.legnImg, 0, 0, LappWidth, LappHeight);
+    ctxtLB.drawImage(this.armbnImg, 0, 0, LappWidth, LappHeight);
+    ctxtLF.drawImage(this.armfnImg, 0, 0, LappWidth, LappHeight);
   }
   // 无动画: Clothes (ctxtLC)
-  ctxtLC.drawImage(this.clothesImg, 0, 0, lappWidth, lappHeight);
+  ctxtLC.drawImage(this.clothesImg, 0, 0, LappWidth, LappHeight);
   // 无动画: Shadow (ctxtI)
   ctxtS.globalAlpha = 0.3;
-  ctxtS.drawImage(this.shadowImg, 0, lappShadowYBia, lappWidth, lappHeight);
+  ctxtS.drawImage(this.shadowImg, 0, LappShadowYBia, LappWidth, LappHeight);
   // 绘制结束
   ctxtLB.restore();
   ctxtLM.restore();

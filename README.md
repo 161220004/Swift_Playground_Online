@@ -38,11 +38,11 @@
 
   命令行输入：
 
-  `docker exec -i spo_mysql_1 mysqldump -ualdebarain -pmysql spo > ./MySQL/spo.sql`
+  `docker exec -i swift_playground_online_mysql_1 mysqldump -ualdebarain -pmysql spo > ./MySQL/spo.sql`
 
 - 导入
 
   命令行输入：
 
-  `docker exec -i spo_mysql_1 mysql -ualdebarain -pmysql spo < ./MySQL/spo.sql`
+  `docker exec -i swift_playground_online_mysql_1 mysql -ualdebarain -pmysql spo < ./MySQL/spo.sql`
 

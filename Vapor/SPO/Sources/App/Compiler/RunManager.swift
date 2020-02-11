@@ -135,7 +135,8 @@ final class RunManager {
                 if let step = Int(action.dropFirst(4)) {
                     paces.append(Pace(step: step))
                 } else {
-                    print("[ Error ] RunManager.translateActions: Failed to Analyse GO Action")                }
+                    print("[ Error ] RunManager.translateActions: Failed to Analyse GO Action")
+                }
             } else if (action.contains(Keyword.LOG.rawValue)) {
                 // LOG: $(String)
                 let log = String(action.dropFirst(5))
@@ -146,8 +147,10 @@ final class RunManager {
                 }
             } else if (action.contains(Keyword.TURN.rawValue)) {
                 // TURN: $(Direction)
-                if let dir = Direction(rawValue: String(action.dropFirst(6))) {
-                    paces.append(Pace(dir: dir))
+                if let dirInt = Int(action.dropFirst(6)) {
+                    if let dir = Direction(rawValue: dirInt) {
+                        paces.append(Pace(dir: dir))
+                    }
                 } else {
                     print("[ Error ] RunManager.translateActions: Failed to Analyse TURN Action")
                 }

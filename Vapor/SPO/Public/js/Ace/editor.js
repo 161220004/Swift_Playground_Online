@@ -33,7 +33,7 @@
     $.post("/spo/" + pid + "/code", JSON.stringify(code), function(data) {
       alert("Get Result: \n" + JSON.stringify(data));
       // 解析结果并开启动画
-      getActionsFromServer(data);
+      initActionsFromServer(data);
       performActions();
       // Test: 更改LiveView区内容为后端返回的data
       // $("#test_live_view").html(JSON.stringify(data))

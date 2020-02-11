@@ -11,39 +11,16 @@ enum Direction: Int {
 var CURRENT_DIRECTION_RAW = 2
 
 func turn(to: Direction) {
-    var resultLine = "TURN: "
-    switch to {
-    case .Left: resultLine += "Left"
-    case .Up: resultLine += "Up"
-    case .Right: resultLine += "Right"
-    case .Down: resultLine += "Down"
-    default: break
-    }
-    saveResult(resultLine)
+    CURRENT_DIRECTION_RAW = to.rawValue
+    saveResult("TURN: \(CURRENT_DIRECTION_RAW)")
 }
 
 func turnLeft() {
-    var resultLine = "TURN: "
     CURRENT_DIRECTION_RAW = (CURRENT_DIRECTION_RAW + 3) % 4
-    switch CURRENT_DIRECTION_RAW {
-    case 0: resultLine += "Left"
-    case 1: resultLine += "Up"
-    case 2: resultLine += "Right"
-    case 3: resultLine += "Down"
-    default: break
-    }
-    saveResult(resultLine)
+    saveResult("TURN: \(CURRENT_DIRECTION_RAW)")
 }
 
 func turnRight() {
-    var resultLine = "TURN: "
     CURRENT_DIRECTION_RAW = (CURRENT_DIRECTION_RAW + 1) % 4
-    switch CURRENT_DIRECTION_RAW {
-    case 0: resultLine += "Left"
-    case 1: resultLine += "Up"
-    case 2: resultLine += "Right"
-    case 3: resultLine += "Down"
-    default: break
-    }
-    saveResult(resultLine)
+    saveResult("TURN: \(CURRENT_DIRECTION_RAW)")
 }

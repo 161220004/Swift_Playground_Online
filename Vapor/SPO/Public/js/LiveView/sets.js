@@ -38,24 +38,40 @@ let canvasHeight = canvasBack.height;
 var camera;
 var lappland;
 
+// Cell尺寸与偏移
+let CellXBia = 108; // Cell在X方向右移1，像素在X方向右移108
+let CellYBiaX = -42; // Cell在Y方向下移1，像素在X方向左移42
+let CellYBiaY = 48; // Cell在Y方向下移1，像素在Y方向下移48
+
 // Lappland原始尺寸
-let lappWidth = 84;
-let lappHeight = 108;
-let lappShadowYBia = 5; // 影子偏移
+let LappWidth = 84;
+let LappHeight = 108;
+let LappShadowYBia = 5; // 影子偏移
 
-// 地砖尺寸
-let blockWidth = 130;
-let blockHeight = 72;
-let blockYBia = 67;
-let blockSpace = 108; // 两个地砖之间的间距
+// 地砖尺寸与偏移
+let BlockWidth = 130;
+let BlockHeight = 72;
+let BlockYBia = 67;
 
-// 动作频率
-let LappRockInterval = 200; // 摇摆间隔
-let LappBlinkInterval = 2500; // 眨眼间隔
-let LappWalkInterval = 80; // 行走迈步间隔
+// 钻石尺寸与偏移
+let DiamondSize = 54;
+let DiamondYBia = -108;
+
+// 左侧/右侧镜头转换时，相机移动距离
+let CameraLRSpace = canvasWidth * (0.618 - 0.382);
+
+// 动画频率
+let LappRockInterval = 200; // 摇摆间隔 (ms)
+let LappBlinkInterval = 2500; // 眨眼间隔 (ms)
+let BreakInterval = 800; // 两动画间的休息间隔 (ms)
+let LappWalkInterval = 80; // 行走迈步间隔 (ms)
+let LappTurnInterval = 100; // 转向间隔 (loopCount)
+let DiamondInterval = 100; // 钻石旋转间隔 (ms)
 
 // 行走步长
-let LappPaceWidth = 9; // 一个step的长度为此数值乘以12
+let LappPaceXBia = CellXBia / 12; // 一个step的长度为此数值乘以12
+let LappPaceYBiaX = CellYBiaX / 12;
+let LappPaceYBiaY = CellYBiaY / 12;
 let LappMoveHeight = 10; // 上升/下降高度
 
 // 图片 - 背景

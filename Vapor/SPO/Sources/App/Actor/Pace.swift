@@ -15,7 +15,7 @@ final class Pace: Codable, Content {
     /// 前进的步数（当前方向由前端维护）
     var d: Int
     /// 转向后的方向
-    var dir: String
+    var dir: Int?
     /// 一个对话气泡
     var log: String
     
@@ -23,7 +23,7 @@ final class Pace: Codable, Content {
     init(log: String) {
         self.type = Keyword.LOG.rawValue
         self.d = 0
-        self.dir = ""
+        self.dir = nil
         self.log = log
     }
     
@@ -39,7 +39,7 @@ final class Pace: Codable, Content {
     init(step: Int) {
         self.type = Keyword.GO.rawValue
         self.d = step
-        self.dir = ""
+        self.dir = nil
         self.log = ""
     }
     
