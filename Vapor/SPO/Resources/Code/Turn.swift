@@ -7,8 +7,7 @@ enum Direction: Int {
     case Down = 3
 }
 
-// 当前的朝向（初始为向右）
-var CURRENT_DIRECTION_RAW = 2
+// 当前的朝向 CURRENT_DIRECTION_RAW 需在其他文件中定义为全局变量
 
 func turn(to: Direction) {
     CURRENT_DIRECTION_RAW = to.rawValue

@@ -3,7 +3,6 @@
 var toastStyleSheet = (function() {
 	// Create the <style> tag
 	var style = document.createElement("style");
-	// style.appendChild(document.createTextNode(""));
 	// Add the <style> element to the page
 	document.head.appendChild(style);
 	return style.sheet;
@@ -32,8 +31,8 @@ function toastReplaceRule(cssLeft, cssTop, logLength) {
   } else {
     alert("toaststyle.js - toastReplaceRule(): No Direction !");
   }
-  console.log("- Log Top: " + realTop);
-  console.log("- Log Left: " + realLeft);
+  // console.log("- Log Top: " + realTop);
+  // console.log("- Log Left: " + realLeft);
   // 组装
   var cssRule = ".my-toast { position: fixed !important; "
                 + "max-width: " + ToastMaxWidth + "px !important; bottom: auto !important; "

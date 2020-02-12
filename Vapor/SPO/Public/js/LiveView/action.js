@@ -49,7 +49,7 @@ Action.prototype.start = function() {
       currentDirection = action.dir;
       break;
     case ActionType.LOG:
-      console.log("Lappland says: " + action.log);
+      console.log("- Lappland says: " + action.log);
       break;
     default:
       alert("action.js - start(): No Such Action Type !");

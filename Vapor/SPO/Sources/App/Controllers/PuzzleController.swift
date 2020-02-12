@@ -10,8 +10,9 @@ import FluentMySQL
 import Vapor
 import HTTP
 
-struct Code: Codable, Content {
-    var lines: String?
+struct RunInfo: Codable, Content {
+    var code: String?
+    var dir: Int
 }
 
 struct Scene: Codable, Content {
@@ -80,28 +81,34 @@ extension PuzzleController {
             print("[ Error ] PuzzleController.postCode: Failed to Get Pid From URL")
             return Actions()
         }
-        if let codeJson = req.http.body.data {
+        if let dataJson = req.http.body.data {
             // 从Json转换为Object
-            var codeObj: Code
+            var runInfo: RunInfo
             do {
-                codeObj = try JSONDecoder().decode(Code.self, from: String(data: codeJson, encoding:.utf8)!)
+                runInfo = try JSONDecoder().decode(RunInfo.self, from: String(data: dataJson, encoding:.utf8)!)
             } catch {
                 print("[ Error ] PuzzleController.postCode: Failed to Decode Json Data to Object")
                 return Actions()
             }
             // 编译运行
-            if let codeStr  = codeObj.lines {
+            if let codeStr  = runInfo.code {
                 DispatchQueue.global(qos: .background).async {
                     //sleep(5)
                     // 清除旧文件
                     RunManager.clear()
                 }
-                // 获取时间戳
-                let stamp = RunManager.getStamp()
-                // 编译运行
-                let output = RunManager.compile(code: codeStr, dependencies: dependencies, stamp: stamp)
-                // 获取运行结果
-                return RunManager.translateActions(stamp: stamp, description: output)
+                // 获取当前方向以控制行动
+                if let dir = Direction(rawValue: runInfo.dir) {
+                    // 获取时间戳
+                    let stamp = RunManager.getStamp()
+                    // 编译运行
+                    let output = RunManager.compile(code: codeStr, dependencies: dependencies, direction: dir, stamp: stamp)
+                    // 获取运行结果
+                    return RunManager.translateActions(stamp: stamp, description: output)
+                } else {
+                    print("[ Error ] PuzzleController.postCode: Failed to Get Direction from Decoded Data")
+                    return Actions()
+                }
             } else {
                 print("[ Error ] PuzzleController.postCode: Failed to Get Code from Decoded Data")
                 return Actions()

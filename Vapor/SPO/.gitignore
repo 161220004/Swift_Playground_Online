@@ -8,5 +8,5 @@ DerivedData/
 db.sqlite
 Resources/Code/spo-proj-*
 Resources/Code/code-*
-Resources/Code/stamp-*
+Resources/Code/global-*
 Resources/Results/result-*

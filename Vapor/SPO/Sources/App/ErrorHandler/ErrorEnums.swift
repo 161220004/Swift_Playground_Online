@@ -11,7 +11,7 @@ import Foundation
 enum FileManagerError: Error {
     
     case SaveCodeFileFailed
-    case SaveStampFileFailed
+    case SaveGlobalFileFailed
     case ReadResultFileFailed
     case RemoveOldFileFailed
 }

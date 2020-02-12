@@ -267,7 +267,7 @@
   <script src="https://code.jquery.com/jquery-2.1.1.min.js"></script>
   <!-- For Materialize -->
   <script src="/js/Materialize/materialize.min.js" type="text/javascript"></script>
-  <script src="/js/Materialize/init.js" type="text/javascript"></script>
+  <script src="/js/Materialize/initm.js" type="text/javascript"></script>
   <!-- For Ace-Editor -->
   <script src="/js/Ace/src/ace.js" type="text/javascript" charset="utf-8"></script>
   <script src="/js/Ace/src/ext-language_tools.js" type="text/javascript" charset="utf-8"></script>

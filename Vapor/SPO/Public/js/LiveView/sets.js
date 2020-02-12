@@ -1,3 +1,12 @@
+// 当前URL路径部分
+let urlPath = window.location.pathname;
+// 当前Puzzle序号（从URL中取得）
+let pid = (function() {
+  var val = urlPath.replace(/[^0-9]/ig, "");
+  console.log("URL_PATH: " + urlPath + ", pid = " + val);
+  return val;
+})();
+
 // Canvas循环计数
 var loopCount;
 // 上次记录的时间
@@ -66,7 +75,7 @@ let ToastRightC = canvasWidth * 0.618;
 let ToastLineNum = 24; // 满一行时字母个数
 let ToastFrameNum = 2 * 3; // 双侧边框宽相当于多少个字母
 let ToastBiaPerLetter = ToastMaxWidth / (ToastLineNum + ToastFrameNum); // 一个字母对应偏移量
-let ToastYBia = 140;
+let ToastYBia = 150;
 
 // 左侧/右侧镜头转换时，相机移动距离
 let CameraLRSpace = canvasWidth * (0.618 - 0.382);
