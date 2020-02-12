@@ -57,6 +57,17 @@ let BlockYBia = 67;
 let DiamondSize = 54;
 let DiamondYBia = -108;
 
+// 对话框尺寸与偏移
+let ToastMaxWidth = canvasWidth * 0.55;
+let ToastLeftX = canvasWidth * 0.1; // Left: 10% ~ 66.4%
+let ToastLeftC = canvasWidth * 0.382;
+let ToastRightX = canvasWidth * 0.336; // Right: 33.6% ~ 90%
+let ToastRightC = canvasWidth * 0.618;
+let ToastLineNum = 24; // 满一行时字母个数
+let ToastFrameNum = 2 * 3; // 双侧边框宽相当于多少个字母
+let ToastBiaPerLetter = ToastMaxWidth / (ToastLineNum + ToastFrameNum); // 一个字母对应偏移量
+let ToastYBia = 140;
+
 // 左侧/右侧镜头转换时，相机移动距离
 let CameraLRSpace = canvasWidth * (0.618 - 0.382);
 
@@ -66,6 +77,7 @@ let LappBlinkInterval = 2500; // 眨眼间隔 (ms)
 let BreakInterval = 800; // 两动画间的休息间隔 (ms)
 let LappWalkInterval = 80; // 行走迈步间隔 (ms)
 let LappTurnInterval = 100; // 转向间隔 (loopCount)
+let LappLogInterval = 2500; // 对话间隔 (ms)
 let DiamondInterval = 100; // 钻石旋转间隔 (ms)
 
 // 行走步长

@@ -48,12 +48,15 @@ Action.prototype.start = function() {
       lastDirection = currentDirection;
       currentDirection = action.dir;
       break;
+    case ActionType.LOG:
+      console.log("Lappland says: " + action.log);
+      break;
     default:
       alert("action.js - start(): No Such Action Type !");
   }
 }
 
-// 结束当前动画
+// 结束当前动画，开启下一个动画
 Action.prototype.next = function() {
   console.log("Finish Action [" + actionCount + "]");
   // 为下一步动画作准备

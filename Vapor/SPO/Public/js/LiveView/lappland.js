@@ -9,6 +9,8 @@ var Lappland = function() {
   this.timerWalk; // 行走动作计时器
   this.countWalk; // 行走动作执行到第几帧 (0/.../11)
   this.timerTurn; // 转向动作计时器
+  this.timerLog; // 对话动作计时器
+  this.hasToasted; // 对话是否已经弹出（为了控制只弹出一次）
   // 当前图片
   this.hairImg;
   this.ribbonImg;
@@ -65,6 +67,8 @@ Lappland.prototype.init = function() {
   this.timerWalk = 0;
   this.countWalk = 0;
   this.timerTurn = 0;
+  this.timerLog = 0;
+  this.hasToasted = false;
   // 调整Lappland方向以及Camera
   camera.setY();
   if (lappInitDir == 0 || lappInitDir == 3) { // Left, Down
@@ -105,8 +109,7 @@ Lappland.prototype.draw = function() {
   // 行走动画
   if (stepsRest <= 0) { // 停止行走
     this.timerWalk = 0; // 重置行走计时器
-  } else if (isRunning && !actions[actionCount].isFinished
-             && actions[actionCount].type == ActionType.GO) { // 正在行走
+  } else if (isRunning && !actions[actionCount].isFinished && actions[actionCount].type == ActionType.GO) { // 正在行走
     this.timerWalk += interval;
     if (this.timerWalk > LappWalkInterval) {
       // 走完一步的处理
@@ -147,8 +150,7 @@ Lappland.prototype.draw = function() {
     }
   }
   // 转向动画
-  if (isRunning && !actions[actionCount].isFinished
-      && actions[actionCount].type == ActionType.TURN) {
+  if (isRunning && !actions[actionCount].isFinished && actions[actionCount].type == ActionType.TURN) {
     // 计数，转向时间
     this.timerTurn += 1;
     // 立刻根据方向换Lappland左右图片
@@ -180,6 +182,23 @@ Lappland.prototype.draw = function() {
       actions[actionCount].break();
     }
   }
+  // 对话动画
+  if (isRunning && !actions[actionCount].isFinished && actions[actionCount].type == ActionType.LOG) {
+    this.timerLog += interval;
+    // 弹出Toast（仅一次）
+    if (!this.hasToasted) {
+      let message = actions[actionCount].log;
+      toastReplaceRule(canvasBack.getBoundingClientRect().x, canvasBack.getBoundingClientRect().y, message.length);
+      M.toast({html: message, displayLength: LappLogInterval, classes: "rounded my-toast"});
+      this.hasToasted = true;
+    }
+    // 时间足够后结束对话
+    if (this.timerLog > LappLogInterval) {
+      this.timerLog = 0;
+      this.hasToasted = false;
+      actions[actionCount].break();
+    }
+  }
   // 绘制开始
   ctxtLB.save();
   ctxtLM.save();
@@ -201,8 +220,7 @@ Lappland.prototype.draw = function() {
   // 眨眼动画: Face (ctxtLM)
   ctxtLM.drawImage(this.faceImg[this.countBlink], 0, 0, LappWidth, LappHeight);
   // 行走动画: Leg (ctxtLM), ArmB (ctxtLB), ArmF (ctxtLF)
-  if (stepsRest > 0 && isRunning && !actions[actionCount].isFinished
-      && actions[actionCount].type == ActionType.GO) { // 正在行走
+  if (stepsRest > 0 && isRunning && !actions[actionCount].isFinished && actions[actionCount].type == ActionType.GO) { // 正在行走
     ctxtLM.drawImage(this.legImg[this.countWalk], 0, 0, LappWidth, LappHeight);
     ctxtLB.drawImage(this.armbImg[this.countWalk], 0, 0, LappWidth, LappHeight);
     ctxtLF.drawImage(this.armfImg[this.countWalk], 0, 0, LappWidth, LappHeight);

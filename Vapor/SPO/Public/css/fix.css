@@ -3,6 +3,14 @@
   height: 420px;
 }
 
+.my-toast-test {
+  position: fixed !important;
+  max-width: 400px !important;
+  bottom: auto !important;
+  top: 0px !important;
+  left: 0px !important;
+}
+
 .my-fix-menu {
   margin-top: 10px;
 }
@@ -46,6 +54,6 @@
 }
 
 .waves-effect.waves-indigo .waves-ripple {
-     /* The alpha value allows the text and background color of the button to still show through. */
-      background-color: rgba(62, 66, 85, 0.45);
-    }
+  /* The alpha value allows the text and background color of the button to still show through. */
+  background-color: rgba(62, 66, 85, 0.45);
+}

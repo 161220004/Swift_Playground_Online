@@ -29,6 +29,7 @@
     interval = nowStamp - lastStamp;
     lastStamp = nowStamp;
     if (loopCount % 1200 == 0) {
+      // M.toast({html: "Hello?", classes: "rounded my-toast-test"});
       console.log(loopCount);
     }
     // 清空旧图像
