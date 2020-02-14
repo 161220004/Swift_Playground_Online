@@ -156,6 +156,11 @@ final class RunManager {
                 } else {
                     print("[ Error ] RunManager.translateActions: Failed to Analyse TURN Action")
                 }
+            } else if (action.contains(Keyword.COLLECT.rawValue)) {
+                // COLLECT
+                paces.append(Pace())
+            } else {
+                print("[ Error ] RunManager.translateActions: Undefined Action Appears")
             }
         }
         return Actions(isLegal: true, isRight: true, paces: paces, description: description)

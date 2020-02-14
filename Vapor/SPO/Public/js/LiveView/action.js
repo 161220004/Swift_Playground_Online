@@ -11,11 +11,12 @@ var lastDirection = lappInitDir; // 上一次的朝向
 var currentDirection = lappInitDir; // 朝向方向 (0: Left, 1: Up, 2: Right, 3: Down)
 var stepsRest = 0; // 行走剩余步数（等于0说明没有行走）
 
-// 枚举类型： 动作类型，包括: "GO", "LOG", "TURN", ...
+// 枚举类型： 动作类型，包括: "GO", "LOG", "TURN", "COLLECT", ...
 var ActionType = {
   GO: "GO",
   LOG: "LOG",
   TURN: "TURN",
+  COLLECT: "COLLECT",
 }
 
 var Action = function(type, d, dir, log) {
@@ -30,7 +31,7 @@ var Action = function(type, d, dir, log) {
 Action.prototype.break = function() {
   this.isFinished = true;
   if (actionCount < actions.length - 1) { // 还有未开始的动画
-    console.log("Breaking");
+    console.log("Have a Rest Now");
   } else { // 最后一个动画也结束了
     isRunning = false;
   }
@@ -50,6 +51,9 @@ Action.prototype.start = function() {
       break;
     case ActionType.LOG:
       console.log("- Lappland says: " + action.log);
+      break;
+    case ActionType.COLLECT:
+      console.log("- Diamond! Collect It!");
       break;
     default:
       alert("action.js - start(): No Such Action Type !");

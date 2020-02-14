@@ -1,6 +1,7 @@
 var Lappland = function() {
-  this.x; // 中心坐标
-  this.y; // 中心坐标
+  this.cellX; // 中心坐标（Float类型，以支持行走动画）
+  this.cellY; // 中心坐标（Float类型，以支持行走动画）
+  this.cellZ; // 中心坐标（Float类型，以支持行走动画）
   this.timer; // 摇摆动作计时器
   this.count; // 摇摆动作执行到第几帧（0/1/2/3/4/5）
   this.timerBlink; // 眨眼动作计时器
@@ -11,6 +12,7 @@ var Lappland = function() {
   this.timerTurn; // 转向动作计时器
   this.timerLog; // 对话动作计时器
   this.hasToasted; // 对话是否已经弹出（为了控制只弹出一次）
+  this.timerCollect; // 触摸宝石跳跃/等待动作计时器
   // 当前图片
   this.hairImg;
   this.ribbonImg;
@@ -57,8 +59,9 @@ Lappland.prototype.setImageL = function() {
 }
 
 Lappland.prototype.init = function() {
-  this.x = lappInitX;
-  this.y = lappInitY;
+  this.cellX = lappInitCellX;
+  this.cellY = lappInitCellY;
+  this.cellZ = lappInitCellZ;
   this.timer = 0;
   this.count = 0;
   this.timerBlink = 0;
@@ -69,6 +72,7 @@ Lappland.prototype.init = function() {
   this.timerTurn = 0;
   this.timerLog = 0;
   this.hasToasted = false;
+  this.timerCollect = 0;
   // 调整Lappland方向以及Camera
   camera.setY();
   if (lappInitDir == 0 || lappInitDir == 3) { // Left, Down
@@ -82,11 +86,32 @@ Lappland.prototype.init = function() {
   }
 }
 
+// 获取cell对应的像素X坐标
+Lappland.prototype.getX = function() {
+  return lappInitX + this.cellX * CellXBia + this.cellY * CellYBiaX;
+}
+
+// 获取cell对应的像素Y坐标
+Lappland.prototype.getY = function() {
+  return lappInitY + this.cellY * CellYBiaY + this.cellZ * CellZBia;
+}
+
+// 获取cell移位对应的像素X移位
+Lappland.prototype.getDX = function(dcx, dcy) {
+  return dcx * CellXBia + dcy * CellYBiaX;
+}
+
+// 获取cell移位对应的像素Y移位
+Lappland.prototype.getDY = function(dcy, dcz) {
+  return dcy * CellYBiaY + dcz * CellZBia;
+}
+
+//绘制Lappland
 Lappland.prototype.draw = function() {
   // 是否休息中
   if (isRunning && actions[actionCount].isFinished) {
     this.timerBreak += interval;
-    console.log("- Zzz...");
+    console.log("- Breaking");
     if (this.timerBreak > BreakInterval) {
       actions[actionCount].next();
       this.timerBreak = 0;
@@ -114,7 +139,7 @@ Lappland.prototype.draw = function() {
     if (this.timerWalk > LappWalkInterval) {
       // 走完一步的处理
       if (this.countWalk == 11) { // 一个步伐的最后一帧
-        console.log("- Steps Rest: " + stepsRest + ", X: " + this.x + ", Y: " + this.y);
+        console.log("- Steps Rest: " + stepsRest + ", X: " + this.getX() + ", Y: " + this.getY());
         // 剩余步数-1
         stepsRest = (stepsRest - 1 < 0) ? (0) : (stepsRest - 1);
         // 若没有剩余步数了，判定当前行走动作执行完毕
@@ -122,31 +147,25 @@ Lappland.prototype.draw = function() {
           if (actions[actionCount].type == ActionType.GO) {
             actions[actionCount].break();
           }
-      }
+        }
       }
       // 换帧
       this.countWalk = (this.countWalk + 1) % 12;
       this.timerWalk %= LappWalkInterval;
       // 改位置
-      var dx = 0;
-      var dy = 0;
-      if (currentDirection == 2) { // Right
-        dx = LappPaceXBia;
-      } else if (currentDirection == 0) { // Left
-        dx = -LappPaceXBia;
-      } else if (currentDirection == 1) { // Up
-        dx = -LappPaceYBiaX;
-        dy = -LappPaceYBiaY;
-      } else if (currentDirection == 3) { // Down
-        dx = LappPaceYBiaX;
-        dy = LappPaceYBiaY;
-      } else {
-        alert("lappland.js - draw(): No Direction !");
+      var dcx = 0;
+      var dcy = 0;
+      switch (currentDirection) {
+        case 0: dcx = -1/12; break; // Left
+        case 1: dcy = -1/12; break;  // Up
+        case 2: dcx = 1/12; break; // Right
+        case 3: dcy = 1/12; break; // Down
+        default: alert("lappland.js - draw(): No Direction !");
       }
-      this.x += dx;
-      this.y += dy;
+      this.cellX += dcx;
+      this.cellY += dcy;
       // 移动相机（相机追随Lappland）
-      camera.move(dx, dy);
+      camera.move(this.getDX(dcx, dcy), this.getDY(dcy, 0));
     }
   }
   // 转向动画
@@ -199,15 +218,38 @@ Lappland.prototype.draw = function() {
       actions[actionCount].break();
     }
   }
+  // 获取钻石动画
+  if (isRunning && !actions[actionCount].isFinished && actions[actionCount].type == ActionType.COLLECT) {
+    var blockIndex = detectOnBlock();
+    if (blockIndex > -1 && blockIndex < blocks.length) { // 当前处于地砖上
+      if (blocks[blockIndex].item == ItemType.Diamond && !blocks[blockIndex].isCollected) { // 当前地砖存在钻石
+        this.timerCollect += 1;
+        if (this.timerCollect > LappJumpInterval * 2) { // 结束跳跃
+          console.log("- Waiting for Collect");
+        } else if (this.timerCollect > LappJumpInterval) { // timer: LappJumpInterval+1 ~ .. * 2
+          // 开始下降
+          this.cellZ -= LappJumpZA * (this.timerCollect - LappJumpInterval) / LappJumpInterval;
+          if (!blocks[blockIndex].isCollecting) {
+            blocks[blockIndex].isCollecting = true;
+          }
+        } else { // timer: 1 ~ LappJumpInterval
+          // 开始跳起
+          this.cellZ += LappJumpZA * (LappJumpInterval - this.timerCollect) / LappJumpInterval;
+        }
+      } else {
+        alert("lappland.js - draw(): No Diamond !");
+      }
+    }
+  }
   // 绘制开始
   ctxtLB.save();
   ctxtLM.save();
   ctxtLC.save();
   ctxtLF.save();
   ctxtS.save();
-  // 原点设为(x, y)
-  var ox = this.x - LappWidth / 2 - camera.x;
-  var oy = this.y - LappHeight / 2 - camera.y;
+  // 绘制原点设为(x, y)
+  var ox = this.getX() - LappWidth / 2 - camera.x;
+  var oy = this.getY() - LappHeight / 2 - camera.y;
   ctxtLB.translate(ox, oy);
   ctxtLM.translate(ox, oy);
   ctxtLC.translate(ox, oy);
@@ -233,7 +275,7 @@ Lappland.prototype.draw = function() {
   ctxtLC.drawImage(this.clothesImg, 0, 0, LappWidth, LappHeight);
   // 无动画: Shadow (ctxtI)
   ctxtS.globalAlpha = 0.3;
-  ctxtS.drawImage(this.shadowImg, 0, LappShadowYBia, LappWidth, LappHeight);
+  ctxtS.drawImage(this.shadowImg, 0, LappShadowYBia - this.cellZ * CellZBia, LappWidth, LappHeight);
   // 绘制结束
   ctxtLB.restore();
   ctxtLM.restore();

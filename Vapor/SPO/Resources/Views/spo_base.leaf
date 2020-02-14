@@ -58,10 +58,13 @@
           <p>(6) log(_ content: String), 说一句话；</p>
           <p>注意：当前不支持 import</p>
           <p>推荐测试代码：</p>
-          <p>goForward(step: 4)</p>
+          <p>goForward(step: 2)</p>
+          <p>collect()</p>
+          <p>goForward(step: 2)</p>
           <p>for _ in 1...4 { </p>
           <p>goForward(step: 2)</p>
           <p>log("I want to get it.")</p>
+          <p>collect()</p>
           <p>goForward()</p>
           <p>turnLeft()</p>
           <p>}</p>
@@ -106,6 +109,7 @@
         <canvas id="canvas_L_m" width="476" height="476"></canvas>
         <canvas id="canvas_L_c" width="476" height="476"></canvas>
         <canvas id="canvas_L_f" width="476" height="476"></canvas>
+        <canvas id="canvas_msg" width="500" height="476"></canvas>
       </div>
     </div>
   </div>
@@ -276,11 +280,13 @@
   <script src="/js/LiveView/sets.js" type="text/javascript"></script>
   <script src="/js/LiveView/init.js" type="text/javascript"></script>
   <script src="/js/LiveView/action.js" type="text/javascript"></script>
+  <script src="/js/LiveView/detector.js" type="text/javascript"></script>
   <script src="/js/LiveView/camera.js" type="text/javascript"></script>
+  <script src="/js/LiveView/puzzlemsg.js" type="text/javascript"></script>
+  <script src="/js/LiveView/toaststyle.js" type="text/javascript"></script>
   <script src="/js/LiveView/background.js" type="text/javascript"></script>
   <script src="/js/LiveView/foreground.js" type="text/javascript"></script>
   <script src="/js/LiveView/lappland.js" type="text/javascript"></script>
   <script src="/js/LiveView/view.js" type="text/javascript"></script>
-  <script src="/js/LiveView/toaststyle.js" type="text/javascript"></script>
 </body>
 </html>

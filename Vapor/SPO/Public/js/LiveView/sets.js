@@ -18,10 +18,10 @@ var interval;
 // Canvas - 背景
 let canvasBack = $("#canvas_back")[0];
 let ctxtB = canvasBack.getContext('2d');
-// Canvas - 前景
+// Canvas - 前景（地砖等）
 let canvasFore = $("#canvas_fore")[0];
 let ctxtF = canvasFore.getContext('2d');
-// Canvas - 物品
+// Canvas - 物品（宝石等）
 let canvasItem = $("#canvas_item")[0];
 let ctxtI = canvasItem.getContext('2d');
 // Canvas - Lappland's Shadow
@@ -39,11 +39,16 @@ let ctxtLC = canvasLappC.getContext('2d');
 // Canvas - Lappland's Hair/Ribbon/ArmF
 let canvasLappF = $("#canvas_L_f")[0];
 let ctxtLF = canvasLappF.getContext('2d');
+// Canvas - 通关信息
+let canvasMsg = $("#canvas_msg")[0];
+let ctxtMsg = canvasMsg.getContext('2d');
+
 // Canvas - 尺寸
 let canvasWidth = canvasBack.width;
 let canvasHeight = canvasBack.height;
 
 // 对象
+var puzzleMsg;
 var camera;
 var lappland;
 
@@ -51,11 +56,13 @@ var lappland;
 let CellXBia = 108; // Cell在X方向右移1，像素在X方向右移108
 let CellYBiaX = -42; // Cell在Y方向下移1，像素在X方向左移42
 let CellYBiaY = 48; // Cell在Y方向下移1，像素在Y方向下移48
+let CellZBia = 108; // Cell在Z方向下移1，像素在Y方向下移108
 
-// Lappland原始尺寸
+// Lappland原始尺寸与位移
 let LappWidth = 84;
 let LappHeight = 108;
 let LappShadowYBia = 5; // 影子偏移
+let LappJumpZA = -0.035; // 跳跃初速度（Cell）
 
 // 地砖尺寸与偏移
 let BlockWidth = 130;
@@ -65,6 +72,12 @@ let BlockYBia = 67;
 // 钻石尺寸与偏移
 let DiamondSize = 54;
 let DiamondYBia = -108;
+
+// Puzzle信息栏的钻石尺寸与偏移
+let MiniDiamondSize = 16.2;
+let MiniDiamondX = 482; // 基础偏移（左上）
+let MiniDiamondY = 6; // 基础偏移（左上）
+let MiniDiamondSpace = 18; // Y方向间距
 
 // 对话框尺寸与偏移
 let ToastMaxWidth = canvasWidth * 0.55;
@@ -88,12 +101,9 @@ let LappWalkInterval = 80; // 行走迈步间隔 (ms)
 let LappTurnInterval = 100; // 转向间隔 (loopCount)
 let LappLogInterval = 2500; // 对话间隔 (ms)
 let DiamondInterval = 100; // 钻石旋转间隔 (ms)
-
-// 行走步长
-let LappPaceXBia = CellXBia / 12; // 一个step的长度为此数值乘以12
-let LappPaceYBiaX = CellYBiaX / 12;
-let LappPaceYBiaY = CellYBiaY / 12;
-let LappMoveHeight = 10; // 上升/下降高度
+let CollectShrinkInterval = 600; // 缩小宝石间隔 (ms)
+let CollectGetInterval = 400; // 收获宝石间隔 (ms)
+let LappJumpInterval = 18; // 跳起间隔 = 落地间隔 (loopCount)
 
 // 图片 - 背景
 let backgroundImg = $("#img_bg")[0];

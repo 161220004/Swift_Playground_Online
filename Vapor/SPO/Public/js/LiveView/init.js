@@ -12,6 +12,7 @@ var lappInitY = 300;
 // Lappland初始坐标 (Cell)（永远在(0, 0)）
 let lappInitCellX = 0;
 let lappInitCellY = 0;
+let lappInitCellZ = 0;
 // Lappland初始方向
 var lappInitDir = 2; // 朝向方向 (0: Left, 1: Up, 2: Right, 3: Down)
 

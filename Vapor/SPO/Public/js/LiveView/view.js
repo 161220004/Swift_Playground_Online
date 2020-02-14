@@ -8,6 +8,7 @@ function init() {
   })
 
   // 初始化对象
+  puzzleMsg = new PuzzleMsg();
   camera = new Camera();
   lappland = new Lappland();
   lappland.init();
@@ -38,6 +39,7 @@ function gameloop() {
   ctxtLM.clearRect(0, 0, canvasWidth, canvasHeight);
   ctxtLC.clearRect(0, 0, canvasWidth, canvasHeight);
   ctxtLF.clearRect(0, 0, canvasWidth, canvasHeight);
+  ctxtMsg.clearRect(0, 0, canvasWidth, canvasHeight);
   // 绘制背景
   drawBackground();
   // 绘制前景
@@ -47,6 +49,8 @@ function gameloop() {
   }
   // 绘制对象
   lappland.draw();
+  // 绘制Puzzle信息
+  puzzleMsg.draw();
 }
 
 $(function(){ // document ready
