@@ -11,6 +11,15 @@
   left: 0px !important;
 }
 
+.my-fix-view-line {
+  width: 476px;
+}
+
+.my-fix-view-btn {
+  width: 76px;
+  margin: 10px 0;
+}
+
 .my-fix-menu {
   margin-top: 10px;
 }
@@ -55,5 +64,5 @@
 
 .waves-effect.waves-indigo .waves-ripple {
   /* The alpha value allows the text and background color of the button to still show through. */
-  background-color: rgba(62, 66, 85, 0.45);
+  background-color: rgba(197, 202, 233, 0.8);
 }

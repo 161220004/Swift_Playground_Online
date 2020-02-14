@@ -24,3 +24,33 @@ function detectOnBlock() {
     return -1;
   }
 }
+
+// 用于绘制小地图：探测blocks在X方向跨度
+function detectBlockNumX() {
+  var minIndex = 0;
+  var maxIndex = 0;
+  for (var i = 0; i < blocks.length; i++) {
+    if (blocks[i].cellX < blocks[minIndex].cellX) {
+      minIndex = i;
+    }
+    if (blocks[i].cellX > blocks[maxIndex].cellX) {
+      maxIndex = i;
+    }
+  }
+  return (blocks[maxIndex].cellX - blocks[minIndex].cellX + 1);
+}
+
+// 用于绘制小地图：探测blocks在Y方向跨度
+function detectBlockNumY() {
+  var minIndex = 0;
+  var maxIndex = 0;
+  for (var i = 0; i < blocks.length; i++) {
+    if (blocks[i].cellY < blocks[minIndex].cellY) {
+      minIndex = i;
+    }
+    if (blocks[i].cellY > blocks[maxIndex].cellY) {
+      maxIndex = i;
+    }
+  }
+  return (blocks[maxIndex].cellY - blocks[minIndex].cellY + 1);
+}

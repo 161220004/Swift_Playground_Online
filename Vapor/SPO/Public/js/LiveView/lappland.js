@@ -167,9 +167,10 @@ Lappland.prototype.draw = function() {
       // 移动相机（相机追随Lappland）
       camera.move(this.getDX(dcx, dcy), this.getDY(dcy, 0));
       // 检测是否在地砖上
-      // if (detectOnBlock() == -1) {
-      //   alert("lappland.js - draw(): Off Blocks !")
-      // }
+      if (detectOnBlock() == -1) {
+        // alert("lappland.js - draw(): Off Blocks !")
+        puzzleMsg.fallFromBlock = true;
+      }
     }
   }
   // 转向动画
@@ -244,7 +245,8 @@ Lappland.prototype.draw = function() {
           this.cellZ += LappJumpZA * (LappJumpInterval - this.timerCollect) / LappJumpInterval;
         }
       } else {
-        alert("lappland.js - draw(): No Diamond !");
+        // alert("lappland.js - draw(): No Diamond !");
+        puzzleMsg.failedToCollect = true;
       }
     }
   }

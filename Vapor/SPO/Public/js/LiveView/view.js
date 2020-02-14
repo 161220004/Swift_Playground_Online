@@ -39,6 +39,7 @@ function gameloop() {
   ctxtLM.clearRect(0, 0, canvasWidth, canvasHeight);
   ctxtLC.clearRect(0, 0, canvasWidth, canvasHeight);
   ctxtLF.clearRect(0, 0, canvasWidth, canvasHeight);
+  ctxtCtn.clearRect(0, 0, canvasWidth, canvasHeight);
   ctxtMsg.clearRect(0, 0, canvasWidth, canvasHeight);
   // 绘制背景
   drawBackground();
@@ -51,6 +52,8 @@ function gameloop() {
   lappland.draw();
   // 绘制Puzzle信息
   puzzleMsg.draw();
+  // 检测状态：是否成功/失败，并结算成果
+  puzzleMsg.measure();
 }
 
 $(function(){ // document ready

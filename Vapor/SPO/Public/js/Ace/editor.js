@@ -28,8 +28,10 @@ $("#run_code").click(function(){
   runInfo.code = editor.getValue();
   runInfo.dir = currentDirection;
   // $("#test_live_view").html("Running...")
+  // 等待后端处理
+  isCompiling = true;
   $.post("/spo/" + pid + "/code", JSON.stringify(runInfo), function(data) {
-    alert("Get Result: \n" + JSON.stringify(data));
+    // alert("Get Result: \n" + JSON.stringify(data));
     // 解析结果并开启动画
     initActionsFromServer(data);
     performActions();

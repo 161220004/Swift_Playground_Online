@@ -39,6 +39,9 @@ let ctxtLC = canvasLappC.getContext('2d');
 // Canvas - Lappland's Hair/Ribbon/ArmF
 let canvasLappF = $("#canvas_L_f")[0];
 let ctxtLF = canvasLappF.getContext('2d');
+// Canvas - 幕布Curtain
+let canvasCtn = $("#canvas_ctn")[0];
+let ctxtCtn = canvasCtn.getContext('2d');
 // Canvas - 通关信息
 let canvasMsg = $("#canvas_msg")[0];
 let ctxtMsg = canvasMsg.getContext('2d');
@@ -93,6 +96,15 @@ let ToastYBia = 150;
 // 左侧/右侧镜头转换时，相机移动距离
 let CameraLRSpace = canvasWidth * (0.618 - 0.382);
 
+// 小地图尺寸与偏移
+let MapPostionLU = 10; // 小地图左上XY坐标
+let MapMargin = 30; // 小地图内容与边框的距离
+let MapSpace = 40; // 小地图Block间距
+let MapBlockSize = 30; // 小地图地砖大小
+let MapLappSize = 60; // 小地图Lappland大小
+let MapDiamondWidth = 15; // 小地图钻石大小
+let MapDiamondHeight = 20; // 小地图钻石大小
+
 // 动画频率
 let LappRockInterval = 200; // 摇摆间隔 (ms)
 let LappBlinkInterval = 2500; // 眨眼间隔 (ms)
@@ -119,6 +131,8 @@ let blockYellowImg = $("#img_fg_b_y")[0];
 let diamondImg = [$("#img_it_d_0")[0], $("#img_it_d_1")[0], $("#img_it_d_2")[0], $("#img_it_d_3")[0]];
 let arrayDownImg = [$("#img_it_ad_0")[0], $("#img_it_ad_1")[0], $("#img_it_ad_2")[0], $("#img_it_ad_3")[0], $("#img_it_ad_4")[0]];
 let arrayUpImg = [$("#img_it_au_0")[0], $("#img_it_au_1")[0], $("#img_it_au_2")[0], $("#img_it_au_3")[0], $("#img_it_au_4")[0]];
+// 图片 - Lappland - Mini
+let miniLappImg = $("#img_lapp_mini")[0];
 // 图片 - Lappland - Right Direction
 // N: 0-1-2-2-1-0-...
 let rLappHairImg = [$("#imgr_h_0")[0], $("#imgr_h_1")[0], $("#imgr_h_2")[0],

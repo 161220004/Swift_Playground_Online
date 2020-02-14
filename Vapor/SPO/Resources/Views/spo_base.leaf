@@ -39,7 +39,7 @@
 
   <!-- 关卡导航（上一关/下一关） -->
   <div class="row my-add-top my-add-bottom my-fix-container">
-    <a href="#" class="white indigo-text bond waves-effect waves-indigo btn left"><< Previous</a>
+    <a href="#" class="white indigo-text waves-effect waves-indigo btn left"><< Previous</a>
     <a href="#" class="white indigo-text waves-effect waves-indigo btn right">Next >></a>
   </div>
 
@@ -109,7 +109,11 @@
         <canvas id="canvas_L_m" width="476" height="476"></canvas>
         <canvas id="canvas_L_c" width="476" height="476"></canvas>
         <canvas id="canvas_L_f" width="476" height="476"></canvas>
+        <canvas id="canvas_ctn" width="500" height="476"></canvas>
         <canvas id="canvas_msg" width="500" height="476"></canvas>
+      </div>
+      <div class="my-fix-view-line">
+        <a id="view_map" class="btn white indigo-text waves-effect waves-purple my-fix-view-btn">Map</a>
       </div>
     </div>
   </div>
@@ -181,6 +185,8 @@
   <img src="/images/Items/ArrayUp-2.png" id="img_it_au_2" style="display:none;">
   <img src="/images/Items/ArrayUp-3.png" id="img_it_au_3" style="display:none;">
   <img src="/images/Items/ArrayUp-4.png" id="img_it_au_4" style="display:none;">
+  <!-- Lappland -->
+  <img src="/images/Lappland/Mini.png" id="img_lapp_mini" style="display:none;">
   <!-- Right Direction -->
   <img src="/images/Lappland/R/Shadow.png" id="imgr_s" style="display:none;">
   <img src="/images/Lappland/R/ArmB.png" id="imgr_ab" style="display:none;">
