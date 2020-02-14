@@ -166,6 +166,10 @@ Lappland.prototype.draw = function() {
       this.cellY += dcy;
       // 移动相机（相机追随Lappland）
       camera.move(this.getDX(dcx, dcy), this.getDY(dcy, 0));
+      // 检测是否在地砖上
+      // if (detectOnBlock() == -1) {
+      //   alert("lappland.js - draw(): Off Blocks !")
+      // }
     }
   }
   // 转向动画
@@ -218,7 +222,7 @@ Lappland.prototype.draw = function() {
       actions[actionCount].break();
     }
   }
-  // 获取钻石动画
+  // 获取钻石动画（接foreground.js的drawDiamond）
   if (isRunning && !actions[actionCount].isFinished && actions[actionCount].type == ActionType.COLLECT) {
     var blockIndex = detectOnBlock();
     if (blockIndex > -1 && blockIndex < blocks.length) { // 当前处于地砖上
@@ -228,9 +232,12 @@ Lappland.prototype.draw = function() {
           console.log("- Waiting for Collect");
         } else if (this.timerCollect > LappJumpInterval) { // timer: LappJumpInterval+1 ~ .. * 2
           // 开始下降
-          this.cellZ -= LappJumpZA * (this.timerCollect - LappJumpInterval) / LappJumpInterval;
-          if (!blocks[blockIndex].isCollecting) {
-            blocks[blockIndex].isCollecting = true;
+          this.cellZ -= LappJumpZA * (this.timerCollect - LappJumpInterval - 1) / LappJumpInterval;
+          if (!blocks[blockIndex].isCollected) {
+            blocks[blockIndex].isCollecting = true; // 钻石的回收动画交给foreground.js的drawDiamond处理
+          }
+          if (this.timerCollect == LappJumpInterval * 2) { // 落地了，把cellZ置为整数以免误差的叠加
+            this.cellZ = Math.round(this.cellZ);
           }
         } else { // timer: 1 ~ LappJumpInterval
           // 开始跳起
