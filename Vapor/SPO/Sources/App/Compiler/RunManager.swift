@@ -25,17 +25,19 @@ final class RunManager {
         return CODE_PATH + "code-" + stamp + ".swift"
     }
     
-    /// 根据时间戳，获取时间戳文件名
-    static private func getStampFilename(stamp: String) -> String {
-        return CODE_PATH + "stamp-" + stamp + ".swift"
+    /// 根据时间戳，获取定义全局变量文件名
+    static private func getGlobalFilename(stamp: String) -> String {
+        return CODE_PATH + "global-" + stamp + ".swift"
     }
     
-    /// 保存用户的源代码，并生成时间戳变量定义源代码
-    static private func saveCode(_ content: String, stamp: String) throws {
+    /// 保存用户的源代码，并生成时间戳/方向等变量定义源代码
+    static private func saveCode(_ content: String, stamp: String, dir: Direction) throws {
         
         let fileURL = getCodeFilename(stamp: stamp)
-        let stampURL = getStampFilename(stamp: stamp)
+        let globalURL = getGlobalFilename(stamp: stamp)
         let stampLine = "let CURRENT_STAMP = \"" + stamp + "\""
+        let directionLine = "var CURRENT_DIRECTION_RAW = \(dir.rawValue)"
+        let globalLines = stampLine + "\n" + directionLine
         do {
             try content.write(to: URL(fileURLWithPath: fileURL), atomically: true, encoding: .utf8)
         } catch {
@@ -43,16 +45,16 @@ final class RunManager {
             throw FileManagerError.SaveCodeFileFailed
         }
         do {
-            try stampLine.write(to: URL(fileURLWithPath: stampURL), atomically: true, encoding: .utf8)
+            try globalLines.write(to: URL(fileURLWithPath: globalURL), atomically: true, encoding: .utf8)
         } catch {
-            print("[ Error ] RunManager.saveCode: Failed to Write Stamp in " + stampURL)
-            throw FileManagerError.SaveStampFileFailed
+            print("[ Error ] RunManager.saveCode: Failed to Write Stamp in " + globalURL)
+            throw FileManagerError.SaveGlobalFileFailed
         }
     }
     
     /// 编译运行
     /// - Returns: 返回运行结果（失败或运行成功的bash输出内容）
-    static public func compile(code mainbody: String, dependencies: [String], stamp: String) -> String {
+    static public func compile(code mainbody: String, dependencies: [String], direction: Direction, stamp: String) -> String {
         
         // 使用用户代码组装main函数
         let funcHead = "func main() {\n"
@@ -61,7 +63,7 @@ final class RunManager {
         
         // 保存组装后的代码为code-$(stamp).swift文件
         do {
-            try self.saveCode(code, stamp: stamp)
+            try self.saveCode(code, stamp: stamp, dir: direction)
         } catch {
             print("[ Error ] RunManager.compile: Failed in Calling saveCode")
             return "Compile Failed"
@@ -70,7 +72,7 @@ final class RunManager {
         // 用户代码及其依赖文件
         let fileMain = CODE_PATH + "main.swift" // main文件
         let fileCode = self.getCodeFilename(stamp: stamp) // 用户代码文件
-        let fileStamp = self.getStampFilename(stamp: stamp) // 定义时间戳以便查询运行结果
+        let fileGlobal = self.getGlobalFilename(stamp: stamp) // 定义全局变量
         let fileSave = CODE_PATH + "SaveResult.swift" // 运行结果的存储管理，以便展示动画
         // 其他依赖，不同的Puzzle的依赖不同
         let fileUtils = dependencies.map() { util -> String in
@@ -84,7 +86,7 @@ final class RunManager {
         for fileUtil in fileUtils {
             compileLine += fileUtil + " "
         }
-        compileLine += fileStamp + " " + fileCode + " " + fileSave + " " + fileMain + " -o " + projName
+        compileLine += fileGlobal + " " + fileCode + " " + fileSave + " " + fileMain + " -o " + projName
         
         // 打印编译结果
         print(Bash.run(command: compileLine) ?? "")
@@ -154,6 +156,11 @@ final class RunManager {
                 } else {
                     print("[ Error ] RunManager.translateActions: Failed to Analyse TURN Action")
                 }
+            } else if (action.contains(Keyword.COLLECT.rawValue)) {
+                // COLLECT
+                paces.append(Pace())
+            } else {
+                print("[ Error ] RunManager.translateActions: Undefined Action Appears")
             }
         }
         return Actions(isLegal: true, isRight: true, paces: paces, description: description)

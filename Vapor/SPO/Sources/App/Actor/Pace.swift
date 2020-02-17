@@ -43,4 +43,12 @@ final class Pace: Codable, Content {
         self.log = ""
     }
     
+    /// 用于取宝石（---）
+    init() {
+        self.type = Keyword.COLLECT.rawValue
+        self.d = 0
+        self.dir = nil
+        self.log = ""
+    }
+    
 }

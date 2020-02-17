@@ -39,7 +39,7 @@
 
   <!-- 关卡导航（上一关/下一关） -->
   <div class="row my-add-top my-add-bottom my-fix-container">
-    <a href="#" class="white indigo-text bond waves-effect waves-indigo btn left"><< Previous</a>
+    <a href="#" class="white indigo-text waves-effect waves-indigo btn left"><< Previous</a>
     <a href="#" class="white indigo-text waves-effect waves-indigo btn right">Next >></a>
   </div>
 
@@ -58,15 +58,20 @@
           <p>(6) log(_ content: String), 说一句话；</p>
           <p>注意：当前不支持 import</p>
           <p>推荐测试代码：</p>
-          <p>goForward(step: 4)</p>
-          <p>turn(to: .Left)</p>
-          <p>turnRight()</p>
-          <p>turnRight()</p>
+          <p>goForward(step: 2)</p>
+          <p>collect()</p>
+          <p>goForward(step: 2)</p>
           <p>for _ in 1...4 { </p>
-          <p>goForward(step: 3)</p>
+          <p>goForward(step: 2)</p>
+          <p>log("I want to get it.")</p>
+          <p>collect()</p>
+          <p>goForward()</p>
           <p>turnLeft()</p>
           <p>}</p>
           <p>log(hello())</p>
+          <p>turn(to: .Left)</p>
+          <p>log("Succeed now ?")</p>
+          <p>turn(to: .Right)</p>
         </div>
         <div class="card-action">
           <div class="row">
@@ -104,6 +109,11 @@
         <canvas id="canvas_L_m" width="476" height="476"></canvas>
         <canvas id="canvas_L_c" width="476" height="476"></canvas>
         <canvas id="canvas_L_f" width="476" height="476"></canvas>
+        <canvas id="canvas_ctn" width="500" height="476"></canvas>
+        <canvas id="canvas_msg" width="500" height="476"></canvas>
+      </div>
+      <div class="my-fix-view-line">
+        <a id="view_map" class="btn white indigo-text waves-effect waves-purple my-fix-view-btn">Map</a>
       </div>
     </div>
   </div>
@@ -149,132 +159,26 @@
     </div>
   </footer>
 
-  <!-- Images -->
-  <!-- Background -->
-  <img src="/images/Background.jpg" id="img_bg" style="display:none;">
-  <!-- Foreground -->
-  <img src="/images/Blocks/Blue.png" id="img_fg_b_b" style="display:none;">
-  <img src="/images/Blocks/Dark.png" id="img_fg_b_d" style="display:none;">
-  <img src="/images/Blocks/Green.png" id="img_fg_b_g" style="display:none;">
-  <img src="/images/Blocks/Normal.png" id="img_fg_b_n" style="display:none;">
-  <img src="/images/Blocks/Purple.png" id="img_fg_b_p" style="display:none;">
-  <img src="/images/Blocks/Red.png" id="img_fg_b_r" style="display:none;">
-  <img src="/images/Blocks/Yellow.png" id="img_fg_b_y" style="display:none;">
-  <!-- Items -->
-  <img src="/images/Items/Diamond-0.png" id="img_it_d_0" style="display:none;">
-  <img src="/images/Items/Diamond-1.png" id="img_it_d_1" style="display:none;">
-  <img src="/images/Items/Diamond-2.png" id="img_it_d_2" style="display:none;">
-  <img src="/images/Items/Diamond-3.png" id="img_it_d_3" style="display:none;">
-  <img src="/images/Items/ArrayDown-0.png" id="img_it_ad_0" style="display:none;">
-  <img src="/images/Items/ArrayDown-1.png" id="img_it_ad_1" style="display:none;">
-  <img src="/images/Items/ArrayDown-2.png" id="img_it_ad_2" style="display:none;">
-  <img src="/images/Items/ArrayDown-3.png" id="img_it_ad_3" style="display:none;">
-  <img src="/images/Items/ArrayDown-4.png" id="img_it_ad_4" style="display:none;">
-  <img src="/images/Items/ArrayUp-0.png" id="img_it_au_0" style="display:none;">
-  <img src="/images/Items/ArrayUp-1.png" id="img_it_au_1" style="display:none;">
-  <img src="/images/Items/ArrayUp-2.png" id="img_it_au_2" style="display:none;">
-  <img src="/images/Items/ArrayUp-3.png" id="img_it_au_3" style="display:none;">
-  <img src="/images/Items/ArrayUp-4.png" id="img_it_au_4" style="display:none;">
-  <!-- Right Direction -->
-  <img src="/images/Lappland/R/Shadow.png" id="imgr_s" style="display:none;">
-  <img src="/images/Lappland/R/ArmB.png" id="imgr_ab" style="display:none;">
-  <img src="/images/Lappland/R/ArmB-0.png" id="imgr_ab_0" style="display:none;">
-  <img src="/images/Lappland/R/ArmB-1.png" id="imgr_ab_1" style="display:none;">
-  <img src="/images/Lappland/R/ArmB-2.png" id="imgr_ab_2" style="display:none;">
-  <img src="/images/Lappland/R/ArmB-3.png" id="imgr_ab_3" style="display:none;">
-  <img src="/images/Lappland/R/ArmB-4.png" id="imgr_ab_4" style="display:none;">
-  <img src="/images/Lappland/R/ArmB-5.png" id="imgr_ab_5" style="display:none;">
-  <img src="/images/Lappland/R/ArmB-6.png" id="imgr_ab_6" style="display:none;">
-  <img src="/images/Lappland/R/ArmF.png" id="imgr_af" style="display:none;">
-  <img src="/images/Lappland/R/ArmF-0.png" id="imgr_af_0" style="display:none;">
-  <img src="/images/Lappland/R/ArmF-1.png" id="imgr_af_1" style="display:none;">
-  <img src="/images/Lappland/R/ArmF-2.png" id="imgr_af_2" style="display:none;">
-  <img src="/images/Lappland/R/ArmF-3.png" id="imgr_af_3" style="display:none;">
-  <img src="/images/Lappland/R/ArmF-4.png" id="imgr_af_4" style="display:none;">
-  <img src="/images/Lappland/R/ArmF-5.png" id="imgr_af_5" style="display:none;">
-  <img src="/images/Lappland/R/ArmF-6.png" id="imgr_af_6" style="display:none;">
-  <img src="/images/Lappland/R/Clothes.png" id="imgr_cl" style="display:none;">
-  <img src="/images/Lappland/R/Face-0.png" id="imgr_f_0" style="display:none;">
-  <img src="/images/Lappland/R/Face-1.png" id="imgr_f_1" style="display:none;">
-  <img src="/images/Lappland/R/Face-2.png" id="imgr_f_2" style="display:none;">
-  <img src="/images/Lappland/R/Hair-0.png" id="imgr_h_0" style="display:none;">
-  <img src="/images/Lappland/R/Hair-1.png" id="imgr_h_1" style="display:none;">
-  <img src="/images/Lappland/R/Hair-2.png" id="imgr_h_2" style="display:none;">
-  <img src="/images/Lappland/R/Leg.png" id="imgr_l" style="display:none;">
-  <img src="/images/Lappland/R/Leg-0.png" id="imgr_l_0" style="display:none;">
-  <img src="/images/Lappland/R/Leg-1.png" id="imgr_l_1" style="display:none;">
-  <img src="/images/Lappland/R/Leg-2.png" id="imgr_l_2" style="display:none;">
-  <img src="/images/Lappland/R/Leg-3.png" id="imgr_l_3" style="display:none;">
-  <img src="/images/Lappland/R/Leg-4.png" id="imgr_l_4" style="display:none;">
-  <img src="/images/Lappland/R/Leg-5.png" id="imgr_l_5" style="display:none;">
-  <img src="/images/Lappland/R/Leg-6.png" id="imgr_l_6" style="display:none;">
-  <img src="/images/Lappland/R/Leg-7.png" id="imgr_l_7" style="display:none;">
-  <img src="/images/Lappland/R/Leg-8.png" id="imgr_l_8" style="display:none;">
-  <img src="/images/Lappland/R/Leg-9.png" id="imgr_l_9" style="display:none;">
-  <img src="/images/Lappland/R/Ribbon-0.png" id="imgr_r_0" style="display:none;">
-  <img src="/images/Lappland/R/Ribbon-1.png" id="imgr_r_1" style="display:none;">
-  <img src="/images/Lappland/R/Ribbon-2.png" id="imgr_r_2" style="display:none;">
-  <img src="/images/Lappland/R/Tail-0.png" id="imgr_t_0" style="display:none;">
-  <img src="/images/Lappland/R/Tail-1.png" id="imgr_t_1" style="display:none;">
-  <img src="/images/Lappland/R/Tail-2.png" id="imgr_t_2" style="display:none;">
-  <!-- Left Direction -->
-  <img src="/images/Lappland/L/Shadow.png" id="imgl_s" style="display:none;">
-  <img src="/images/Lappland/L/ArmB.png" id="imgl_ab" style="display:none;">
-  <img src="/images/Lappland/L/ArmB-0.png" id="imgl_ab_0" style="display:none;">
-  <img src="/images/Lappland/L/ArmB-1.png" id="imgl_ab_1" style="display:none;">
-  <img src="/images/Lappland/L/ArmB-2.png" id="imgl_ab_2" style="display:none;">
-  <img src="/images/Lappland/L/ArmB-3.png" id="imgl_ab_3" style="display:none;">
-  <img src="/images/Lappland/L/ArmB-4.png" id="imgl_ab_4" style="display:none;">
-  <img src="/images/Lappland/L/ArmB-5.png" id="imgl_ab_5" style="display:none;">
-  <img src="/images/Lappland/L/ArmB-6.png" id="imgl_ab_6" style="display:none;">
-  <img src="/images/Lappland/L/ArmF.png" id="imgl_af" style="display:none;">
-  <img src="/images/Lappland/L/ArmF-0.png" id="imgl_af_0" style="display:none;">
-  <img src="/images/Lappland/L/ArmF-1.png" id="imgl_af_1" style="display:none;">
-  <img src="/images/Lappland/L/ArmF-2.png" id="imgl_af_2" style="display:none;">
-  <img src="/images/Lappland/L/ArmF-3.png" id="imgl_af_3" style="display:none;">
-  <img src="/images/Lappland/L/ArmF-4.png" id="imgl_af_4" style="display:none;">
-  <img src="/images/Lappland/L/ArmF-5.png" id="imgl_af_5" style="display:none;">
-  <img src="/images/Lappland/L/ArmF-6.png" id="imgl_af_6" style="display:none;">
-  <img src="/images/Lappland/L/Clothes.png" id="imgl_cl" style="display:none;">
-  <img src="/images/Lappland/L/Face-0.png" id="imgl_f_0" style="display:none;">
-  <img src="/images/Lappland/L/Face-1.png" id="imgl_f_1" style="display:none;">
-  <img src="/images/Lappland/L/Face-2.png" id="imgl_f_2" style="display:none;">
-  <img src="/images/Lappland/L/Hair-0.png" id="imgl_h_0" style="display:none;">
-  <img src="/images/Lappland/L/Hair-1.png" id="imgl_h_1" style="display:none;">
-  <img src="/images/Lappland/L/Hair-2.png" id="imgl_h_2" style="display:none;">
-  <img src="/images/Lappland/L/Leg.png" id="imgl_l" style="display:none;">
-  <img src="/images/Lappland/L/Leg-0.png" id="imgl_l_0" style="display:none;">
-  <img src="/images/Lappland/L/Leg-1.png" id="imgl_l_1" style="display:none;">
-  <img src="/images/Lappland/L/Leg-2.png" id="imgl_l_2" style="display:none;">
-  <img src="/images/Lappland/L/Leg-3.png" id="imgl_l_3" style="display:none;">
-  <img src="/images/Lappland/L/Leg-4.png" id="imgl_l_4" style="display:none;">
-  <img src="/images/Lappland/L/Leg-5.png" id="imgl_l_5" style="display:none;">
-  <img src="/images/Lappland/L/Leg-6.png" id="imgl_l_6" style="display:none;">
-  <img src="/images/Lappland/L/Leg-7.png" id="imgl_l_7" style="display:none;">
-  <img src="/images/Lappland/L/Leg-8.png" id="imgl_l_8" style="display:none;">
-  <img src="/images/Lappland/L/Leg-9.png" id="imgl_l_9" style="display:none;">
-  <img src="/images/Lappland/L/Ribbon-0.png" id="imgl_r_0" style="display:none;">
-  <img src="/images/Lappland/L/Ribbon-1.png" id="imgl_r_1" style="display:none;">
-  <img src="/images/Lappland/L/Ribbon-2.png" id="imgl_r_2" style="display:none;">
-  <img src="/images/Lappland/L/Tail-0.png" id="imgl_t_0" style="display:none;">
-  <img src="/images/Lappland/L/Tail-1.png" id="imgl_t_1" style="display:none;">
-  <img src="/images/Lappland/L/Tail-2.png" id="imgl_t_2" style="display:none;">
-
   <!--JavaScript at end of body for optimized loading-->
   <!-- jQuery -->
   <script src="https://code.jquery.com/jquery-2.1.1.min.js"></script>
   <!-- For Materialize -->
   <script src="/js/Materialize/materialize.min.js" type="text/javascript"></script>
-  <script src="/js/Materialize/init.js" type="text/javascript"></script>
+  <script src="/js/Materialize/initm.js" type="text/javascript"></script>
   <!-- For Ace-Editor -->
   <script src="/js/Ace/src/ace.js" type="text/javascript" charset="utf-8"></script>
   <script src="/js/Ace/src/ext-language_tools.js" type="text/javascript" charset="utf-8"></script>
   <script src="/js/Ace/editor.js" type="text/javascript"></script>
   <!-- For LiveView (Canvas) -->
+  <script src="/js/LiveView/status.js" type="text/javascript"></script>
   <script src="/js/LiveView/sets.js" type="text/javascript"></script>
+  <script src="/js/LiveView/images.js" type="text/javascript"></script>
   <script src="/js/LiveView/init.js" type="text/javascript"></script>
   <script src="/js/LiveView/action.js" type="text/javascript"></script>
+  <script src="/js/LiveView/detector.js" type="text/javascript"></script>
   <script src="/js/LiveView/camera.js" type="text/javascript"></script>
+  <script src="/js/LiveView/puzzlemsg.js" type="text/javascript"></script>
+  <script src="/js/LiveView/toaststyle.js" type="text/javascript"></script>
   <script src="/js/LiveView/background.js" type="text/javascript"></script>
   <script src="/js/LiveView/foreground.js" type="text/javascript"></script>
   <script src="/js/LiveView/lappland.js" type="text/javascript"></script>
