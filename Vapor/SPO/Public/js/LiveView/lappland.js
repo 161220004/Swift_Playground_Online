@@ -13,6 +13,8 @@ var Lappland = function() {
   this.timerLog; // 对话动作计时器
   this.hasToasted; // 对话是否已经弹出（为了控制只弹出一次）
   this.timerCollect; // 触摸宝石跳跃/等待动作计时器
+  this.showBubble; // 是否显示表情气泡
+  this.isShocked; // 是否震惊脸
   // 当前图片
   this.hairImg;
   this.ribbonImg;
@@ -26,6 +28,8 @@ var Lappland = function() {
   this.armfImg;
   this.clothesImg;
   this.shadowImg;
+  this.shockImg;
+  this.bubbleImg;
 }
 
 Lappland.prototype.setImageR = function() {
@@ -41,6 +45,7 @@ Lappland.prototype.setImageR = function() {
   this.armfImg = rLappArmFImg;
   this.clothesImg = rLappClothesImg;
   this.shadowImg = rLappShadowImg;
+  this.shockImg = rLappShockImg;
 }
 
 Lappland.prototype.setImageL = function() {
@@ -56,6 +61,7 @@ Lappland.prototype.setImageL = function() {
   this.armfImg = lLappArmFImg;
   this.clothesImg = lLappClothesImg;
   this.shadowImg = lLappShadowImg;
+  this.shockImg = lLappShockImg;
 }
 
 Lappland.prototype.init = function() {
@@ -73,16 +79,52 @@ Lappland.prototype.init = function() {
   this.timerLog = 0;
   this.hasToasted = false;
   this.timerCollect = 0;
+  this.showBubble = false;
+  this.isShocked = false;
   // 调整Lappland方向以及Camera
   camera.setY();
   if (lappInitDir == 0 || lappInitDir == 3) { // Left, Down
     camera.setXR();
     this.setImageL();
-  } else if (currentDirection == 2 || currentDirection == 1) { // Right, Up
+  } else if (lappInitDir == 2 || lappInitDir == 1) { // Right, Up
     camera.setXL();
     this.setImageR();
   } else {
     alert("lappland.js - init(): No Direction !");
+  }
+}
+
+// 设置右方向气泡
+Lappland.prototype.setBubbleR = function() {
+  if (puzzleStatus.isSuccess) { // 成功气泡
+    this.bubbleImg = rLappBubbleHappyImg;
+  } else if (puzzleStatus.isFailure) {
+    switch (puzzleStatus.reason) {
+      case FailReason.FailedToCompile: this.bubbleImg = rLappBubbleDizzyImg; break;
+      case FailReason.FallFromBlock: this.bubbleImg = rLappBubble1Img; break;
+      case FailReason.FailedToCollect: this.bubbleImg = rLappBubble2Img; break;
+      case FailReason.EndNotEnough: this.bubbleImg = rLappBubbleSadImg; break;
+      default: this.bubbleImg = rLappBubble3Img;
+    }
+  } else {
+    alert("lappland.js - setBubbleR(): Not Certain Time !");
+  }
+}
+
+// 设置左方向气泡
+Lappland.prototype.setBubbleL = function() {
+  if (puzzleStatus.isSuccess) { // 成功气泡
+    this.bubbleImg = lLappBubbleHappyImg;
+  } else if (puzzleStatus.isFailure) {
+    switch (puzzleStatus.reason) {
+      case FailReason.FailedToCompile: this.bubbleImg = lLappBubbleDizzyImg; break;
+      case FailReason.FallFromBlock: this.bubbleImg = lLappBubble1Img; break;
+      case FailReason.FailedToCollect: this.bubbleImg = lLappBubble2Img; break;
+      case FailReason.EndNotEnough: this.bubbleImg = lLappBubbleSadImg; break;
+      default: this.bubbleImg = lLappBubble3Img;
+    }
+  } else {
+    alert("lappland.js - setBubbleL(): Not Certain Time !");
   }
 }
 
@@ -109,7 +151,7 @@ Lappland.prototype.getDY = function(dcy, dcz) {
 //绘制Lappland
 Lappland.prototype.draw = function() {
   // 是否休息中
-  if (isRunning && actions[actionCount].isFinished) {
+  if (puzzleStatus.isRunning && actions[actionCount].isFinished) {
     this.timerBreak += interval;
     console.log("- Breaking");
     if (this.timerBreak > BreakInterval) {
@@ -134,7 +176,7 @@ Lappland.prototype.draw = function() {
   // 行走动画
   if (stepsRest <= 0) { // 停止行走
     this.timerWalk = 0; // 重置行走计时器
-  } else if (isRunning && !actions[actionCount].isFinished && actions[actionCount].type == ActionType.GO) { // 正在行走
+  } else if (puzzleStatus.isRunning && !actions[actionCount].isFinished && actions[actionCount].type == ActionType.GO) { // 正在行走
     this.timerWalk += interval;
     if (this.timerWalk > LappWalkInterval) {
       // 走完一步的处理
@@ -169,12 +211,16 @@ Lappland.prototype.draw = function() {
       // 检测是否在地砖上
       if (detectOnBlock() == -1) {
         // alert("lappland.js - draw(): Off Blocks !")
-        puzzleMsg.fallFromBlock = true;
+        this.isShocked = true;
+        puzzleStatus.isRunning = false;
+        puzzleStatus.isCompleted = true;
+        puzzleStatus.isFailure = true;
+        puzzleStatus.reason = FailReason.FallFromBlock;
       }
     }
   }
   // 转向动画
-  if (isRunning && !actions[actionCount].isFinished && actions[actionCount].type == ActionType.TURN) {
+  if (puzzleStatus.isRunning && !actions[actionCount].isFinished && actions[actionCount].type == ActionType.TURN) {
     // 计数，转向时间
     this.timerTurn += 1;
     // 立刻根据方向换Lappland左右图片
@@ -207,7 +253,7 @@ Lappland.prototype.draw = function() {
     }
   }
   // 对话动画
-  if (isRunning && !actions[actionCount].isFinished && actions[actionCount].type == ActionType.LOG) {
+  if (puzzleStatus.isRunning && !actions[actionCount].isFinished && actions[actionCount].type == ActionType.LOG) {
     this.timerLog += interval;
     // 弹出Toast（仅一次）
     if (!this.hasToasted) {
@@ -224,7 +270,7 @@ Lappland.prototype.draw = function() {
     }
   }
   // 获取钻石动画（接foreground.js的drawDiamond）
-  if (isRunning && !actions[actionCount].isFinished && actions[actionCount].type == ActionType.COLLECT) {
+  if (puzzleStatus.isRunning && !actions[actionCount].isFinished && actions[actionCount].type == ActionType.COLLECT) {
     var blockIndex = detectOnBlock();
     if (blockIndex > -1 && blockIndex < blocks.length) { // 当前处于地砖上
       if (blocks[blockIndex].item == ItemType.Diamond && !blocks[blockIndex].isCollected) { // 当前地砖存在钻石
@@ -246,7 +292,10 @@ Lappland.prototype.draw = function() {
         }
       } else {
         // alert("lappland.js - draw(): No Diamond !");
-        puzzleMsg.failedToCollect = true;
+        puzzleStatus.isRunning = false;
+        puzzleStatus.isCompleted = true;
+        puzzleStatus.isFailure = true;
+        puzzleStatus.reason = FailReason.FailedToCollect;
       }
     }
   }
@@ -271,7 +320,7 @@ Lappland.prototype.draw = function() {
   // 眨眼动画: Face (ctxtLM)
   ctxtLM.drawImage(this.faceImg[this.countBlink], 0, 0, LappWidth, LappHeight);
   // 行走动画: Leg (ctxtLM), ArmB (ctxtLB), ArmF (ctxtLF)
-  if (stepsRest > 0 && isRunning && !actions[actionCount].isFinished && actions[actionCount].type == ActionType.GO) { // 正在行走
+  if (stepsRest > 0 && puzzleStatus.isRunning && !actions[actionCount].isFinished && actions[actionCount].type == ActionType.GO) { // 正在行走
     ctxtLM.drawImage(this.legImg[this.countWalk], 0, 0, LappWidth, LappHeight);
     ctxtLB.drawImage(this.armbImg[this.countWalk], 0, 0, LappWidth, LappHeight);
     ctxtLF.drawImage(this.armfImg[this.countWalk], 0, 0, LappWidth, LappHeight);
@@ -285,6 +334,24 @@ Lappland.prototype.draw = function() {
   // 无动画: Shadow (ctxtI)
   ctxtS.globalAlpha = 0.3;
   ctxtS.drawImage(this.shadowImg, 0, LappShadowYBia - this.cellZ * CellZBia, LappWidth, LappHeight);
+  // 表情气泡
+  if (this.showBubble) {
+    var sign = 0;
+    if (currentDirection == 2 || currentDirection == 1) { // Right, Up
+      this.setBubbleR();
+      sign = 1;
+    } else if (currentDirection == 0 || currentDirection == 3) { // Left, Down
+      this.setBubbleL();
+      sign = -1;
+    } else {
+      alert("lappland.js - draw(): No Direction !");
+    }
+    ctxtLF.drawImage(this.bubbleImg, sign * LappBubbleXBia, LappBubbleYBia, LappBubbleWidth, LappBubbleHeight);
+  }
+  // 震惊脸
+  if (this.isShocked) {
+    ctxtLF.drawImage(this.shockImg, 0, 0, LappWidth, LappHeight);
+  }
   // 绘制结束
   ctxtLB.restore();
   ctxtLM.restore();

@@ -37,10 +37,37 @@ arrayUpImg[0].src = "/images/Items/ArrayUp-2.png";
 arrayUpImg[0].src = "/images/Items/ArrayUp-3.png";
 arrayUpImg[0].src = "/images/Items/ArrayUp-4.png";
 
+// 图片 - PuzzleMessage
+let pzMsgLoadingImg = [new Image(), new Image(), new Image(), new Image()];
+pzMsgLoadingImg[0].src = "/images/Message/Loading-0.png";
+pzMsgLoadingImg[1].src = "/images/Message/Loading-1.png";
+pzMsgLoadingImg[2].src = "/images/Message/Loading-2.png";
+pzMsgLoadingImg[3].src = "/images/Message/Loading-3.png";
+let pzMsgSuccessImg = new Image();
+pzMsgSuccessImg.src = "/images/Message/Congratulations.png";
+let pzMsgFailureImg = new Image();
+pzMsgFailureImg.src = "/images/Message/TryAgain.png";
+
 // 图片 - Lappland - Mini
 let miniLappImg = new Image();
 miniLappImg.src = "/images/Lappland/Mini.png";
 // 图片 - Lappland - Right Direction
+// Shock
+let rLappShockImg = new Image();
+rLappShockImg.src = "/images/Lappland/R/Shock.png";
+// Bubbles
+let rLappBubble1Img = new Image();
+rLappBubble1Img.src = "/images/Lappland/R/Bubbles/Emo-1.png";
+let rLappBubble2Img = new Image();
+rLappBubble2Img.src = "/images/Lappland/R/Bubbles/Emo-2.png";
+let rLappBubble3Img = new Image();
+rLappBubble3Img.src = "/images/Lappland/R/Bubbles/Emo-3.png";
+let rLappBubbleDizzyImg = new Image();
+rLappBubbleDizzyImg.src = "/images/Lappland/R/Bubbles/Emo-dizzy.png";
+let rLappBubbleSadImg = new Image();
+rLappBubbleSadImg.src = "/images/Lappland/R/Bubbles/Emo-sad.png";
+let rLappBubbleHappyImg = new Image();
+rLappBubbleHappyImg.src = "/images/Lappland/R/Bubbles/Emo-happy.png";
 // N: 0-1-2-2-1-0-...
 let rLappHairImg = [new Image(), new Image(), new Image(), new Image(), new Image(), new Image()];
 rLappHairImg[0].src = "/images/Lappland/R/Hair-0.png";
@@ -127,6 +154,22 @@ rLappArmFImg[11].src = "/images/Lappland/R/ArmF-1.png";
 let rLappShadowImg = new Image();
 rLappShadowImg.src = "/images/Lappland/R/Shadow.png";
 // 图片 - Lappland - Left Direction
+// Shock
+let lLappShockImg = new Image();
+lLappShockImg.src = "/images/Lappland/L/Shock.png";
+// Bubbles
+let lLappBubble1Img = new Image();
+lLappBubble1Img.src = "/images/Lappland/L/Bubbles/Emo-1.png";
+let lLappBubble2Img = new Image();
+lLappBubble2Img.src = "/images/Lappland/L/Bubbles/Emo-2.png";
+let lLappBubble3Img = new Image();
+lLappBubble3Img.src = "/images/Lappland/L/Bubbles/Emo-3.png";
+let lLappBubbleDizzyImg = new Image();
+lLappBubbleDizzyImg.src = "/images/Lappland/L/Bubbles/Emo-dizzy.png";
+let lLappBubbleSadImg = new Image();
+lLappBubbleSadImg.src = "/images/Lappland/L/Bubbles/Emo-sad.png";
+let lLappBubbleHappyImg = new Image();
+lLappBubbleHappyImg.src = "/images/Lappland/L/Bubbles/Emo-happy.png";
 // N: 0-1-2-2-1-0-...
 let lLappHairImg = [new Image(), new Image(), new Image(), new Image(), new Image(), new Image()];
 lLappHairImg[0].src = "/images/Lappland/L/Hair-0.png";

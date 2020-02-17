@@ -29,7 +29,7 @@ $("#run_code").click(function(){
   runInfo.dir = currentDirection;
   // $("#test_live_view").html("Running...")
   // 等待后端处理
-  isCompiling = true;
+  puzzleStatus.isCompiling = true;
   $.post("/spo/" + pid + "/code", JSON.stringify(runInfo), function(data) {
     // alert("Get Result: \n" + JSON.stringify(data));
     // 解析结果并开启动画

@@ -170,6 +170,7 @@
   <script src="/js/Ace/src/ext-language_tools.js" type="text/javascript" charset="utf-8"></script>
   <script src="/js/Ace/editor.js" type="text/javascript"></script>
   <!-- For LiveView (Canvas) -->
+  <script src="/js/LiveView/status.js" type="text/javascript"></script>
   <script src="/js/LiveView/sets.js" type="text/javascript"></script>
   <script src="/js/LiveView/images.js" type="text/javascript"></script>
   <script src="/js/LiveView/init.js" type="text/javascript"></script>

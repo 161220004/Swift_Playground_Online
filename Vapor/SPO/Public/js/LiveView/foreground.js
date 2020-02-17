@@ -68,7 +68,7 @@ Block.prototype.drawDiamond = function() {
     var flyX = 0;
     var flyY = 0;
     // Diamond收集动画
-    if (isRunning && this.isCollecting) {
+    if (puzzleStatus.isRunning && this.isCollecting) {
       this.timerCollect += interval;
       if (this.timerCollect > CollectShrinkInterval + CollectGetInterval) {
         // 开启下一步动作

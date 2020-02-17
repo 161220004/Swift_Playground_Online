@@ -1,12 +1,4 @@
-// 动作状态
-var isCompiling = false; // 是否正在编译
-var isCompiled = false; // 是否编译运行成功（待后端传值）
-var isRunning = false; // 是否正在展示用户代码的运行结果
-var isCoping = false; // 是否正在处理运行结束的后续工作
-
-var description = "";
-
-// 接下来的所有动作（按顺序的Action数组）（待后端传值）
+// 所有动作（按顺序的Action数组）（待后端传值）
 var actions = [];
 var actionCount = 0; // 当前执行到第几个动作
 var actionsStr = "";
@@ -38,8 +30,8 @@ Action.prototype.break = function() {
   if (actionCount < actions.length - 1) { // 还有未开始的动画
     console.log("Have a Rest Now");
   } else { // 最后一个动画也结束了
-    isRunning = false;
-    isCoping = true; // 开始结算成果
+    puzzleStatus.isRunning = false;
+    puzzleStatus.isCompleted = true; // 开始结算成果
   }
 }
 
@@ -70,7 +62,7 @@ Action.prototype.start = function() {
 Action.prototype.next = function() {
   console.log("Finish Action [" + actionCount + "]");
   // 为下一步动画作准备
-  if (isRunning) {
+  if (puzzleStatus.isRunning) {
     actionCount += 1;
     actions[actionCount].start();
   }
@@ -78,8 +70,8 @@ Action.prototype.next = function() {
 
 // 从后端获取行动过程并初始化（data为后端传来的数据）
 function initActionsFromServer(data) {
-  isCompiled = data.isCompiled;
-  description = data.description;
+  puzzleStatus.isCompiled = data.isCompiled;
+  puzzleStatus.description = data.description;
   actions = [];
   actionCount = 0;
   lastDirection = lappInitDir;
@@ -96,10 +88,10 @@ function initActionsFromServer(data) {
 
 // 开始动画
 function performActions() {
-  isCompiling = false; // 编译结束
-  if (isCompiled == true) { // 若编译通过
+  puzzleStatus.isCompiling = false; // 编译结束
+  if (puzzleStatus.isCompiled == true) { // 若编译通过
     alert("Ready to Perform Actions: " + actionsStr);
-    isRunning = true;
+    puzzleStatus.isRunning = true;
     // 初始化第一个动画
     actionCount = 0;
     stepsRest = 0;
@@ -107,6 +99,8 @@ function performActions() {
     actions[actionCount].start();
   } else {
     // alert("Compile Failed !");
-    puzzleMsg.failedToCompile = true;
+    puzzleStatus.isCompleted = true;
+    puzzleStatus.isFailure = true;
+    puzzleStatus.reason = FailReason.FailedToCompile;
   }
 }

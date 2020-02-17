@@ -48,9 +48,11 @@ let ctxtMsg = canvasMsg.getContext('2d');
 
 // Canvas - 尺寸
 let canvasWidth = canvasBack.width;
+let canvasWidthAdd = canvasMsg.width;
 let canvasHeight = canvasBack.height;
 
 // 对象
+var puzzleStatus;
 var puzzleMsg;
 var camera;
 var lappland;
@@ -66,6 +68,13 @@ let LappWidth = 84;
 let LappHeight = 108;
 let LappShadowYBia = 5; // 影子偏移
 let LappJumpZA = -0.035; // 跳跃初速度（Cell）
+let LappBubbleXBia = 50; // 表情气泡X偏移
+let LappBubbleYBia = -70; // 表情气泡Y偏移
+let LappBubbleWidth = 55; // 表情气泡大小
+let LappBubbleHeight = 50; // 表情气泡大小
+
+// 加载中动画跳跃偏移
+let LoadingJumpY = -10;
 
 // 地砖尺寸与偏移
 let BlockWidth = 130;
@@ -105,10 +114,10 @@ let MapLappSize = 60; // 小地图Lappland大小
 let MapDiamondWidth = 15; // 小地图钻石大小
 let MapDiamondHeight = 20; // 小地图钻石大小
 
-// 动画频率
+// 动画间隔或持续时间
 let LappRockInterval = 200; // 摇摆间隔 (ms)
 let LappBlinkInterval = 2500; // 眨眼间隔 (ms)
-let BreakInterval = 800; // 两动画间的休息间隔 (ms)
+let BreakInterval = 500; // 两动画间的休息间隔 (ms)
 let LappWalkInterval = 80; // 行走迈步间隔 (ms)
 let LappTurnInterval = 100; // 转向间隔 (loopCount)
 let LappLogInterval = 2500; // 对话间隔 (ms)
@@ -116,7 +125,10 @@ let DiamondInterval = 100; // 钻石旋转间隔 (ms)
 let CollectShrinkInterval = 600; // 缩小宝石间隔 (ms)
 let CollectGetInterval = 400; // 收获宝石间隔 (ms)
 let LappJumpInterval = 18; // 跳起间隔 = 落地间隔 (loopCount)
-
+let FinalWaitInterval = 1000; // 等待最终结果的时间 (ms)
+let FinalLappEmoInterval = 1500; // 气泡表情持续时间 (ms)
+let FinalAppearInterval = 1000; // 结果淡出时间 (ms)
+let LoadingJumpInterval = 100; // 加载动画间隔 (ms)
 
 // 根据浏览器设置requestAnimFrame
 window.requestAnimFrame = (function() {

@@ -26,10 +26,13 @@ function initFromServer(data) {
     return block1.id - block2.id;
   }
   blocksFromServer.sort(compareBlockId);
-  // 获取block数组
+  // 获取block数组，以及宝石总数
   blocks = [];
   for (var i = 0; i < blocksFromServer.length; i++) {
     var block = new Block(blocksFromServer[i].type, blocksFromServer[i].cellX, blocksFromServer[i].cellY, blocksFromServer[i].item);
+    if (block.item == ItemType.Diamond) {
+      puzzleMsg.totalNum += 1; // 宝石总数
+    }
     blocks[i] = block;
   }
   // 获取其他初始值
