@@ -12,11 +12,11 @@ var PuzzleStatus = function() {
 
 // 失败原因
 var FailReason = {
-  None: "",
-  FailedToCompile: "Failed to Compile", // Run初，失败：编译失败
-  FallFromBlock: "Fall from Block", // Run途中，失败：掉落
-  FailedToCollect: "Failed to Collect", // Run途中，失败：collect空地砖
-  EndNotEnough: "End Not Enough", // Run结束，失败：宝石收集不全
+  FailedToCompile: 1, // Run初，失败：编译失败
+  FallFromBlock: 2, // Run途中，失败：掉落
+  FailedToCollect: 3, // Run途中，失败：collect空地砖
+  EndNotEnough: 4, // Run结束，失败：宝石收集不全
+  None: 5,
 }
 
 // 若所有动作结束，判定结果

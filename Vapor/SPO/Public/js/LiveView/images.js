@@ -56,18 +56,13 @@ miniLappImg.src = "/images/Lappland/Mini.png";
 let rLappShockImg = new Image();
 rLappShockImg.src = "/images/Lappland/R/Shock.png";
 // Bubbles
-let rLappBubble1Img = new Image();
-rLappBubble1Img.src = "/images/Lappland/R/Bubbles/Emo-1.png";
-let rLappBubble2Img = new Image();
-rLappBubble2Img.src = "/images/Lappland/R/Bubbles/Emo-2.png";
-let rLappBubble3Img = new Image();
-rLappBubble3Img.src = "/images/Lappland/R/Bubbles/Emo-3.png";
-let rLappBubbleDizzyImg = new Image();
-rLappBubbleDizzyImg.src = "/images/Lappland/R/Bubbles/Emo-dizzy.png";
-let rLappBubbleSadImg = new Image();
-rLappBubbleSadImg.src = "/images/Lappland/R/Bubbles/Emo-sad.png";
-let rLappBubbleHappyImg = new Image();
-rLappBubbleHappyImg.src = "/images/Lappland/R/Bubbles/Emo-happy.png";
+let rLappBubbleImg = [new Image(), new Image(), new Image(), new Image(), new Image(), new Image()];
+rLappBubbleImg[0].src = "/images/Lappland/R/Bubbles/Emo-happy.png";
+rLappBubbleImg[1].src = "/images/Lappland/R/Bubbles/Emo-dizzy.png";
+rLappBubbleImg[2].src = "/images/Lappland/R/Bubbles/Emo-1.png";
+rLappBubbleImg[3].src = "/images/Lappland/R/Bubbles/Emo-2.png";
+rLappBubbleImg[4].src = "/images/Lappland/R/Bubbles/Emo-sad.png";
+rLappBubbleImg[5].src = "/images/Lappland/R/Bubbles/Emo-3.png";
 // N: 0-1-2-2-1-0-...
 let rLappHairImg = [new Image(), new Image(), new Image(), new Image(), new Image(), new Image()];
 rLappHairImg[0].src = "/images/Lappland/R/Hair-0.png";
@@ -100,11 +95,9 @@ rLappFaceImg[2].src = "/images/Lappland/R/Face-2.png";
 rLappFaceImg[3].src = "/images/Lappland/R/Face-1.png";
 let rLappClothesImg = new Image();
 rLappClothesImg.src = "/images/Lappland/R/Clothes.png";
-let rLappLegnImg = new Image();
-rLappLegnImg.src = "/images/Lappland/R/Leg.png";
 // M(12): 1-2-3-4-5-6-7-6-5-4-3-2-...
 let rLappLegImg = [new Image(), new Image(), new Image(), new Image(), new Image(), new Image(),
-                   new Image(), new Image(), new Image(), new Image(), new Image(), new Image()];
+                   new Image(), new Image(), new Image(), new Image(), new Image(), new Image(), new Image()];
 rLappLegImg[0].src = "/images/Lappland/R/Leg-1.png";
 rLappLegImg[1].src = "/images/Lappland/R/Leg-2.png";
 rLappLegImg[2].src = "/images/Lappland/R/Leg-3.png";
@@ -117,11 +110,10 @@ rLappLegImg[8].src = "/images/Lappland/R/Leg-5.png";
 rLappLegImg[9].src = "/images/Lappland/R/Leg-4.png";
 rLappLegImg[10].src = "/images/Lappland/R/Leg-3.png";
 rLappLegImg[11].src = "/images/Lappland/R/Leg-2.png";
-let rLappArmBnImg = new Image();
-rLappArmBnImg.src = "/images/Lappland/R/ArmB.png";
+rLappLegImg[12].src = "/images/Lappland/R/Leg.png";
 // M(12): 0-1-2-3-4-5-6-5-4-3-2-1-...
 let rLappArmBImg = [new Image(), new Image(), new Image(), new Image(), new Image(), new Image(),
-                    new Image(), new Image(), new Image(), new Image(), new Image(), new Image()];
+                    new Image(), new Image(), new Image(), new Image(), new Image(), new Image(), new Image()];
 rLappArmBImg[0].src = "/images/Lappland/R/ArmB-0.png";
 rLappArmBImg[1].src = "/images/Lappland/R/ArmB-1.png";
 rLappArmBImg[2].src = "/images/Lappland/R/ArmB-2.png";
@@ -134,11 +126,10 @@ rLappArmBImg[8].src = "/images/Lappland/R/ArmB-4.png";
 rLappArmBImg[9].src = "/images/Lappland/R/ArmB-3.png";
 rLappArmBImg[10].src = "/images/Lappland/R/ArmB-2.png";
 rLappArmBImg[11].src = "/images/Lappland/R/ArmB-1.png";
-let rLappArmFnImg = new Image();
-rLappArmFnImg.src = "/images/Lappland/R/ArmF.png";
+rLappArmBImg[12].src = "/images/Lappland/R/ArmB.png";
 // M(12): 0-1-2-3-4-5-6-5-4-3-2-1-...
 let rLappArmFImg = [new Image(), new Image(), new Image(), new Image(), new Image(), new Image(),
-                    new Image(), new Image(), new Image(), new Image(), new Image(), new Image()];
+                    new Image(), new Image(), new Image(), new Image(), new Image(), new Image(), new Image()];
 rLappArmFImg[0].src = "/images/Lappland/R/ArmF-0.png";
 rLappArmFImg[1].src = "/images/Lappland/R/ArmF-1.png";
 rLappArmFImg[2].src = "/images/Lappland/R/ArmF-2.png";
@@ -151,6 +142,7 @@ rLappArmFImg[8].src = "/images/Lappland/R/ArmF-4.png";
 rLappArmFImg[9].src = "/images/Lappland/R/ArmF-3.png";
 rLappArmFImg[10].src = "/images/Lappland/R/ArmF-2.png";
 rLappArmFImg[11].src = "/images/Lappland/R/ArmF-1.png";
+rLappArmFImg[12].src = "/images/Lappland/R/ArmF.png";
 let rLappShadowImg = new Image();
 rLappShadowImg.src = "/images/Lappland/R/Shadow.png";
 // 图片 - Lappland - Left Direction
@@ -158,18 +150,13 @@ rLappShadowImg.src = "/images/Lappland/R/Shadow.png";
 let lLappShockImg = new Image();
 lLappShockImg.src = "/images/Lappland/L/Shock.png";
 // Bubbles
-let lLappBubble1Img = new Image();
-lLappBubble1Img.src = "/images/Lappland/L/Bubbles/Emo-1.png";
-let lLappBubble2Img = new Image();
-lLappBubble2Img.src = "/images/Lappland/L/Bubbles/Emo-2.png";
-let lLappBubble3Img = new Image();
-lLappBubble3Img.src = "/images/Lappland/L/Bubbles/Emo-3.png";
-let lLappBubbleDizzyImg = new Image();
-lLappBubbleDizzyImg.src = "/images/Lappland/L/Bubbles/Emo-dizzy.png";
-let lLappBubbleSadImg = new Image();
-lLappBubbleSadImg.src = "/images/Lappland/L/Bubbles/Emo-sad.png";
-let lLappBubbleHappyImg = new Image();
-lLappBubbleHappyImg.src = "/images/Lappland/L/Bubbles/Emo-happy.png";
+let lLappBubbleImg = [new Image(), new Image(), new Image(), new Image(), new Image(), new Image()];
+lLappBubbleImg[0].src = "/images/Lappland/L/Bubbles/Emo-happy.png";
+lLappBubbleImg[1].src = "/images/Lappland/L/Bubbles/Emo-dizzy.png";
+lLappBubbleImg[2].src = "/images/Lappland/L/Bubbles/Emo-1.png";
+lLappBubbleImg[3].src = "/images/Lappland/L/Bubbles/Emo-2.png";
+lLappBubbleImg[4].src = "/images/Lappland/L/Bubbles/Emo-sad.png";
+lLappBubbleImg[5].src = "/images/Lappland/L/Bubbles/Emo-3.png";
 // N: 0-1-2-2-1-0-...
 let lLappHairImg = [new Image(), new Image(), new Image(), new Image(), new Image(), new Image()];
 lLappHairImg[0].src = "/images/Lappland/L/Hair-0.png";
@@ -202,11 +189,9 @@ lLappFaceImg[2].src = "/images/Lappland/L/Face-2.png";
 lLappFaceImg[3].src = "/images/Lappland/L/Face-1.png";
 let lLappClothesImg = new Image();
 lLappClothesImg.src = "/images/Lappland/L/Clothes.png";
-let lLappLegnImg = new Image();
-lLappLegnImg.src = "/images/Lappland/L/Leg.png";
 // M(12): 1-2-3-4-5-6-7-6-5-4-3-2-...
 let lLappLegImg = [new Image(), new Image(), new Image(), new Image(), new Image(), new Image(),
-                   new Image(), new Image(), new Image(), new Image(), new Image(), new Image()];
+                   new Image(), new Image(), new Image(), new Image(), new Image(), new Image(), new Image()];
 lLappLegImg[0].src = "/images/Lappland/L/Leg-1.png";
 lLappLegImg[1].src = "/images/Lappland/L/Leg-2.png";
 lLappLegImg[2].src = "/images/Lappland/L/Leg-3.png";
@@ -219,11 +204,10 @@ lLappLegImg[8].src = "/images/Lappland/L/Leg-5.png";
 lLappLegImg[9].src = "/images/Lappland/L/Leg-4.png";
 lLappLegImg[10].src = "/images/Lappland/L/Leg-3.png";
 lLappLegImg[11].src = "/images/Lappland/L/Leg-2.png";
-let lLappArmBnImg = new Image();
-lLappArmBnImg.src = "/images/Lappland/L/ArmB.png";
+lLappLegImg[12].src = "/images/Lappland/L/Leg.png";
 // M(12): 0-1-2-3-4-5-6-5-4-3-2-1-...
 let lLappArmBImg = [new Image(), new Image(), new Image(), new Image(), new Image(), new Image(),
-                    new Image(), new Image(), new Image(), new Image(), new Image(), new Image()];
+                    new Image(), new Image(), new Image(), new Image(), new Image(), new Image(), new Image()];
 lLappArmBImg[0].src = "/images/Lappland/L/ArmB-0.png";
 lLappArmBImg[1].src = "/images/Lappland/L/ArmB-1.png";
 lLappArmBImg[2].src = "/images/Lappland/L/ArmB-2.png";
@@ -236,11 +220,10 @@ lLappArmBImg[8].src = "/images/Lappland/L/ArmB-4.png";
 lLappArmBImg[9].src = "/images/Lappland/L/ArmB-3.png";
 lLappArmBImg[10].src = "/images/Lappland/L/ArmB-2.png";
 lLappArmBImg[11].src = "/images/Lappland/L/ArmB-1.png";
-let lLappArmFnImg = new Image();
-lLappArmFnImg.src = "/images/Lappland/L/ArmF.png";
+lLappArmBImg[12].src = "/images/Lappland/L/ArmB.png";
 // M(12): 0-1-2-3-4-5-6-5-4-3-2-1-...
 let lLappArmFImg = [new Image(), new Image(), new Image(), new Image(), new Image(), new Image(),
-                    new Image(), new Image(), new Image(), new Image(), new Image(), new Image()];
+                    new Image(), new Image(), new Image(), new Image(), new Image(), new Image(), new Image()];
 lLappArmFImg[0].src = "/images/Lappland/L/ArmF-0.png";
 lLappArmFImg[1].src = "/images/Lappland/L/ArmF-1.png";
 lLappArmFImg[2].src = "/images/Lappland/L/ArmF-2.png";
@@ -253,5 +236,6 @@ lLappArmFImg[8].src = "/images/Lappland/L/ArmF-4.png";
 lLappArmFImg[9].src = "/images/Lappland/L/ArmF-3.png";
 lLappArmFImg[10].src = "/images/Lappland/L/ArmF-2.png";
 lLappArmFImg[11].src = "/images/Lappland/L/ArmF-1.png";
+lLappArmFImg[12].src = "/images/Lappland/L/ArmF.png";
 let lLappShadowImg = new Image();
 lLappShadowImg.src = "/images/Lappland/L/Shadow.png";

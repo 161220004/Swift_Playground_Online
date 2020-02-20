@@ -20,48 +20,13 @@ var Lappland = function() {
   this.ribbonImg;
   this.tailImg;
   this.faceImg;
-  this.legnImg;
   this.legImg;
-  this.armbnImg;
   this.armbImg;
-  this.armfnImg;
   this.armfImg;
   this.clothesImg;
   this.shadowImg;
   this.shockImg;
   this.bubbleImg;
-}
-
-Lappland.prototype.setImageR = function() {
-  this.hairImg = rLappHairImg;
-  this.ribbonImg = rLappRibbonImg;
-  this.tailImg = rLappTailImg;
-  this.faceImg = rLappFaceImg;
-  this.legnImg = rLappLegnImg;
-  this.legImg = rLappLegImg;
-  this.armbnImg = rLappArmBnImg;
-  this.armbImg = rLappArmBImg;
-  this.armfnImg = rLappArmFnImg;
-  this.armfImg = rLappArmFImg;
-  this.clothesImg = rLappClothesImg;
-  this.shadowImg = rLappShadowImg;
-  this.shockImg = rLappShockImg;
-}
-
-Lappland.prototype.setImageL = function() {
-  this.hairImg = lLappHairImg;
-  this.ribbonImg = lLappRibbonImg;
-  this.tailImg = lLappTailImg;
-  this.faceImg = lLappFaceImg;
-  this.legnImg = lLappLegnImg;
-  this.legImg = lLappLegImg;
-  this.armbnImg = lLappArmBnImg;
-  this.armbImg = lLappArmBImg;
-  this.armfnImg = lLappArmFnImg;
-  this.armfImg = lLappArmFImg;
-  this.clothesImg = lLappClothesImg;
-  this.shadowImg = lLappShadowImg;
-  this.shockImg = lLappShockImg;
 }
 
 Lappland.prototype.init = function() {
@@ -74,58 +39,25 @@ Lappland.prototype.init = function() {
   this.countBlink = 0;
   this.timerBreak = 0;
   this.timerWalk = 0;
-  this.countWalk = 0;
+  this.countWalk = 12;
   this.timerTurn = 0;
   this.timerLog = 0;
   this.hasToasted = false;
   this.timerCollect = 0;
   this.showBubble = false;
   this.isShocked = false;
-  // 调整Lappland方向以及Camera
-  camera.setY();
-  if (lappInitDir == 0 || lappInitDir == 3) { // Left, Down
-    camera.setXR();
-    this.setImageL();
-  } else if (lappInitDir == 2 || lappInitDir == 1) { // Right, Up
-    camera.setXL();
-    this.setImageR();
-  } else {
-    alert("lappland.js - init(): No Direction !");
-  }
-}
-
-// 设置右方向气泡
-Lappland.prototype.setBubbleR = function() {
-  if (puzzleStatus.isSuccess) { // 成功气泡
-    this.bubbleImg = rLappBubbleHappyImg;
-  } else if (puzzleStatus.isFailure) {
-    switch (puzzleStatus.reason) {
-      case FailReason.FailedToCompile: this.bubbleImg = rLappBubbleDizzyImg; break;
-      case FailReason.FallFromBlock: this.bubbleImg = rLappBubble1Img; break;
-      case FailReason.FailedToCollect: this.bubbleImg = rLappBubble2Img; break;
-      case FailReason.EndNotEnough: this.bubbleImg = rLappBubbleSadImg; break;
-      default: this.bubbleImg = rLappBubble3Img;
-    }
-  } else {
-    alert("lappland.js - setBubbleR(): Not Certain Time !");
-  }
-}
-
-// 设置左方向气泡
-Lappland.prototype.setBubbleL = function() {
-  if (puzzleStatus.isSuccess) { // 成功气泡
-    this.bubbleImg = lLappBubbleHappyImg;
-  } else if (puzzleStatus.isFailure) {
-    switch (puzzleStatus.reason) {
-      case FailReason.FailedToCompile: this.bubbleImg = lLappBubbleDizzyImg; break;
-      case FailReason.FallFromBlock: this.bubbleImg = lLappBubble1Img; break;
-      case FailReason.FailedToCollect: this.bubbleImg = lLappBubble2Img; break;
-      case FailReason.EndNotEnough: this.bubbleImg = lLappBubbleSadImg; break;
-      default: this.bubbleImg = lLappBubble3Img;
-    }
-  } else {
-    alert("lappland.js - setBubbleL(): Not Certain Time !");
-  }
+  // 当前图片 [L, R, R, L]，二维数组
+  this.hairImg = [lLappHairImg, rLappHairImg, rLappHairImg, lLappHairImg];
+  this.ribbonImg = [lLappRibbonImg, rLappRibbonImg, rLappRibbonImg, lLappRibbonImg];
+  this.tailImg = [lLappTailImg, rLappTailImg, rLappTailImg, lLappTailImg];
+  this.faceImg = [lLappFaceImg, rLappFaceImg, rLappFaceImg, lLappFaceImg];
+  this.legImg = [lLappLegImg, rLappLegImg, rLappLegImg, lLappLegImg];
+  this.armbImg = [lLappArmBImg, rLappArmBImg, rLappArmBImg, lLappArmBImg];
+  this.armfImg = [lLappArmFImg, rLappArmFImg, rLappArmFImg, lLappArmFImg];
+  this.clothesImg = [lLappClothesImg, rLappClothesImg, rLappClothesImg, lLappClothesImg];
+  this.shadowImg = [lLappShadowImg, rLappShadowImg, rLappShadowImg, lLappShadowImg];
+  this.shockImg = [lLappShockImg, rLappShockImg, rLappShockImg, lLappShockImg];
+  this.bubbleImg = [lLappBubbleImg, rLappBubbleImg, rLappBubbleImg, lLappBubbleImg];
 }
 
 // 获取cell对应的像素X坐标
@@ -176,23 +108,17 @@ Lappland.prototype.draw = function() {
   // 行走动画
   if (stepsRest <= 0) { // 停止行走
     this.timerWalk = 0; // 重置行走计时器
+    this.countWalk = 12;
   } else if (puzzleStatus.isRunning && !actions[actionCount].isFinished && actions[actionCount].type == ActionType.GO) { // 正在行走
     this.timerWalk += interval;
     if (this.timerWalk > LappWalkInterval) {
-      // 走完一步的处理
-      if (this.countWalk == 11) { // 一个步伐的最后一帧
-        console.log("- Steps Rest: " + stepsRest + ", X: " + this.getX() + ", Y: " + this.getY());
-        // 剩余步数-1
-        stepsRest = (stepsRest - 1 < 0) ? (0) : (stepsRest - 1);
-        // 若没有剩余步数了，判定当前行走动作执行完毕
-        if (stepsRest <= 0) {
-          if (actions[actionCount].type == ActionType.GO) {
-            actions[actionCount].break();
-          }
-        }
-      }
+      var isLastPace = (this.countWalk == 11) ? true : false; // 是否是最后一步
       // 换帧
-      this.countWalk = (this.countWalk + 1) % 12;
+      if (this.countWalk == 12) { // 从静止的第一步
+        this.countWalk %= 12;
+      } else {
+        this.countWalk = (this.countWalk + 1) % 12;
+      }
       this.timerWalk %= LappWalkInterval;
       // 改位置
       var dcx = 0;
@@ -217,22 +143,25 @@ Lappland.prototype.draw = function() {
         puzzleStatus.isFailure = true;
         puzzleStatus.reason = FailReason.FallFromBlock;
       }
+      // 走完一步的处理
+      if (isLastPace) { // 一个步伐的最后一帧
+        console.log("- Steps Rest: " + stepsRest + ", X: " + this.getX() + ", Y: " + this.getY());
+        // 剩余步数-1
+        stepsRest = (stepsRest - 1 < 0) ? (0) : (stepsRest - 1);
+        // 若没有剩余步数了，判定当前行走动作执行完毕
+        if (stepsRest <= 0) {
+          if (actions[actionCount].type == ActionType.GO) {
+            this.countWalk = 12;
+            actions[actionCount].break();
+          }
+        }
+      }
     }
   }
   // 转向动画
   if (puzzleStatus.isRunning && !actions[actionCount].isFinished && actions[actionCount].type == ActionType.TURN) {
     // 计数，转向时间
     this.timerTurn += 1;
-    // 立刻根据方向换Lappland左右图片
-    if (this.timerTurn < 3) { // 为减少此段代码执行次数所作的尝试
-      if (currentDirection == 2 || currentDirection == 1) { // Right, Up
-        this.setImageR();
-      } else if (currentDirection == 0 || currentDirection == 3) { // Left, Down
-        this.setImageL();
-      } else {
-        alert("lappland.js - draw(): No Direction !");
-      }
-    }
     if (this.timerTurn <= LappTurnInterval) { // 正在转向
       if (currentDirection + lastDirection != 3) { // 缓慢移动相机焦点
         if (currentDirection == 2 || currentDirection == 1) { // 移向左焦点
@@ -314,43 +243,33 @@ Lappland.prototype.draw = function() {
   ctxtLF.translate(ox, oy);
   ctxtS.translate(ox, oy);
   // 摇摆动画: Tail (ctxtLB), Hair/Ribbon (ctxtLF)
-  ctxtLB.drawImage(this.tailImg[this.count], 0, 0, LappWidth, LappHeight);
-  ctxtLF.drawImage(this.hairImg[this.count], 0, 0, LappWidth, LappHeight);
-  ctxtLF.drawImage(this.ribbonImg[this.count], 0, 0, LappWidth, LappHeight);
+  ctxtLB.drawImage(this.tailImg[currentDirection][this.count], 0, 0, LappWidth, LappHeight);
+  ctxtLF.drawImage(this.hairImg[currentDirection][this.count], 0, 0, LappWidth, LappHeight);
+  ctxtLF.drawImage(this.ribbonImg[currentDirection][this.count], 0, 0, LappWidth, LappHeight);
   // 眨眼动画: Face (ctxtLM)
-  ctxtLM.drawImage(this.faceImg[this.countBlink], 0, 0, LappWidth, LappHeight);
+  ctxtLM.drawImage(this.faceImg[currentDirection][this.countBlink], 0, 0, LappWidth, LappHeight);
   // 行走动画: Leg (ctxtLM), ArmB (ctxtLB), ArmF (ctxtLF)
-  if (stepsRest > 0 && puzzleStatus.isRunning && !actions[actionCount].isFinished && actions[actionCount].type == ActionType.GO) { // 正在行走
-    ctxtLM.drawImage(this.legImg[this.countWalk], 0, 0, LappWidth, LappHeight);
-    ctxtLB.drawImage(this.armbImg[this.countWalk], 0, 0, LappWidth, LappHeight);
-    ctxtLF.drawImage(this.armfImg[this.countWalk], 0, 0, LappWidth, LappHeight);
-  } else {
-    ctxtLM.drawImage(this.legnImg, 0, 0, LappWidth, LappHeight);
-    ctxtLB.drawImage(this.armbnImg, 0, 0, LappWidth, LappHeight);
-    ctxtLF.drawImage(this.armfnImg, 0, 0, LappWidth, LappHeight);
-  }
+  ctxtLM.drawImage(this.legImg[currentDirection][this.countWalk], 0, 0, LappWidth, LappHeight);
+  ctxtLB.drawImage(this.armbImg[currentDirection][this.countWalk], 0, 0, LappWidth, LappHeight);
+  ctxtLF.drawImage(this.armfImg[currentDirection][this.countWalk], 0, 0, LappWidth, LappHeight);
   // 无动画: Clothes (ctxtLC)
-  ctxtLC.drawImage(this.clothesImg, 0, 0, LappWidth, LappHeight);
+  ctxtLC.drawImage(this.clothesImg[currentDirection], 0, 0, LappWidth, LappHeight);
   // 无动画: Shadow (ctxtI)
   ctxtS.globalAlpha = 0.3;
-  ctxtS.drawImage(this.shadowImg, 0, LappShadowYBia - this.cellZ * CellZBia, LappWidth, LappHeight);
+  ctxtS.drawImage(this.shadowImg[currentDirection], 0, LappShadowYBia - this.cellZ * CellZBia, LappWidth, LappHeight);
   // 表情气泡
   if (this.showBubble) {
-    var sign = 0;
-    if (currentDirection == 2 || currentDirection == 1) { // Right, Up
-      this.setBubbleR();
-      sign = 1;
-    } else if (currentDirection == 0 || currentDirection == 3) { // Left, Down
-      this.setBubbleL();
-      sign = -1;
-    } else {
-      alert("lappland.js - draw(): No Direction !");
+    var sign = (currentDirection == 2 || currentDirection == 1) ? (1) : (-1);
+    if (puzzleStatus.isSuccess) {
+      ctxtLF.drawImage(this.bubbleImg[currentDirection][0], sign * LappBubbleXBia, LappBubbleYBia, LappBubbleWidth, LappBubbleHeight);
     }
-    ctxtLF.drawImage(this.bubbleImg, sign * LappBubbleXBia, LappBubbleYBia, LappBubbleWidth, LappBubbleHeight);
+    if (puzzleStatus.isFailure) {
+      ctxtLF.drawImage(this.bubbleImg[currentDirection][puzzleStatus.reason], sign * LappBubbleXBia, LappBubbleYBia, LappBubbleWidth, LappBubbleHeight);
+    }
   }
   // 震惊脸
   if (this.isShocked) {
-    ctxtLF.drawImage(this.shockImg, 0, 0, LappWidth, LappHeight);
+    ctxtLF.drawImage(this.shockImg[currentDirection], 0, 0, LappWidth, LappHeight);
   }
   // 绘制结束
   ctxtLB.restore();

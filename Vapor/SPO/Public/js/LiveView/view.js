@@ -3,9 +3,9 @@ function init() {
   // 初始化对象
   puzzleStatus = new PuzzleStatus();
   puzzleMsg = new PuzzleMsg();
-  camera = new Camera();
   lappland = new Lappland();
   lappland.init();
+  camera = new Camera();
 
   // GET方法从后端获取数据
   $.get("/spo/" + pid + "/scene", function(data, status) {
