@@ -24,7 +24,7 @@ function gameloop() {
   requestAnimFrame(gameloop);
   // 计时
   loopCount += 1;
-  var nowStamp = Date.now();
+  let nowStamp = Date.now();
   interval = nowStamp - lastStamp;
   lastStamp = nowStamp;
   if (loopCount % 1200 == 0) {
@@ -45,7 +45,7 @@ function gameloop() {
   // 绘制背景
   drawBackground();
   // 绘制前景
-  for (var i = 0; i < blocks.length; i++) {
+  for (let i = 0; i < blocks.length; i++) {
     blocks[i].draw();
     blocks[i].drawDiamond();
   }

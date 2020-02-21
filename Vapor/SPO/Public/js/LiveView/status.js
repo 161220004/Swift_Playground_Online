@@ -7,16 +7,17 @@ var PuzzleStatus = function() {
   this.description = "";
   this.isSuccess = false; // 是否成功
   this.isFailure = false; // 是否失败
-  this.reason = FailReason.None; // 失败原因
+  this.reason = FailReason.Undefined; // 失败原因
 }
 
 // 失败原因
 var FailReason = {
+  None: 0, // 成功
   FailedToCompile: 1, // Run初，失败：编译失败
   FallFromBlock: 2, // Run途中，失败：掉落
   FailedToCollect: 3, // Run途中，失败：collect空地砖
   EndNotEnough: 4, // Run结束，失败：宝石收集不全
-  None: 5,
+  Undefined: 5, // Debug: 未知错误
 }
 
 // 若所有动作结束，判定结果
@@ -25,6 +26,7 @@ PuzzleStatus.prototype.judge = function() {
     if (!this.isFailure) { // 编译成功且中途未失败
       if (puzzleMsg.collectNum >= puzzleMsg.totalNum) {
         this.isSuccess = true;
+        this.reason = FailReason.None;
       } else {
         this.isFailure = true;
         this.reason = FailReason.EndNotEnough;

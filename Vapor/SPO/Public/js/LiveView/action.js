@@ -37,7 +37,7 @@ Action.prototype.break = function() {
 
 // 开启当前动画
 Action.prototype.start = function() {
-  var action = actions[actionCount];
+  let action = actions[actionCount];
   console.log("Start Action [" + actionCount + "]: " + action.type);
   switch (action.type) {
     case ActionType.GO:
@@ -73,13 +73,14 @@ function initActionsFromServer(data) {
   puzzleStatus.isCompiled = data.isCompiled;
   puzzleStatus.description = data.description;
   actions = [];
+  actionsStr = "";
   actionCount = 0;
   lastDirection = lappInitDir;
   currentDirection = lappInitDir;
   stepsRest = 0;
-  for (var i = 0; i < data.paces.length; i++) {
-    var pace = data.paces[i];
-    var action = new Action(pace.type, pace.d, pace.dir, pace.log);
+  for (let i = 0; i < data.paces.length; i++) {
+    let pace = data.paces[i];
+    let action = new Action(pace.type, pace.d, pace.dir, pace.log);
     actionsStr += action.type + " - ";
     actions[i] = action;
   }

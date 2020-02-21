@@ -26,14 +26,14 @@ PuzzleMsg.prototype.viewMap = function() {
     this.isViewingMap = false;
   } else if (this.isViewingMap) { // 若正在查看地图
     // 绘制黑色背景
-    var mapCtnWidth = MapMargin * 2 + detectBlockNumX() * MapSpace;
-    var mapCtnHeight = MapMargin * 2 + detectBlockNumY() * MapSpace;
+    let mapCtnWidth = MapMargin * 2 + detectBlockNumX() * MapSpace;
+    let mapCtnHeight = MapMargin * 2 + detectBlockNumY() * MapSpace;
     ctxtCtn.globalAlpha = 0.5;
     ctxtCtn.fillRect(MapPostionLU, MapPostionLU, mapCtnWidth, mapCtnHeight);
     // 绘制地砖以及地砖上的物品
-    for (var i = 0; i < blocks.length; i++) {
-      var mapBlockX = MapPostionLU + MapMargin + blocks[i].cellX * MapSpace;
-      var mapBlockY = MapPostionLU + mapCtnHeight - MapMargin - MapBlockSize + blocks[i].cellY * MapSpace;
+    for (let i = 0; i < blocks.length; i++) {
+      let mapBlockX = MapPostionLU + MapMargin + blocks[i].cellX * MapSpace;
+      let mapBlockY = MapPostionLU + mapCtnHeight - MapMargin - MapBlockSize + blocks[i].cellY * MapSpace;
       switch (blocks[i].type) {
         case BlockType.Normal: ctxtMsg.fillStyle = "#eeeeee"; break;
         case BlockType.Red: ctxtMsg.fillStyle = "#ffcdd2"; break;
@@ -49,8 +49,8 @@ PuzzleMsg.prototype.viewMap = function() {
       switch (blocks[i].item) {
         case ItemType.Diamond:
           if (!blocks[i].isCollected) {
-            var mapDiamCX = mapBlockX + MapBlockSize / 2;
-            var mapDiamCY = mapBlockY + MapBlockSize / 2;
+            let mapDiamCX = mapBlockX + MapBlockSize / 2;
+            let mapDiamCY = mapBlockY + MapBlockSize / 2;
             ctxtMsg.fillStyle = "#9c27b0";
             ctxtMsg.beginPath();
             ctxtMsg.moveTo(mapDiamCX - MapDiamondWidth / 2, mapDiamCY);
@@ -67,8 +67,8 @@ PuzzleMsg.prototype.viewMap = function() {
       }
     }
     // 绘制Lappland
-    var mapLappX = MapPostionLU + MapMargin + lappland.cellX * MapSpace + MapBlockSize / 2 - MapLappSize / 2;
-    var mapLappY = MapPostionLU + mapCtnHeight - MapMargin + lappland.cellY * MapSpace - MapBlockSize / 2 - MapLappSize / 2;
+    let mapLappX = MapPostionLU + MapMargin + lappland.cellX * MapSpace + MapBlockSize / 2 - MapLappSize / 2;
+    let mapLappY = MapPostionLU + mapCtnHeight - MapMargin + lappland.cellY * MapSpace - MapBlockSize / 2 - MapLappSize / 2;
     ctxtMsg.drawImage(miniLappImg, mapLappX, mapLappY, MapLappSize, MapLappSize);
   }
   ctxtMsg.restore();
@@ -80,7 +80,7 @@ PuzzleMsg.prototype.drawInfo = function() {
   ctxtMsg.save();
   // 右上角宝石数
   ctxtMsg.translate(MiniDiamondX, MiniDiamondY);
-  for (var i = 0; i < this.collectNum; i++) {
+  for (let i = 0; i < this.collectNum; i++) {
     ctxtMsg.drawImage(diamondImg[0], 0, MiniDiamondSpace * i, MiniDiamondSize, MiniDiamondSize);
   }
   ctxtMsg.restore();
@@ -94,7 +94,7 @@ PuzzleMsg.prototype.drawLoading = function() {
       this.countLoad = (this.countLoad + 1) % 8;
       this.timerLoad %= LoadingJumpInterval;
     }
-    var loadYBias = [0, 0, 0, 0, 0, 0, 0, 0];
+    let loadYBias = [0, 0, 0, 0, 0, 0, 0, 0];
     loadYBias[this.countLoad] = LoadingJumpY;
     // 绘制开始
     ctxtMsg.save();
@@ -114,7 +114,7 @@ PuzzleMsg.prototype.drawLoading = function() {
 PuzzleMsg.prototype.drawResult = function() {
   if (puzzleStatus.isCompleted) { // 编译失败或运行结果不正确
     // 失败判定（默认）
-    var pzMsgImg = pzMsgFailureImg;
+    let pzMsgImg = pzMsgFailureImg;
     // 成功判定
     if (puzzleStatus.isSuccess) {
       pzMsgImg = pzMsgSuccessImg;

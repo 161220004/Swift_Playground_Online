@@ -5,10 +5,10 @@ function drawBackground() {
   ctxtB.translate(backInitX - camera.x, backInitY - camera.y);
   ctxtB.drawImage(backgroundImg, 0, 0);
   // 若背景图片不够大，补一张
-  var needRight = (backInitX - camera.x + backgroundWidth < canvasWidth); // 右侧需要补
-  var needLeft = (backInitX - camera.x > 0); // 左侧需要补
-  var needUp = (backInitY - camera.y > 0); // 上面需要补
-  var needDown = (backInitY - camera.y + backgroundHeight < canvasHeight); // 下面需要补
+  let needRight = (backInitX - camera.x + backgroundWidth < canvasWidth); // 右侧需要补
+  let needLeft = (backInitX - camera.x > 0); // 左侧需要补
+  let needUp = (backInitY - camera.y > 0); // 上面需要补
+  let needDown = (backInitY - camera.y + backgroundHeight < canvasHeight); // 下面需要补
   if (needRight) {
     ctxtB.drawImage(backgroundImg, backgroundWidth, 0); // 在右侧补一张
   }

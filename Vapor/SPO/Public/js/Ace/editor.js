@@ -24,7 +24,7 @@ $("#run_code").click(function(){
   // 重置LiveView
   init();
   // 封装传给后端的数据
-  var runInfo = Object();
+  let runInfo = Object();
   runInfo.code = editor.getValue();
   runInfo.dir = currentDirection;
   // $("#test_live_view").html("Running...")

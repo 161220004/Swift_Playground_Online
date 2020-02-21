@@ -63,10 +63,10 @@ Block.prototype.getY = function() {
 // 绘制宝石
 Block.prototype.drawDiamond = function() {
   if (this.item == ItemType.Diamond) {
-    var curX = this.getX() - DiamondSize * this.sizePercent / 2 - camera.x;
-    var curY = this.getY() - DiamondSize * this.sizePercent / 2 - camera.y + DiamondYBia;
-    var flyX = 0;
-    var flyY = 0;
+    let curX = this.getX() - DiamondSize * this.sizePercent / 2 - camera.x;
+    let curY = this.getY() - DiamondSize * this.sizePercent / 2 - camera.y + DiamondYBia;
+    let flyX = 0;
+    let flyY = 0;
     // Diamond收集动画
     if (puzzleStatus.isRunning && this.isCollecting) {
       this.timerCollect += interval;
@@ -81,7 +81,7 @@ Block.prototype.drawDiamond = function() {
         puzzleMsg.collectNum += 1;
       } else if (this.timerCollect > CollectShrinkInterval) { // timer: CollectShrinkInterval ~ ..+ CollectGetInterval
         // 宝石飞向右上角动画
-        var flyPercent = (this.timerCollect - CollectShrinkInterval) / CollectGetInterval;
+        let flyPercent = (this.timerCollect - CollectShrinkInterval) / CollectGetInterval;
         flyX = (MiniDiamondX - curX) * flyPercent;
         flyY = (MiniDiamondY + puzzleMsg.collectNum * MiniDiamondSpace - curY) * flyPercent;
       } else { // timer: 0 ~ CollectShrinkInterval

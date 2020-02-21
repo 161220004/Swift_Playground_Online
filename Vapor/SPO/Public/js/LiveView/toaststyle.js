@@ -2,7 +2,7 @@
 
 var toastStyleSheet = (function() {
 	// Create the <style> tag
-	var style = document.createElement("style");
+	let style = document.createElement("style");
 	// Add the <style> element to the page
 	document.head.appendChild(style);
 	return style.sheet;
@@ -14,8 +14,8 @@ function toastReplaceRule(cssLeft, cssTop, logLength) {
     toastStyleSheet.deleteRule(0);
   }
   // 调整位置
-  var realTop = cssTop + ToastYBia;
-  var realLeft = cssLeft;
+  let realTop = cssTop + ToastYBia;
+  let realLeft = cssLeft;
   if (currentDirection == 2 || currentDirection == 1) { // Right, Up, 置于左侧
     if (logLength > ToastLineNum) { // 长消息
       realLeft += ToastLeftX;
@@ -34,7 +34,7 @@ function toastReplaceRule(cssLeft, cssTop, logLength) {
   // console.log("- Log Top: " + realTop);
   // console.log("- Log Left: " + realLeft);
   // 组装
-  var cssRule = ".my-toast { position: fixed !important; "
+  let cssRule = ".my-toast { position: fixed !important; "
                 + "max-width: " + ToastMaxWidth + "px !important; bottom: auto !important; "
                 + "top: " + realTop + "px !important; left: " + realLeft + "px !important; }";
   // 再添加所需的Rule
