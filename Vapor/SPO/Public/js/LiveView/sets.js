@@ -55,6 +55,7 @@ const canvasHeight = canvasBack.height;
 var puzzleStatus;
 var puzzleMsg;
 var camera;
+var scene;
 var lappland;
 var actionManager;
 
@@ -73,6 +74,11 @@ const LappBubbleXBia = 50; // 表情气泡X偏移
 const LappBubbleYBia = -70; // 表情气泡Y偏移
 const LappBubbleWidth = 55; // 表情气泡大小
 const LappBubbleHeight = 50; // 表情气泡大小
+
+// Lappland初始坐标 (Cell)（永远在(0, 0)）
+const LappInitCellX = 0;
+const LappInitCellY = 0;
+const LappInitCellZ = 0;
 
 // 加载中动画跳跃偏移
 const LoadingJumpY = -10;

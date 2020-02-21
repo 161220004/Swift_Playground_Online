@@ -3,16 +3,17 @@ function init() {
   // 初始化对象
   puzzleStatus = new PuzzleStatus();
   puzzleMsg = new PuzzleMsg();
+  scene = new Scene();
+  actionManager = new ActionManager();
   lappland = new Lappland();
   lappland.init();
   camera = new Camera();
-  actionManager = new ActionManager();
 
   // GET方法从后端获取数据
   $.get("/spo/" + pid + "/scene", function(data, status) {
     // alert("Get Scene " + pid + ": \n" + JSON.stringify(data));
     // 利用后端得到的数据初始化
-    initFromServer(data)
+    scene.initFromServer(data)
   })
 
   // 初始化时间间隔计数器
@@ -44,12 +45,9 @@ function gameloop() {
   ctxtCtn.clearRect(0, 0, canvasWidth, canvasHeight);
   ctxtMsg.clearRect(0, 0, canvasWidthAdd, canvasHeight);
   // 绘制背景
-  drawBackground();
+  scene.drawBackground();
   // 绘制前景
-  for (let i = 0; i < blocks.length; i++) {
-    blocks[i].draw();
-    blocks[i].drawDiamond();
-  }
+  scene.drawForeground();
   // 检测状态：是否成功/失败
   puzzleStatus.judge();
   // 绘制主角

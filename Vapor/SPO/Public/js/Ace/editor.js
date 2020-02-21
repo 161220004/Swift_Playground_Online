@@ -20,7 +20,6 @@ editor.setOptions({
 
 // “Run”按钮点击事件
 $("#run_code").click(function(){
-  loopCount = 0;
   // 重置LiveView
   init();
   // 封装传给后端的数据
@@ -33,7 +32,7 @@ $("#run_code").click(function(){
   $.post("/spo/" + pid + "/code", JSON.stringify(runInfo), function(data) {
     // alert("Get Result: \n" + JSON.stringify(data));
     // 解析结果并开启动画
-    actionManager.initActionsFromServer(data);
+    actionManager.initFromServer(data);
     actionManager.performActions();
     // Test: 更改LiveView区内容为后端返回的data
     // $("#test_live_view").html(JSON.stringify(data))

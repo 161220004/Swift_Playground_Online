@@ -11,13 +11,15 @@
   left: 0px !important;
 }
 
-.my-fix-view-line {
+.my-fix-msg-line {
   width: 476px;
+  margin: 0 auto !important;
 }
 
-.my-fix-view-btn {
-  width: 76px;
-  margin: 10px 0;
+.my-fix-msg-btn {
+  width: 108px;
+  margin-top: 10px;
+  margin-right: 10px;
 }
 
 .my-fix-menu {

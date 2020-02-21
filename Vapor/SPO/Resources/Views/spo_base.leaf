@@ -112,8 +112,9 @@
         <canvas id="canvas_ctn" width="500" height="476"></canvas>
         <canvas id="canvas_msg" width="500" height="476"></canvas>
       </div>
-      <div class="my-fix-view-line">
-        <a id="view_map" class="btn white indigo-text waves-effect waves-purple my-fix-view-btn">Map</a>
+      <div class="my-fix-msg-line">
+        <a id="view_map" class="btn white indigo-text waves-effect waves-purple my-fix-msg-btn">View Map</a>
+        <a id="restart" class="btn white indigo-text waves-effect waves-purple my-fix-msg-btn">Restart</a>
       </div>
     </div>
   </div>
@@ -172,15 +173,14 @@
   <!-- For LiveView (Canvas) -->
   <script src="/js/LiveView/status.js" type="text/javascript"></script>
   <script src="/js/LiveView/sets.js" type="text/javascript"></script>
+  <script src="/js/LiveView/button.js" type="text/javascript"></script>
   <script src="/js/LiveView/images.js" type="text/javascript"></script>
-  <script src="/js/LiveView/init.js" type="text/javascript"></script>
   <script src="/js/LiveView/action.js" type="text/javascript"></script>
-  <script src="/js/LiveView/detector.js" type="text/javascript"></script>
   <script src="/js/LiveView/camera.js" type="text/javascript"></script>
   <script src="/js/LiveView/puzzlemsg.js" type="text/javascript"></script>
   <script src="/js/LiveView/toaststyle.js" type="text/javascript"></script>
-  <script src="/js/LiveView/background.js" type="text/javascript"></script>
-  <script src="/js/LiveView/foreground.js" type="text/javascript"></script>
+  <script src="/js/LiveView/block.js" type="text/javascript"></script>
+  <script src="/js/LiveView/scene.js" type="text/javascript"></script>
   <script src="/js/LiveView/lappland.js" type="text/javascript"></script>
   <script src="/js/LiveView/view.js" type="text/javascript"></script>
 </body>

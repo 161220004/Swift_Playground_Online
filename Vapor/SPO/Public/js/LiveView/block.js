@@ -52,12 +52,12 @@ var Block = function(tp, cx, cy, it) {
 
 // 获取cell对应的像素X坐标
 Block.prototype.getX = function() {
-  return blockInitX + this.cellX * CellXBia + this.cellY * CellYBiaX;
+  return scene.blockInitX + this.cellX * CellXBia + this.cellY * CellYBiaX;
 }
 
 // 获取cell对应的像素Y坐标（向下偏移前）
 Block.prototype.getY = function() {
-  return blockInitY + this.cellY * CellYBiaY;
+  return scene.blockInitY + this.cellY * CellYBiaY;
 }
 
 // 绘制宝石

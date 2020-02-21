@@ -20,8 +20,8 @@ var ActionManager = function() {
   this.actionCount = 0; // 当前执行到第几个动作
   this.actionsStr = "";
   // 动作相关参数
-  this.lastDirection = lappInitDir; // 上一次的朝向
-  this.direction = lappInitDir; // 朝向方向 (0: Left, 1: Up, 2: Right, 3: Down)
+  this.lastDirection = scene.lappInitDir; // 上一次的朝向
+  this.direction = scene.lappInitDir; // 朝向方向 (0: Left, 1: Up, 2: Right, 3: Down)
   this.stepsRest = 0; // 行走剩余步数（等于0说明没有行走）
   this.message = ""; // Log内容
   this.breakTime = BreakInterval; // 休息时间
@@ -31,7 +31,7 @@ var ActionManager = function() {
 }
 
 // 从后端获取行动过程并初始化（data为后端传来的数据）
-ActionManager.prototype.initActionsFromServer = function(data) {
+ActionManager.prototype.initFromServer = function(data) {
   puzzleStatus.isCompiled = data.isCompiled;
   puzzleStatus.description = data.description;
   for (let i = 0; i < data.paces.length; i++) {
@@ -79,7 +79,7 @@ ActionManager.prototype.start = function() {
       this.message = action.log;
       break;
     case ActionType.COLLECT:
-      blocks[detectOnBlock()].isCollecting = true;
+      scene.blocks[scene.detectOnBlock()].isCollecting = true;
       break;
     default:
       alert("action.js - start(): No Such Action Type !");
@@ -90,20 +90,19 @@ ActionManager.prototype.start = function() {
 ActionManager.prototype.break = function(time = 0) {
   this.isActing = false;
   this.breakTime = BreakInterval + time;
-  if (this.actionCount < this.actions.length - 1) { // 还有未开始的动画
-    console.log("Have a Rest Now");
-  } else { // 最后一个动画也结束了
-    puzzleStatus.isRunning = false;
-    puzzleStatus.isCompleted = true; // 开始结算成果
-  }
+  console.log("Have a Rest Now");
 }
 
 // 结束当前动画，开启下一个动画
 ActionManager.prototype.next = function() {
   console.log("Finish Action [" + this.actionCount + "]");
-  // 为下一步动画作准备
-  if (puzzleStatus.isRunning) {
+  // 还有未开始的动画
+  if (this.actionCount < this.actions.length - 1) {
+    // 为下一步动画作准备
     this.actionCount += 1;
     this.start();
+  } else { // 最后一个动画也结束了
+    puzzleStatus.isRunning = false;
+    puzzleStatus.isCompleted = true; // 开始结算成果
   }
 }

@@ -30,9 +30,9 @@ var Lappland = function() {
 }
 
 Lappland.prototype.init = function() {
-  this.cellX = lappInitCellX;
-  this.cellY = lappInitCellY;
-  this.cellZ = lappInitCellZ;
+  this.cellX = LappInitCellX;
+  this.cellY = LappInitCellY;
+  this.cellZ = LappInitCellZ;
   this.timer = 0;
   this.count = 0;
   this.timerBlink = 0;
@@ -62,12 +62,12 @@ Lappland.prototype.init = function() {
 
 // 获取cell对应的像素X坐标
 Lappland.prototype.getX = function() {
-  return lappInitX + this.cellX * CellXBia + this.cellY * CellYBiaX;
+  return scene.lappInitX + this.cellX * CellXBia + this.cellY * CellYBiaX;
 }
 
 // 获取cell对应的像素Y坐标
 Lappland.prototype.getY = function() {
-  return lappInitY + this.cellY * CellYBiaY + this.cellZ * CellZBia;
+  return scene.lappInitY + this.cellY * CellYBiaY + this.cellZ * CellZBia;
 }
 
 // 获取cell移位对应的像素X移位
@@ -163,12 +163,7 @@ Lappland.prototype.turn = function() {
     }
   } else { // 结束转向
     this.timerTurn = 0;
-    // 确认相机焦点
-    if (actionManager.direction == 2 || actionManager.direction == 1) {
-      camera.setXL();
-    } else { // 移向右焦点
-      camera.setXR();
-    }
+    camera.setX(); // 确认相机焦点
     actionManager.break();
   }
 }

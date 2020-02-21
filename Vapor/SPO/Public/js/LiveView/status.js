@@ -3,7 +3,8 @@ var PuzzleStatus = function() {
   this.isCompiling = false; // 是否正在编译
   this.isCompiled = false; // 是否编译运行成功（待后端传值）
   this.isRunning = false; // 是否正在展示用户代码的运行结果
-  this.isCompleted = false; // 彻底结束
+  this.isCompleted = false; // 动作彻底结束
+  this.isTheEnd = false; // 结果动画也结束
   this.description = "";
   this.isSuccess = false; // 是否成功
   this.isFailure = false; // 是否失败
@@ -29,7 +30,7 @@ PuzzleStatus.prototype.judge = function() {
   if (this.isRunning) { // 运行时失败
     if (actionManager.isActing && actionManager.current == ActionType.GO) { // 行走时检测
       // 若不在地砖上
-      if (detectOnBlock() < 0) {
+      if (scene.detectOnBlock() < 0) {
         lappland.isShocked = true;
         actionManager.isActing = false;
         this.isRunning = false;
@@ -40,8 +41,8 @@ PuzzleStatus.prototype.judge = function() {
     }
     if (actionManager.isActing && actionManager.current == ActionType.COLLECT) { // 收集时检测
       // 若当前地砖没有钻石
-      let blockIndex = detectOnBlock();
-      if (blockIndex < 0 || blocks[blockIndex].item != ItemType.Diamond || blocks[blockIndex].isCollected) {
+      let blockIndex = scene.detectOnBlock();
+      if (blockIndex < 0 || scene.blocks[blockIndex].item != ItemType.Diamond || scene.blocks[blockIndex].isCollected) {
         actionManager.isActing = false;
         this.isRunning = false;
         this.isCompleted = true;

@@ -11,13 +11,6 @@ var PuzzleMsg = function() {
 }
 
 // 查看地图
-$("#view_map").click(function() {
-  if (!puzzleStatus.isCompiling && !puzzleStatus.isCompleted) {
-    puzzleMsg.isViewingMap = !puzzleMsg.isViewingMap;
-  }
-});
-
-// 查看地图
 PuzzleMsg.prototype.viewMap = function() {
   ctxtMsg.save();
   ctxtCtn.save();
@@ -26,15 +19,15 @@ PuzzleMsg.prototype.viewMap = function() {
     this.isViewingMap = false;
   } else if (this.isViewingMap) { // 若正在查看地图
     // 绘制黑色背景
-    let mapCtnWidth = MapMargin * 2 + detectBlockNumX() * MapSpace;
-    let mapCtnHeight = MapMargin * 2 + detectBlockNumY() * MapSpace;
+    let mapCtnWidth = MapMargin * 2 + scene.blockNumX * MapSpace;
+    let mapCtnHeight = MapMargin * 2 + scene.blockNumY * MapSpace;
     ctxtCtn.globalAlpha = 0.5;
     ctxtCtn.fillRect(MapPostionLU, MapPostionLU, mapCtnWidth, mapCtnHeight);
     // 绘制地砖以及地砖上的物品
-    for (let i = 0; i < blocks.length; i++) {
-      let mapBlockX = MapPostionLU + MapMargin + blocks[i].cellX * MapSpace;
-      let mapBlockY = MapPostionLU + mapCtnHeight - MapMargin - MapBlockSize + blocks[i].cellY * MapSpace;
-      switch (blocks[i].type) {
+    for (let i = 0; i < scene.blocks.length; i++) {
+      let mapBlockX = MapPostionLU + MapMargin + scene.blocks[i].cellX * MapSpace;
+      let mapBlockY = MapPostionLU + mapCtnHeight - MapMargin - MapBlockSize + scene.blocks[i].cellY * MapSpace;
+      switch (scene.blocks[i].type) {
         case BlockType.Normal: ctxtMsg.fillStyle = "#eeeeee"; break;
         case BlockType.Red: ctxtMsg.fillStyle = "#ffcdd2"; break;
         case BlockType.Yellow: ctxtMsg.fillStyle = "#fff9c4"; break;
@@ -46,9 +39,9 @@ PuzzleMsg.prototype.viewMap = function() {
       }
       ctxtMsg.fillRect(mapBlockX, mapBlockY, MapBlockSize, MapBlockSize);
       // 绘制宝石
-      switch (blocks[i].item) {
+      switch (scene.blocks[i].item) {
         case ItemType.Diamond:
-          if (!blocks[i].isCollected) {
+          if (!scene.blocks[i].isCollected) {
             let mapDiamCX = mapBlockX + MapBlockSize / 2;
             let mapDiamCY = mapBlockY + MapBlockSize / 2;
             ctxtMsg.fillStyle = "#9c27b0";
@@ -88,7 +81,7 @@ PuzzleMsg.prototype.drawInfo = function() {
 
 // 绘制加载中
 PuzzleMsg.prototype.drawLoading = function() {
-  if (puzzleStatus.isCompiling) {
+  if (puzzleStatus.isCompiling || puzzleStatus.isLoading) {
     this.timerLoad += interval;
     if (this.timerLoad > LoadingJumpInterval) {
       this.countLoad = (this.countLoad + 1) % 8;
@@ -129,6 +122,8 @@ PuzzleMsg.prototype.drawResult = function() {
       ctxtCtn.fillRect(0, 0, canvasWidth, canvasHeight);
       ctxtMsg.globalAlpha = 1;
       ctxtMsg.drawImage(pzMsgImg, 0, 0);
+      // 真正完全结束
+      puzzleStatus.isTheEnd = true;
     } else if (this.timerResult > FinalWaitInterval + FinalLappEmoInterval) {
       // 结果的淡出
       ctxtCtn.globalAlpha = 0.6;
