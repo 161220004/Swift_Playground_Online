@@ -6,6 +6,7 @@ function init() {
   lappland = new Lappland();
   lappland.init();
   camera = new Camera();
+  actionManager = new ActionManager();
 
   // GET方法从后端获取数据
   $.get("/spo/" + pid + "/scene", function(data, status) {
@@ -49,7 +50,9 @@ function gameloop() {
     blocks[i].draw();
     blocks[i].drawDiamond();
   }
-  // 绘制对象
+  // 检测状态：是否成功/失败
+  puzzleStatus.judge();
+  // 绘制主角
   lappland.draw();
   // 绘制Puzzle信息
   puzzleMsg.drawInfo();
@@ -57,8 +60,6 @@ function gameloop() {
   puzzleMsg.viewMap();
   // 绘制加载动画
   puzzleMsg.drawLoading();
-  // 检测状态：是否成功/失败，并结算成果
-  puzzleStatus.judge();
   // 绘制通关/失败动画
   puzzleMsg.drawResult();
 }

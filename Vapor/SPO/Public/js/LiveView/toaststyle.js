@@ -16,13 +16,13 @@ function toastReplaceRule(cssLeft, cssTop, logLength) {
   // 调整位置
   let realTop = cssTop + ToastYBia;
   let realLeft = cssLeft;
-  if (currentDirection == 2 || currentDirection == 1) { // Right, Up, 置于左侧
+  if (actionManager.direction == 2 || actionManager.direction == 1) { // Right, Up, 置于左侧
     if (logLength > ToastLineNum) { // 长消息
       realLeft += ToastLeftX;
     } else { // 短消息
       realLeft += ToastLeftC - (logLength + ToastFrameNum) * ToastBiaPerLetter / 2;
     }
-  } else if (currentDirection == 0 || currentDirection == 3) { // Left, Down, 置于右侧
+  } else if (actionManager.direction == 0 || actionManager.direction == 3) { // Left, Down, 置于右侧
     if (logLength > ToastLineNum) { // 长消息
       realLeft += ToastRightX;
     } else { // 短消息

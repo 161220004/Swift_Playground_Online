@@ -56,6 +56,7 @@ var puzzleStatus;
 var puzzleMsg;
 var camera;
 var lappland;
+var actionManager;
 
 // Cell尺寸与偏移
 const CellXBia = 108; // Cell在X方向右移1，像素在X方向右移108
@@ -115,9 +116,9 @@ const MapDiamondWidth = 15; // 小地图钻石大小
 const MapDiamondHeight = 20; // 小地图钻石大小
 
 // 动画间隔或持续时间
+const BreakInterval = 500; // 两动画间的休息间隔 (ms)
 const LappRockInterval = 200; // 摇摆间隔 (ms)
 const LappBlinkInterval = 2500; // 眨眼间隔 (ms)
-const BreakInterval = 500; // 两动画间的休息间隔 (ms)
 const LappWalkInterval = 80; // 行走迈步间隔 (ms)
 const LappTurnInterval = 100; // 转向间隔 (loopCount)
 const LappLogInterval = 2500; // 对话间隔 (ms)

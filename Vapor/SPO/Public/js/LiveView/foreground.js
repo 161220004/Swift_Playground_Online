@@ -44,7 +44,7 @@ var Block = function(tp, cx, cy, it) {
   }
   this.timerDiamond = 0; // 旋转计时器
   this.countDiamond = 0;
-  this.timerCollect = 0; // 收集动画计时器
+  this.timerCollect = -300; // 收集动画计时器
   this.sizePercent = 1; // 宝石缩小后尺寸百分比
   this.isCollecting = false; // 是否被收集，是则开始缩小并飞到右上角
   this.isCollected = false; // 是否已经被收集没了
@@ -71,20 +71,17 @@ Block.prototype.drawDiamond = function() {
     if (puzzleStatus.isRunning && this.isCollecting) {
       this.timerCollect += interval;
       if (this.timerCollect > CollectShrinkInterval + CollectGetInterval) {
-        // 开启下一步动作
-        actions[actionCount].break();
         // 动画结束
-        lappland.timerCollect = 0;
         this.isCollected = true;
         this.isCollecting = false;
-        this.timerCollect = 0;
+        this.timerCollect = -300;
         puzzleMsg.collectNum += 1;
       } else if (this.timerCollect > CollectShrinkInterval) { // timer: CollectShrinkInterval ~ ..+ CollectGetInterval
         // 宝石飞向右上角动画
         let flyPercent = (this.timerCollect - CollectShrinkInterval) / CollectGetInterval;
         flyX = (MiniDiamondX - curX) * flyPercent;
         flyY = (MiniDiamondY + puzzleMsg.collectNum * MiniDiamondSpace - curY) * flyPercent;
-      } else { // timer: 0 ~ CollectShrinkInterval
+      } else if (this.timerCollect > 0) { // timer: 0 ~ CollectShrinkInterval
         // 宝石缩小动画 (100% -> 30%)
         this.sizePercent = 1 - 0.7 * this.timerCollect / CollectShrinkInterval;
       }

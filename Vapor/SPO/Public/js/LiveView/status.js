@@ -20,8 +20,36 @@ var FailReason = {
   Undefined: 5, // Debug: 未知错误
 }
 
-// 若所有动作结束，判定结果
+// 判定动作结果
 PuzzleStatus.prototype.judge = function() {
+  if (!this.isCompiled && this.isCompleted) { // 编译失败
+    this.isFailure = true;
+    this.reason = FailReason.FailedToCompile;
+  }
+  if (this.isRunning) { // 运行时失败
+    if (actionManager.isActing && actionManager.current == ActionType.GO) { // 行走时检测
+      // 若不在地砖上
+      if (detectOnBlock() < 0) {
+        lappland.isShocked = true;
+        actionManager.isActing = false;
+        this.isRunning = false;
+        this.isCompleted = true;
+        this.isFailure = true;
+        this.reason = FailReason.FallFromBlock;
+      }
+    }
+    if (actionManager.isActing && actionManager.current == ActionType.COLLECT) { // 收集时检测
+      // 若当前地砖没有钻石
+      let blockIndex = detectOnBlock();
+      if (blockIndex < 0 || blocks[blockIndex].item != ItemType.Diamond || blocks[blockIndex].isCollected) {
+        actionManager.isActing = false;
+        this.isRunning = false;
+        this.isCompleted = true;
+        this.isFailure = true;
+        this.reason = FailReason.FailedToCollect;
+      }
+    }
+  }
   if (this.isCompiled && this.isCompleted) {
     if (!this.isFailure) { // 编译成功且中途未失败
       if (puzzleMsg.collectNum >= puzzleMsg.totalNum) {

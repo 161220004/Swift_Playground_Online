@@ -26,15 +26,15 @@ $("#run_code").click(function(){
   // 封装传给后端的数据
   let runInfo = Object();
   runInfo.code = editor.getValue();
-  runInfo.dir = currentDirection;
+  runInfo.dir = actionManager.direction;
   // $("#test_live_view").html("Running...")
   // 等待后端处理
   puzzleStatus.isCompiling = true;
   $.post("/spo/" + pid + "/code", JSON.stringify(runInfo), function(data) {
     // alert("Get Result: \n" + JSON.stringify(data));
     // 解析结果并开启动画
-    initActionsFromServer(data);
-    performActions();
+    actionManager.initActionsFromServer(data);
+    actionManager.performActions();
     // Test: 更改LiveView区内容为后端返回的data
     // $("#test_live_view").html(JSON.stringify(data))
   })
