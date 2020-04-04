@@ -1,112 +1,102 @@
-// 枚举类型： 地砖类型
+/** 枚举类型： 地砖类型 */
 var BlockType = {
-  Normal: "Normal",
-  Red: "Red",
-  Yellow: "Yellow",
-  Green: "Green",
-  Blue: "Blue",
-  Purple: "Purple",
-  Dark: "Dark",
+  Normal: 0,
+  Red: 1,
+  Yellow: 2,
+  Green: 3,
+  Blue: 4,
+  Purple: 5,
+  Dark: 6,
 }
 
+/** 枚举类型： 物品类型 */
 var ItemType = {
   None: "",
   Diamond: "Diamond",
 }
 
-// 地砖，从后端接收值
-var Block = function(tp, cx, cy, it) {
-  this.type = tp; // 地砖种类，决定放哪个图片
+/** Block 类，绘制的地砖以 Sprite 实现，钻石以 AnimatedSprite 实现
+ * @constructor
+ */
+function Block(btype, cx, cy, itype, z) {
+  // Cell坐标
   this.cellX = cx;
   this.cellY = cy;
-  this.item = it;
-  switch (this.type) {
-    case BlockType.Red:
-      this.img = blockRedImg;
-      break;
-    case BlockType.Yellow:
-      this.img = blockYellowImg;
-      break;
-    case BlockType.Green:
-      this.img = blockGreenImg;
-      break;
-    case BlockType.Blue:
-      this.img = blockBlueImg;
-      break;
-    case BlockType.Purple:
-      this.img = blockPurpleImg;
-      break;
-    case BlockType.Dark:
-      this.img = blockDarkImg;
-      break;
-    default:
-      this.img = blockNormalImg;
-  }
-  this.timerDiamond = 0; // 旋转计时器
-  this.countDiamond = 0;
-  this.timerCollect = -300; // 收集动画计时器
-  this.sizePercent = 1; // 宝石缩小后尺寸百分比
-  this.isCollecting = false; // 是否被收集，是则开始缩小并飞到右上角
-  this.isCollected = false; // 是否已经被收集没了
-}
-
-// 获取cell对应的像素X坐标
-Block.prototype.getX = function() {
-  return scene.blockInitX + this.cellX * CellXBia + this.cellY * CellYBiaX;
-}
-
-// 获取cell对应的像素Y坐标（向下偏移前）
-Block.prototype.getY = function() {
-  return scene.blockInitY + this.cellY * CellYBiaY;
-}
-
-// 绘制宝石
-Block.prototype.drawDiamond = function() {
-  if (this.item == ItemType.Diamond) {
-    let curX = this.getX() - DiamondSize * this.sizePercent / 2 - camera.x;
-    let curY = this.getY() - DiamondSize * this.sizePercent / 2 - camera.y + DiamondYBia;
-    let flyX = 0;
-    let flyY = 0;
-    // Diamond收集动画
-    if (puzzleStatus.isRunning && this.isCollecting) {
-      this.timerCollect += interval;
-      if (this.timerCollect > CollectShrinkInterval + CollectGetInterval) {
-        // 动画结束
-        this.isCollected = true;
-        this.isCollecting = false;
-        this.timerCollect = -300;
-        puzzleMsg.collectNum += 1;
-      } else if (this.timerCollect > CollectShrinkInterval) { // timer: CollectShrinkInterval ~ ..+ CollectGetInterval
-        // 宝石飞向右上角动画
-        let flyPercent = (this.timerCollect - CollectShrinkInterval) / CollectGetInterval;
-        flyX = (MiniDiamondX - curX) * flyPercent;
-        flyY = (MiniDiamondY + puzzleMsg.collectNum * MiniDiamondSpace - curY) * flyPercent;
-      } else if (this.timerCollect > 0) { // timer: 0 ~ CollectShrinkInterval
-        // 宝石缩小动画 (100% -> 30%)
-        this.sizePercent = 1 - 0.7 * this.timerCollect / CollectShrinkInterval;
-      }
-    }
-    // 宝石在原位旋转（未采集）
-    if (!this.isCollected) {
-      // Diamond旋转动画
-      this.timerDiamond += interval;
-      if (this.timerDiamond > DiamondInterval) {
-        this.countDiamond = (this.countDiamond + 1) % 4;
-        this.timerDiamond %= DiamondInterval;
-      }
-      // 绘制
-      ctxtI.save();
-      ctxtI.translate(curX, curY);
-      ctxtI.drawImage(diamondImg[this.countDiamond], flyX, flyY, DiamondSize * this.sizePercent, DiamondSize * this.sizePercent);
-      ctxtI.restore();
-    }
+  // 钻石是否被收集
+  this.isCollected = false;
+  this.isCollecting = false;
+  this.diamondScale = 1.0; // 收集过程中从 1.0 倒数到 0.3
+  this.diamondFlyTime = 0; // 飞行时间 0 ~ MiniDiamondFlyInterval
+  this.collectNo = 0; // 是第几个被收集的钻石
+  // Block Sprite
+  this.type = btype;
+  this.blockSprite = new PIXI.Sprite(itemsTextures["Block"][btype]);
+  this.blockSprite.anchor.set(0.5);
+  this.blockSprite.zIndex = 10 + 2 * z;
+  Stage.addChild(this.blockSprite);
+  // Item Sprite
+  this.itemType = itype;
+  this.itemSprite;
+  if (this.itemType == ItemType.Diamond) {
+    this.itemSprite = new PIXI.AnimatedSprite(itemsTextures["Diamond"], 54, 54);
+    this.itemSprite.anchor.set(0.5);
+    this.itemSprite.zIndex = 11 + 2 * z;
+    Stage.addChild(this.itemSprite);
+    this.itemSprite.loop = true;
+    this.itemSprite.animationSpeed = 0.15;
+    this.itemSprite.play();
   }
 }
 
-// 绘制地砖
-Block.prototype.draw = function() {
-  ctxtF.save();
-  ctxtF.translate(this.getX() - BlockWidth / 2 - camera.x, this.getY() - BlockHeight / 2 - camera.y);
-  ctxtF.drawImage(this.img, 0, BlockYBia, BlockWidth, BlockHeight);
-  ctxtF.restore();
+/** 重置 */
+Block.prototype.reset = function() {
+  this.isCollected = false;
+  this.isCollecting = false;
+  this.diamondScale = 1.0; // 收集过程中从 1.0 倒数到 0.3
+  this.diamondFlyTime = 0; // 飞行时间 0 ~ MiniDiamondFlyInterval
+  this.collectNo = 0; // 是第几个被收集的钻石
+  if (this.itemType == ItemType.Diamond) {
+    this.itemSprite.play();
+  }
+}
+
+/** 绘制 */
+Block.prototype.update = function() {
+  // 计算坐标
+  let cellXBia = this.cellX - lappland.cellX;
+  let cellYBia = this.cellY - lappland.cellY;
+  let x = CameraX[lappland.direction] + cellXBia * XBia + cellYBia * YBiaX + lappland.turnXBia;
+  let y = CameraY + cellYBia * YBiaY;
+  // 绘制地砖
+  this.blockSprite.position.set(x, y + BlockYBia);
+  // 绘制钻石
+  if (this.itemSprite) {
+    if (this.isCollecting) {
+      if (this.diamondScale > 0.3) { // 正在缩小中
+        this.collectNo = foreground.collectedNum;
+        this.diamondScale -= 0.014; // 50 loopCount
+        this.itemSprite.setTransform(x, y + DiamondYBia, this.diamondScale, this.diamondScale);
+      } else { // 正在飞向右上角
+        let dx = (MiniDiamondX - MiniDiamondSpace * this.collectNo) - x;
+        let dy = MiniDiamondY - (y + DiamondYBia);
+        if (this.diamondFlyTime < MiniDiamondFlyInterval) { // 未到达目的地
+          this.diamondFlyTime += 1;
+          this.itemSprite.setTransform(x + dx * this.diamondFlyTime / MiniDiamondFlyInterval,
+                                       y + DiamondYBia + dy * this.diamondFlyTime / MiniDiamondFlyInterval,
+                                       this.diamondScale, this.diamondScale);
+        } else { // 到达
+          this.itemSprite.setTransform(x + dx, y + DiamondYBia + dy, this.diamondScale, this.diamondScale);
+          this.itemSprite.gotoAndStop(0);
+          this.isCollecting = false;
+          this.isCollected = true;
+          foreground.collectedNum += 1;
+          console.log("Diamond Collected (" + foreground.collectedNum + "/" + foreground.diamondNum + ")");
+        }
+      }
+    } else if (!this.isCollected) {
+      this.itemSprite.position.set(x, y + DiamondYBia);
+      this.itemSprite.scale.set(1);
+    }
+  }
+
 }

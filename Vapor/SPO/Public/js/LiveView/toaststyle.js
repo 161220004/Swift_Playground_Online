@@ -16,20 +16,20 @@ function toastReplaceRule(cssLeft, cssTop, logLength) {
   // 调整位置
   let realTop = cssTop + ToastYBia;
   let realLeft = cssLeft;
-  if (actionManager.direction == 2 || actionManager.direction == 1) { // Right, Up, 置于左侧
+  if (lappland.direction == 2 || lappland.direction == 1) { // Right, Up, 置于左侧
     if (logLength > ToastLineNum) { // 长消息
       realLeft += ToastLeftX;
     } else { // 短消息
       realLeft += ToastLeftC - (logLength + ToastFrameNum) * ToastBiaPerLetter / 2;
     }
-  } else if (actionManager.direction == 0 || actionManager.direction == 3) { // Left, Down, 置于右侧
+  } else if (lappland.direction == 0 || lappland.direction == 3) { // Left, Down, 置于右侧
     if (logLength > ToastLineNum) { // 长消息
       realLeft += ToastRightX;
     } else { // 短消息
       realLeft += ToastRightC - (logLength + ToastFrameNum) * ToastBiaPerLetter / 2;
     }
   } else {
-    alert("toaststyle.js - toastReplaceRule(): No Direction !");
+    console.log("Error: No Direction");
   }
   // console.log("- Log Top: " + realTop);
   // console.log("- Log Left: " + realLeft);

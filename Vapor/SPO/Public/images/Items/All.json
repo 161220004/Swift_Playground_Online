@@ -1,0 +1,103 @@
+{"frames": {
+
+"Diamond-0.png":
+{
+	"frame": {"x":0,"y":0,"w":54,"h":54},
+	"rotated": false,
+	"trimmed": false,
+	"spriteSourceSize": {"x":0,"y":0,"w":54,"h":54},
+	"sourceSize": {"w":54,"h":54}
+},
+"Diamond-1.png":
+{
+	"frame": {"x":56,"y":0,"w":54,"h":54},
+	"rotated": false,
+	"trimmed": false,
+	"spriteSourceSize": {"x":0,"y":0,"w":54,"h":54},
+	"sourceSize": {"w":54,"h":54}
+},
+"Diamond-2.png":
+{
+	"frame": {"x":112,"y":0,"w":54,"h":54},
+	"rotated": false,
+	"trimmed": false,
+	"spriteSourceSize": {"x":0,"y":0,"w":54,"h":54},
+	"sourceSize": {"w":54,"h":54}
+},
+"Diamond-3.png":
+{
+	"frame": {"x":168,"y":0,"w":54,"h":54},
+	"rotated": false,
+	"trimmed": false,
+	"spriteSourceSize": {"x":0,"y":0,"w":54,"h":54},
+	"sourceSize": {"w":54,"h":54}
+},
+"Blue.png":
+{
+	"frame": {"x":224,"y":0,"w":130,"h":72},
+	"rotated": false,
+	"trimmed": false,
+	"spriteSourceSize": {"x":0,"y":0,"w":130,"h":72},
+	"sourceSize": {"w":130,"h":72}
+},
+"Dark.png":
+{
+	"frame": {"x":0,"y":74,"w":130,"h":72},
+	"rotated": false,
+	"trimmed": false,
+	"spriteSourceSize": {"x":0,"y":0,"w":130,"h":72},
+	"sourceSize": {"w":130,"h":72}
+},
+"Green.png":
+{
+	"frame": {"x":132,"y":74,"w":130,"h":72},
+	"rotated": false,
+	"trimmed": false,
+	"spriteSourceSize": {"x":0,"y":0,"w":130,"h":72},
+	"sourceSize": {"w":130,"h":72}
+},
+"Normal.png":
+{
+	"frame": {"x":264,"y":74,"w":130,"h":72},
+	"rotated": false,
+	"trimmed": false,
+	"spriteSourceSize": {"x":0,"y":0,"w":130,"h":72},
+	"sourceSize": {"w":130,"h":72}
+},
+"Purple.png":
+{
+	"frame": {"x":0,"y":148,"w":130,"h":72},
+	"rotated": false,
+	"trimmed": false,
+	"spriteSourceSize": {"x":0,"y":0,"w":130,"h":72},
+	"sourceSize": {"w":130,"h":72}
+},
+"Red.png":
+{
+	"frame": {"x":132,"y":148,"w":130,"h":72},
+	"rotated": false,
+	"trimmed": false,
+	"spriteSourceSize": {"x":0,"y":0,"w":130,"h":72},
+	"sourceSize": {"w":130,"h":72}
+},
+"Yellow.png":
+{
+	"frame": {"x":264,"y":148,"w":130,"h":72},
+	"rotated": false,
+	"trimmed": false,
+	"spriteSourceSize": {"x":0,"y":0,"w":130,"h":72},
+	"sourceSize": {"w":130,"h":72}
+}},
+"animations": {
+	"Diamond": ["Diamond-0.png","Diamond-1.png","Diamond-2.png","Diamond-3.png"]
+},
+"meta": {
+	"app": "https://www.codeandweb.com/texturepacker",
+	"version": "1.0",
+	"image": "All.png",
+	"format": "RGBA8888",
+	"size": {"w":394,"h":220},
+	"scale": "1",
+	"smartupdate": "$TexturePacker:SmartUpdate:e6e4d91c9f819a36974e7c9a9a7db0f1:7cbdcb71281caa793778de8d1659f00b:afaefc6cbadef8322dafdc8a201c6d22$"
+}
+}

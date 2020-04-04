@@ -9,15 +9,15 @@ import Fluent
 import FluentMySQL
 import Vapor
 
-enum BlockType: String {
+enum BlockType: Int {
     
-    case Normal = "Normal"
-    case Red = "Red"
-    case Yellow = "Yellow"
-    case Green = "Green"
-    case Blue = "Blue"
-    case Purple = "Purple"
-    case Dark = "Dark"
+    case Normal = 0
+    case Red = 1
+    case Yellow = 2
+    case Green = 3
+    case Blue = 4
+    case Purple = 5
+    case Dark = 6
 }
 
 final class Block: MySQLModel, Content {
@@ -28,7 +28,7 @@ final class Block: MySQLModel, Content {
     var puzzleId: Int
     
     /// 类型
-    var type: String
+    var type: Int
     
     /// Cell的坐标
     var cellX: Int

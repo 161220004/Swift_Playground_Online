@@ -20,21 +20,28 @@ editor.setOptions({
 
 // “Run”按钮点击事件
 $("#run_code").click(function(){
-  // 重置LiveView
-  init();
-  // 封装传给后端的数据
-  let runInfo = Object();
-  runInfo.code = editor.getValue();
-  runInfo.dir = actionManager.direction;
-  // $("#test_live_view").html("Running...")
-  // 等待后端处理
-  puzzleStatus.isCompiling = true;
-  $.post("/spo/" + pid + "/code", JSON.stringify(runInfo), function(data) {
-    // alert("Get Result: \n" + JSON.stringify(data));
-    // 解析结果并开启动画
-    actionManager.initFromServer(data);
-    actionManager.performActions();
-    // Test: 更改LiveView区内容为后端返回的data
-    // $("#test_live_view").html(JSON.stringify(data))
-  })
+  // 仅当一轮结束或未开始时可以开始运行
+  if (puzzle.isCompleted || (!puzzle.isCompiled && !puzzle.isCompiling && !puzzle.isCompleted)) {
+    // 重置LiveView
+    resetLiveView();
+    // 封装传给后端的数据
+    let runInfo = Object();
+    runInfo.code = editor.getValue();
+    runInfo.dir = lappland.direction;
+    // $("#test_live_view").html("Running...")
+    // 等待后端处理
+    puzzle.isCompiling = true;
+    puzzle.playLoadingSprite();
+    $.post("/spo/" + PID + "/code", JSON.stringify(runInfo), function(data) {
+      // alert("Get Result: \n" + JSON.stringify(data));
+      console.log("Run !");
+      // 解析结果并开启动画
+      puzzle.getActions(data);
+      puzzle.performActions();
+      // Test: 更改LiveView区内容为后端返回的data
+      // $("#test_live_view").html(JSON.stringify(data))
+    })
+  } else {
+    alert("请在未开始编译或动画运行完全结束后开始新的一次尝试～");
+  }
 });
