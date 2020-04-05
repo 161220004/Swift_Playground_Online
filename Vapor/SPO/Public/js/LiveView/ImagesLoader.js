@@ -1,5 +1,11 @@
 // 图片名
-const backgroundImg = "/images/Background.jpg";
+const backgroundImg = (function() {
+  let bgs = [];
+  for (let i = 0; i < 3; i++) {
+    bgs[i] = "/images/Background/BG" + BackID + "-" + i + ".png";
+  }
+  return bgs;
+})();
 const blockImg = ["Normal.png", "Red.png", "Yellow.png", "Green.png", "Blue.png", "Purple.png", "Dark.png"];
 const diamondImg = ["Diamond-0.png", "Diamond-1.png", "Diamond-2.png", "Diamond-3.png"];
 const loadingImg = ["Loading-0.png", "Loading-1.png", "Loading-2.png", "Loading-3.png", "Loading-4.png"];
@@ -22,7 +28,7 @@ const lappArmFImg = ["ArmF.png", "ArmF-1.png", "ArmF-2.png", "ArmF-3.png", "ArmF
 const lappShadowImg = "Shadow.png";
 
 // 纹理
-var backgroundTexture;
+var backgroundTextures;
 var itemsTextures = {"Block": [], "Diamond": []};
 var lappTextures = {"Hair": [], "Tail": [], "Ribbon": [], "Face": [], "Clothes": [],
                     "Leg": [], "ArmB": [], "ArmF": [], "Shadow":[], "Shock": [],
@@ -49,7 +55,9 @@ var lappland;
 // 加载全部图片
 const loader = PIXI.Loader.shared;
 loader
-.add("back", backgroundImg)
+.add("bg0", backgroundImg[0])
+.add("bg1", backgroundImg[1])
+.add("bg2", backgroundImg[2])
 .add("items", "/images/Items/All.json")
 .add("lapp", "/images/Lappland/All.json")
 .add("load", "/images/Message/Load.json")
@@ -57,7 +65,7 @@ loader
 .add("fail", failureImg)
 .add("miniLapp", miniLappImg)
 .load((loader, resources) =>  {
-  backgroundTexture = resources.back.texture;
+  backgroundTextures = [resources.bg0.texture, resources.bg1.texture, resources.bg2.texture];
   successTexture = resources.suc.texture;
   failureTexture = resources.fail.texture;
   miniLappTexture = resources.miniLapp.texture;
@@ -86,18 +94,18 @@ loader
 
   // 初始化当前Puzzle状态
   puzzle = new Puzzle();
-  
+
   // GET方法从后端获取数据以布局 Puzzle
   $.get("/spo/" + PID + "/scene", function(data, status) {
     // alert("Get Scene " + pid + ": \n" + JSON.stringify(data));
     SceneData = data;
     console.log("Scene Data Already Inited: " + SceneData.puzzle.description);
-    // 添加背景 Sprite
-    background = new Background();
     // 添加人物 Sprite
     lappland = new Lappland();
     // 添加前景 Sprite
     foreground = new Foreground();
+    // 添加背景 Sprite
+    background = new Background();
     // 添加小地图
     puzzleMap = new PuzzleMap();
   })

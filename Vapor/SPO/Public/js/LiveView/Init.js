@@ -31,17 +31,17 @@ function resetLiveView() {
   // 重置当前Puzzle状态
   puzzle.reset();
   // 重置 Sprite
-  background.reset();
   lappland.reset();
   foreground.reset();
+  background.reset();
 }
 
 /** 循环刷新 */
 function gameloop() {
   Stage.sortChildren();
-  if (background) background.update();
   if (lappland) lappland.update();
   if (foreground) foreground.update();
+  if (background) background.update();
   if (puzzleMap) puzzleMap.update();
   if (puzzle) {
     puzzle.judgeResult();

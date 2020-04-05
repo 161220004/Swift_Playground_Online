@@ -25,6 +25,13 @@ const YBiaX = -42; // Cell在Y方向下移1，像素在X方向左移42
 const YBiaY = 48; // Cell在Y方向下移1，像素在Y方向下移48
 const ZBia = 108; // Cell在Z方向下移1，像素在Y方向下移108
 
+// Background 不同PID不同层次的移动速度
+const BackID = (PID + 1) % 3; // 采用的背景序号
+const BackCellBia = 50; // 一个Cell长度对应于多少背景偏移
+const BackgroundSpeed = {0: [[0, 0], [-1.8, 0.6], [0.2, 0]],
+                         1: [[0, 0], [0, 0], [-0.5, 0]],
+                         2: [[0, 0], [1, 0], [-0.5, 0]]}
+
 // Lappland原始尺寸与位移
 const LappWidth = 84;
 const LappHeight = 108;
