@@ -1,361 +1,371 @@
-var Lappland = function() {
-  this.cellX; // 中心坐标（Float类型，以支持行走动画）
-  this.cellY; // 中心坐标（Float类型，以支持行走动画）
-  this.cellZ; // 中心坐标（Float类型，以支持行走动画）
-  this.timer; // 摇摆动作计时器
-  this.count; // 摇摆动作执行到第几帧（0/1/2/3/4/5）
-  this.timerBlink; // 眨眼动作计时器
-  this.countBlink; // 眨眼动作执行到第几帧（0/1/2）
-  this.timerBreak; // 休息计时器
-  this.timerWalk; // 行走动作计时器
-  this.countWalk; // 行走动作执行到第几帧 (0/.../11)
-  this.timerTurn; // 转向动作计时器
-  this.timerLog; // 对话动作计时器
-  this.hasToasted; // 对话是否已经弹出（为了控制只弹出一次）
-  this.timerCollect; // 触摸宝石跳跃/等待动作计时器
-  this.showBubble; // 是否显示表情气泡
-  this.isShocked; // 是否震惊脸
-  // 当前图片
-  this.hairImg;
-  this.ribbonImg;
-  this.tailImg;
-  this.faceImg;
-  this.legnImg;
-  this.legImg;
-  this.armbnImg;
-  this.armbImg;
-  this.armfnImg;
-  this.armfImg;
-  this.clothesImg;
-  this.shadowImg;
-  this.shockImg;
-  this.bubbleImg;
-}
-
-Lappland.prototype.setImageR = function() {
-  this.hairImg = rLappHairImg;
-  this.ribbonImg = rLappRibbonImg;
-  this.tailImg = rLappTailImg;
-  this.faceImg = rLappFaceImg;
-  this.legnImg = rLappLegnImg;
-  this.legImg = rLappLegImg;
-  this.armbnImg = rLappArmBnImg;
-  this.armbImg = rLappArmBImg;
-  this.armfnImg = rLappArmFnImg;
-  this.armfImg = rLappArmFImg;
-  this.clothesImg = rLappClothesImg;
-  this.shadowImg = rLappShadowImg;
-  this.shockImg = rLappShockImg;
-}
-
-Lappland.prototype.setImageL = function() {
-  this.hairImg = lLappHairImg;
-  this.ribbonImg = lLappRibbonImg;
-  this.tailImg = lLappTailImg;
-  this.faceImg = lLappFaceImg;
-  this.legnImg = lLappLegnImg;
-  this.legImg = lLappLegImg;
-  this.armbnImg = lLappArmBnImg;
-  this.armbImg = lLappArmBImg;
-  this.armfnImg = lLappArmFnImg;
-  this.armfImg = lLappArmFImg;
-  this.clothesImg = lLappClothesImg;
-  this.shadowImg = lLappShadowImg;
-  this.shockImg = lLappShockImg;
-}
-
-Lappland.prototype.init = function() {
-  this.cellX = lappInitCellX;
-  this.cellY = lappInitCellY;
-  this.cellZ = lappInitCellZ;
+/** Lappland 类，其各个部位以 AnimatedSprite 和 Sprite 实现
+ * @constructor
+ */
+function Lappland() {
+  // 方向 [L, U, R, D]
+  this.direction = SceneData.puzzle.lappInitDir; // 初始向右
+  // 骨骼动画
+  this.hair = new PIXI.AnimatedSprite(lappTextures["Hair"][this.direction]);
+  this.tail = new PIXI.AnimatedSprite(lappTextures["Tail"][this.direction]);
+  this.ribbon = new PIXI.AnimatedSprite(lappTextures["Ribbon"][this.direction]);
+  this.face = new PIXI.AnimatedSprite(lappTextures["Face"][this.direction]);
+  this.clothes = new PIXI.Sprite(lappTextures["Clothes"][this.direction]);
+  this.leg = new PIXI.AnimatedSprite(lappTextures["Leg"][this.direction]);
+  this.armb = new PIXI.AnimatedSprite(lappTextures["ArmB"][this.direction]);
+  this.armf = new PIXI.AnimatedSprite(lappTextures["ArmF"][this.direction]);
+  this.shadow = new PIXI.Sprite(lappTextures["Shadow"][this.direction]);
+  this.shock = new PIXI.Sprite(lappTextures["Shock"][this.direction]);
+  this.shock.visible = false;
+  this.bubble = new PIXI.Sprite(lappTextures["Bubble"][this.direction][5]);
+  this.bubble.visible = false;
+  // 基本动画
+  this.playNormal();
+  // 与动画相关的其他属性
+  this.legTexture; // 静止状态的腿部图片
+  this.armbTexture; // 静止状态的胳膊图片
+  this.armfTexture; // 静止状态的胳膊图片
+  // 添加到Stage
+  this.addToStage();
+  // 计时器
   this.timer = 0;
-  this.count = 0;
-  this.timerBlink = 0;
-  this.countBlink = 0;
-  this.timerBreak = 0;
-  this.timerWalk = 0;
-  this.countWalk = 0;
-  this.timerTurn = 0;
-  this.timerLog = 0;
-  this.hasToasted = false;
-  this.timerCollect = 0;
-  this.showBubble = false;
-  this.isShocked = false;
-  // 调整Lappland方向以及Camera
-  camera.setY();
-  if (lappInitDir == 0 || lappInitDir == 3) { // Left, Down
-    camera.setXR();
-    this.setImageL();
-  } else if (lappInitDir == 2 || lappInitDir == 1) { // Right, Up
-    camera.setXL();
-    this.setImageR();
+  // 位置
+  this.setCell(0, 0, 0);
+  this.setPosition();
+  // 动作序列
+  this.actions = [];
+  this.actionIndex = 0; // 当前执行到第几个动作
+  this.actionsStr = ""; // 便于调试
+  this.restTime = BreakInterval; // 距离开始下一个动画剩余的时间
+  this.isActing = false; // 是否正在动作中，配合着 puzzle.isRunning 鉴定当前状态
+  // 与动作相关的属性
+  this.walkTime = 0; // GO: 行走剩余时间
+  this.logTime = LappLogInterval; // LOG: 对话剩余时间
+  this.lastDirection = this.direction; // TURN: 上一次的朝向
+  this.turnTime = LappTurnInterval; // TURN: 转向剩余时间
+  this.turnXBia = 0; // TURN: 转向时X方向相机偏移量，用于矫正Block的位置计算
+  this.collectTime = LappCollectInterval; // COLLECT: 收集宝石跳跃时间
+  console.log("Lappland Added");
+}
+
+/** 重置所有属性 */
+Lappland.prototype.reset = function() {
+  this.setDirection(SceneData.puzzle.lappInitDir); // 初始方向
+  this.setCell(0, 0, 0);
+  this.setPosition();
+  this.playNormal();
+  this.shock.visible = false;
+  this.bubble.visible = false;
+  this.timer = 0;
+  this.actions = [];
+  this.actionIndex = 0; // 当前执行到第几个动作
+  this.actionsStr = ""; // 便于调试
+  this.restTime = BreakInterval; // 距离开始下一个动画剩余的时间
+  this.isActing = false; // 是否正在动作中，配合着 puzzle.isRunning 鉴定当前状态
+  this.walkTime = 0; // GO: 行走剩余时间
+  this.logTime = LappLogInterval; // LOG: 对话剩余时间
+  this.lastDirection = this.direction; // TURN: 上一次的朝向
+  this.turnTime = LappTurnInterval; // TURN: 转向剩余时间
+  this.turnXBia = 0; // TURN: 转向时X方向相机偏移量，用于矫正Block的位置计算
+  console.log("Lappland Reset");
+}
+
+/** 强制改变绘制位置，偏移量为 dx, dy */
+Lappland.prototype.setTempPosition = function(dx, dy) {
+  let x = CameraX[this.direction] + dx;
+  let y = CameraY + dy;
+  this.hair.position.set(x, y);
+  this.tail.position.set(x, y);
+  this.ribbon.position.set(x, y);
+  this.face.position.set(x, y);
+  this.clothes.position.set(x, y);
+  this.leg.position.set(x, y);
+  this.armb.position.set(x, y);
+  this.armf.position.set(x, y);
+  this.shadow.position.set(x, y + LappShadowYBia);
+  this.shock.position.set(x, y);
+  let sign = (this.direction == 2 || this.direction == 1) ? (1) : (-1);
+  this.bubble.position.set(x + sign * LappBubbleXBia, y + LappBubbleYBia);
+}
+
+/** 确定当前应该的绘制位置 */
+Lappland.prototype.setPosition = function() {
+  this.setTempPosition(0, 0);
+}
+
+/** 设置Cell位置 */
+Lappland.prototype.setCell = function(x, y, z) {
+  this.cellX = x;
+  this.cellY = y;
+  this.cellZ = z;
+}
+
+/** 设置方向 */
+Lappland.prototype.setDirection = function(dir) {
+  this.lastDirection = this.direction;
+  this.direction = dir;
+  this.hair.textures = lappTextures["Hair"][this.direction];
+  this.tail.textures = lappTextures["Tail"][this.direction];
+  this.ribbon.textures = lappTextures["Ribbon"][this.direction];
+  this.face.textures = lappTextures["Face"][this.direction];
+  this.clothes.texture = lappTextures["Clothes"][this.direction];
+  this.leg.textures = lappTextures["Leg"][this.direction];
+  this.armb.textures = lappTextures["ArmB"][this.direction];
+  this.armf.textures = lappTextures["ArmF"][this.direction];
+  this.shadow.texture = lappTextures["Shadow"][this.direction];
+  this.shock.texture = lappTextures["Shock"][this.direction];
+  this.bubble.texture = lappTextures["Bubble"][this.direction][5];
+  this.playNormal();
+}
+
+/** 添加所有组件到Stage */
+Lappland.prototype.addToStage = function() {
+  this.shadow.alpha = 0.3;
+  this.shadow.zIndex = 100;
+  this.shadow.anchor.set(0.5);
+  Stage.addChild(this.shadow);
+  this.tail.zIndex = 101;
+  this.tail.anchor.set(0.5);
+  Stage.addChild(this.tail);
+  this.armb.zIndex = 102;
+  this.armb.anchor.set(0.5);
+  Stage.addChild(this.armb);
+  this.leg.zIndex = 103;
+  this.leg.anchor.set(0.5);
+  Stage.addChild(this.leg);
+  this.face.zIndex = 104;
+  this.face.anchor.set(0.5);
+  Stage.addChild(this.face);
+  this.clothes.zIndex = 105;
+  this.clothes.anchor.set(0.5);
+  Stage.addChild(this.clothes);
+  this.ribbon.zIndex = 106;
+  this.ribbon.anchor.set(0.5);
+  Stage.addChild(this.ribbon);
+  this.armf.zIndex = 107;
+  this.armf.anchor.set(0.5);
+  Stage.addChild(this.armf);
+  this.hair.zIndex = 108;
+  this.hair.anchor.set(0.5);
+  Stage.addChild(this.hair);
+  this.shock.zIndex = 109;
+  this.shock.anchor.set(0.5);
+  Stage.addChild(this.shock);
+  this.bubble.zIndex = 110;
+  this.bubble.anchor.set(0.5);
+  Stage.addChild(this.bubble);
+}
+
+/** 基本动画 */
+Lappland.prototype.playNormal = function() {
+  this.hair.loop = true;
+  this.hair.animationSpeed = 0.09;
+  this.hair.play();
+  this.tail.loop = true;
+  this.tail.animationSpeed = 0.09;
+  this.tail.play();
+  this.ribbon.loop = true;
+  this.ribbon.animationSpeed = 0.09;
+  this.ribbon.play();
+}
+
+/** 行走动画 -- 开始 */
+Lappland.prototype.playWalk = function() {
+  // 删除第一个元素
+  this.legTexture = this.leg.textures.shift();
+  this.armbTexture = this.armb.textures.shift();
+  this.armfTexture = this.armf.textures.shift();
+  // 开启动画
+  this.leg.loop = true;
+  this.leg.animationSpeed = 0.18;
+  this.leg.play();
+  this.armb.loop = true;
+  this.armb.animationSpeed = 0.18;
+  this.armb.play();
+  this.armf.loop = true;
+  this.armf.animationSpeed = 0.18;
+  this.armf.play();
+}
+
+/** 行走动画 -- 停止 */
+Lappland.prototype.stopWalk = function() {
+  let frameNum = this.leg.textures.length;
+  if (this.leg.currentFrame == frameNum - 1) { // 可以停止，并添加 0 号帧
+    this.leg.textures.unshift(this.legTexture);
+    this.armb.textures.unshift(this.armbTexture);
+    this.armf.textures.unshift(this.armfTexture);
+    this.leg.gotoAndStop(0);
+    this.armb.gotoAndStop(0);
+    this.armf.gotoAndStop(0);
+    return true;
+  } else { // 不能停止
+    return false;
+  }
+}
+
+/** 终止一切动画 */
+Lappland.prototype.stopAll = function() {
+  this.hair.stop();
+  this.tail.stop();
+  this.ribbon.stop();
+  this.leg.stop();
+  this.armb.stop();
+  this.armf.stop();
+}
+
+/** 失足惊吓动画 */
+Lappland.prototype.showShock = function() {
+  // 归还行走缺失的帧
+  this.leg.textures.unshift(this.legTexture);
+  this.armb.textures.unshift(this.armbTexture);
+  this.armf.textures.unshift(this.armfTexture);
+  this.stopAll();
+  this.shock.visible = true;
+  console.log("Lappland is Shocked");
+}
+
+/** 显示结果气泡动画 */
+Lappland.prototype.showBubble = function(index) {
+  this.bubble.texture = lappTextures["Bubble"][this.direction][index];
+  this.bubble.visible = true;
+  console.log("Show Bubble: " + bubbleImg[index]);
+}
+
+/** 获取当前动作类型 */
+Lappland.prototype.getCurActType = function() {
+  if (this.actionIndex < this.actions.length){
+    return this.actions[this.actionIndex].type;
   } else {
-    alert("lappland.js - init(): No Direction !");
+    return ActionType.NONE;
   }
 }
 
-// 设置右方向气泡
-Lappland.prototype.setBubbleR = function() {
-  if (puzzleStatus.isSuccess) { // 成功气泡
-    this.bubbleImg = rLappBubbleHappyImg;
-  } else if (puzzleStatus.isFailure) {
-    switch (puzzleStatus.reason) {
-      case FailReason.FailedToCompile: this.bubbleImg = rLappBubbleDizzyImg; break;
-      case FailReason.FallFromBlock: this.bubbleImg = rLappBubble1Img; break;
-      case FailReason.FailedToCollect: this.bubbleImg = rLappBubble2Img; break;
-      case FailReason.EndNotEnough: this.bubbleImg = rLappBubbleSadImg; break;
-      default: this.bubbleImg = rLappBubble3Img;
-    }
-  } else {
-    alert("lappland.js - setBubbleR(): Not Certain Time !");
-  }
-}
-
-// 设置左方向气泡
-Lappland.prototype.setBubbleL = function() {
-  if (puzzleStatus.isSuccess) { // 成功气泡
-    this.bubbleImg = lLappBubbleHappyImg;
-  } else if (puzzleStatus.isFailure) {
-    switch (puzzleStatus.reason) {
-      case FailReason.FailedToCompile: this.bubbleImg = lLappBubbleDizzyImg; break;
-      case FailReason.FallFromBlock: this.bubbleImg = lLappBubble1Img; break;
-      case FailReason.FailedToCollect: this.bubbleImg = lLappBubble2Img; break;
-      case FailReason.EndNotEnough: this.bubbleImg = lLappBubbleSadImg; break;
-      default: this.bubbleImg = lLappBubble3Img;
-    }
-  } else {
-    alert("lappland.js - setBubbleL(): Not Certain Time !");
-  }
-}
-
-// 获取cell对应的像素X坐标
-Lappland.prototype.getX = function() {
-  return lappInitX + this.cellX * CellXBia + this.cellY * CellYBiaX;
-}
-
-// 获取cell对应的像素Y坐标
-Lappland.prototype.getY = function() {
-  return lappInitY + this.cellY * CellYBiaY + this.cellZ * CellZBia;
-}
-
-// 获取cell移位对应的像素X移位
-Lappland.prototype.getDX = function(dcx, dcy) {
-  return dcx * CellXBia + dcy * CellYBiaX;
-}
-
-// 获取cell移位对应的像素Y移位
-Lappland.prototype.getDY = function(dcy, dcz) {
-  return dcy * CellYBiaY + dcz * CellZBia;
-}
-
-//绘制Lappland
-Lappland.prototype.draw = function() {
-  // 是否休息中
-  if (puzzleStatus.isRunning && actions[actionCount].isFinished) {
-    this.timerBreak += interval;
-    console.log("- Breaking");
-    if (this.timerBreak > BreakInterval) {
-      actions[actionCount].next();
-      this.timerBreak = 0;
-    }
-  }
-  // 摇摆动画
-  this.timer += interval;
-  if (this.timer > LappRockInterval) {
-    this.count = (this.count + 1) % 6;
-    this.timer %= LappRockInterval;
-  }
+/** 刷新时的操作 */
+Lappland.prototype.update = function() {
   // 眨眼动画
-  this.timerBlink += interval;
-  if (this.timerBlink > LappBlinkInterval + this.countBlink * 100) {
-    this.countBlink = (this.countBlink + 1) % 4;
-    if (this.countBlink == 0) {
-      this.timerBlink = 0;
-    }
+  this.timer += 1;
+  if (this.timer >= 400) {
+    this.timer %= 400;
+    // 眨一次眼
+    this.face.loop = false;
+    this.face.animationSpeed = 0.18;
+    this.face.gotoAndPlay(0);
   }
-  // 行走动画
-  if (stepsRest <= 0) { // 停止行走
-    this.timerWalk = 0; // 重置行走计时器
-  } else if (puzzleStatus.isRunning && !actions[actionCount].isFinished && actions[actionCount].type == ActionType.GO) { // 正在行走
-    this.timerWalk += interval;
-    if (this.timerWalk > LappWalkInterval) {
-      // 走完一步的处理
-      if (this.countWalk == 11) { // 一个步伐的最后一帧
-        console.log("- Steps Rest: " + stepsRest + ", X: " + this.getX() + ", Y: " + this.getY());
-        // 剩余步数-1
-        stepsRest = (stepsRest - 1 < 0) ? (0) : (stepsRest - 1);
-        // 若没有剩余步数了，判定当前行走动作执行完毕
-        if (stepsRest <= 0) {
-          if (actions[actionCount].type == ActionType.GO) {
-            actions[actionCount].break();
+  // 其他动作动画
+  if (puzzle.isRunning) {
+    let currentAction = this.actions[this.actionIndex];
+    if (this.isActing) { // 正在动作
+      let isFinished = false;
+      switch (currentAction.type) {
+        case ActionType.GO:
+          if (this.walkTime > 0) {
+            this.walkTime -= 1;
+            let dis = 1 / LappWalkInterval;
+            switch (this.direction) {
+              case 0: this.cellX -= dis; break; // Left
+              case 1: this.cellY -= dis; break;  // Up
+              case 2: this.cellX += dis; break; // Right
+              case 3: this.cellY += dis; break; // Down
+              default: console.log("Error: No Direction");
+            }
+          } else { // 动作结束
+            if (this.stopWalk()) { // 成功停止
+              isFinished = true;
+            } // 否则延迟停止
           }
+          break;
+        case ActionType.TURN:
+          if (this.turnTime > 0) {
+            this.turnTime -= 1;
+            if (this.direction != this.lastDirection && this.direction + this.lastDirection != 3) {
+              // 缓慢移动相机焦点
+              let sign = (this.direction == 2 || this.direction == 1) ? (1) : (-1); // 是否移向左焦点
+              this.turnXBia = sign * CameraLRSpace * this.turnTime / LappTurnInterval;
+              this.setTempPosition(this.turnXBia, 0);
+            }
+          } else { // 动作结束
+            this.setPosition();
+            this.turnXBia = 0;
+            isFinished = true;
+          }
+          break;
+        case ActionType.LOG:
+          if (this.logTime > 0) {
+            this.logTime -= 1
+          } else { // 动作结束
+            isFinished = true;
+          }
+          break;
+        case ActionType.COLLECT:
+          if (this.collectTime > 0) {
+            let pastCollectTime = LappCollectInterval - this.collectTime; // 从 0 递增到 LappCollectInterval-1
+            if (pastCollectTime < LappJumpInterval) { // 正在跳起: 0 ~ LappJumpInterval - 1
+              this.cellZ += LappJumpZA * pastCollectTime / LappJumpInterval;
+              // 在最高点时刻钻石开始缩小
+              if (pastCollectTime == LappJumpInterval - 1) {
+                foreground.tryCollect();
+              }
+            } else if (pastCollectTime < 2 * LappJumpInterval) { // 正在落下: LappJumpInterval ~ 2 * LappJumpInterval - 1
+              this.cellZ -= LappJumpZA * (pastCollectTime - LappJumpInterval) / LappJumpInterval;
+              // 落地时把cellZ置为整数以免误差的叠加
+              if (pastCollectTime == 2 * LappJumpInterval - 1) {
+                this.cellZ = Math.round(this.cellZ);
+              }
+            }
+            this.setTempPosition(0, ZBia * this.cellZ);
+            this.collectTime -= 1;
+          } else { // 动作结束
+            isFinished = true;
+          }
+          break;
+        default: // 无动作
+          console.log("Error: No Action to Perform Now");
+      }
+      if (isFinished) { // 若当前动作结束
+        console.log("Finish Action [" + this.actionIndex + "]");
+        this.actionIndex += 1; // 下一个动作
+        this.isActing = false; // 先休息
+        this.restTime = BreakInterval;
+        if (this.actionIndex >= this.actions.length) { // 到达最后一个动作了
+          puzzle.isRunning = false;
+          puzzle.isCompleted = true; // 开启结算
         }
       }
-      // 换帧
-      this.countWalk = (this.countWalk + 1) % 12;
-      this.timerWalk %= LappWalkInterval;
-      // 改位置
-      var dcx = 0;
-      var dcy = 0;
-      switch (currentDirection) {
-        case 0: dcx = -1/12; break; // Left
-        case 1: dcy = -1/12; break;  // Up
-        case 2: dcx = 1/12; break; // Right
-        case 3: dcy = 1/12; break; // Down
-        default: alert("lappland.js - draw(): No Direction !");
-      }
-      this.cellX += dcx;
-      this.cellY += dcy;
-      // 移动相机（相机追随Lappland）
-      camera.move(this.getDX(dcx, dcy), this.getDY(dcy, 0));
-      // 检测是否在地砖上
-      if (detectOnBlock() == -1) {
-        // alert("lappland.js - draw(): Off Blocks !")
-        this.isShocked = true;
-        puzzleStatus.isRunning = false;
-        puzzleStatus.isCompleted = true;
-        puzzleStatus.isFailure = true;
-        puzzleStatus.reason = FailReason.FallFromBlock;
-      }
-    }
-  }
-  // 转向动画
-  if (puzzleStatus.isRunning && !actions[actionCount].isFinished && actions[actionCount].type == ActionType.TURN) {
-    // 计数，转向时间
-    this.timerTurn += 1;
-    // 立刻根据方向换Lappland左右图片
-    if (this.timerTurn < 3) { // 为减少此段代码执行次数所作的尝试
-      if (currentDirection == 2 || currentDirection == 1) { // Right, Up
-        this.setImageR();
-      } else if (currentDirection == 0 || currentDirection == 3) { // Left, Down
-        this.setImageL();
-      } else {
-        alert("lappland.js - draw(): No Direction !");
-      }
-    }
-    if (this.timerTurn <= LappTurnInterval) { // 正在转向
-      if (currentDirection + lastDirection != 3) { // 缓慢移动相机焦点
-        if (currentDirection == 2 || currentDirection == 1) { // 移向左焦点
-          camera.move(CameraLRSpace / LappTurnInterval, 0);
-        } else { // 移向右焦点
-          camera.move(-CameraLRSpace / LappTurnInterval, 0);
+    } else { // 正在休息
+      if (this.restTime > 0) {
+        this.restTime -= 1;
+      } else { // 休息结束（this.actionIndex已经指向了接下来的动作序号）
+        // 初始化动作
+        switch (currentAction.type) {
+          case ActionType.GO:
+            this.walkTime = currentAction.d * LappWalkInterval;
+            this.playWalk();
+            console.log("Start Walking");
+            break;
+          case ActionType.TURN:
+            this.turnTime = LappTurnInterval;
+            this.setDirection(currentAction.dir);
+            if (this.direction != this.lastDirection && this.direction + this.lastDirection != 3){
+              let sign = (this.direction == 2 || this.direction == 1) ? (1) : (-1); // 是否移向左焦点
+              this.turnXBia = sign * CameraLRSpace;
+            }
+            console.log("Start Turning");
+            break;
+          case ActionType.LOG:
+            this.logTime = LappLogInterval;
+            let message = currentAction.log;
+            toastReplaceRule(CanvasPixi.getBoundingClientRect().x, CanvasPixi.getBoundingClientRect().y, message.length);
+            M.toast({html: message, displayLength: LappLogInterval * 16.7, classes: "rounded my-toast"});
+            console.log("Start Speaking");
+            break;
+          case ActionType.COLLECT:
+            this.collectTime = LappCollectInterval;
+            console.log("Start Collecting");
+            break;
+          default: // 无动作
+            console.log("Error: No Action to Perform Now");
         }
-      }
-    } else { // 结束转向
-      this.timerTurn = 0;
-      // 确认相机焦点
-      if (currentDirection == 2 || currentDirection == 1) {
-        camera.setXL();
-      } else { // 移向右焦点
-        camera.setXR();
-      }
-      actions[actionCount].break();
-    }
-  }
-  // 对话动画
-  if (puzzleStatus.isRunning && !actions[actionCount].isFinished && actions[actionCount].type == ActionType.LOG) {
-    this.timerLog += interval;
-    // 弹出Toast（仅一次）
-    if (!this.hasToasted) {
-      let message = actions[actionCount].log;
-      toastReplaceRule(canvasBack.getBoundingClientRect().x, canvasBack.getBoundingClientRect().y, message.length);
-      M.toast({html: message, displayLength: LappLogInterval, classes: "rounded my-toast"});
-      this.hasToasted = true;
-    }
-    // 时间足够后结束对话
-    if (this.timerLog > LappLogInterval) {
-      this.timerLog = 0;
-      this.hasToasted = false;
-      actions[actionCount].break();
-    }
-  }
-  // 获取钻石动画（接foreground.js的drawDiamond）
-  if (puzzleStatus.isRunning && !actions[actionCount].isFinished && actions[actionCount].type == ActionType.COLLECT) {
-    var blockIndex = detectOnBlock();
-    if (blockIndex > -1 && blockIndex < blocks.length) { // 当前处于地砖上
-      if (blocks[blockIndex].item == ItemType.Diamond && !blocks[blockIndex].isCollected) { // 当前地砖存在钻石
-        this.timerCollect += 1;
-        if (this.timerCollect > LappJumpInterval * 2) { // 结束跳跃
-          console.log("- Waiting for Collect");
-        } else if (this.timerCollect > LappJumpInterval) { // timer: LappJumpInterval+1 ~ .. * 2
-          // 开始下降
-          this.cellZ -= LappJumpZA * (this.timerCollect - LappJumpInterval - 1) / LappJumpInterval;
-          if (!blocks[blockIndex].isCollected) {
-            blocks[blockIndex].isCollecting = true; // 钻石的回收动画交给foreground.js的drawDiamond处理
-          }
-          if (this.timerCollect == LappJumpInterval * 2) { // 落地了，把cellZ置为整数以免误差的叠加
-            this.cellZ = Math.round(this.cellZ);
-          }
-        } else { // timer: 1 ~ LappJumpInterval
-          // 开始跳起
-          this.cellZ += LappJumpZA * (LappJumpInterval - this.timerCollect) / LappJumpInterval;
-        }
-      } else {
-        // alert("lappland.js - draw(): No Diamond !");
-        puzzleStatus.isRunning = false;
-        puzzleStatus.isCompleted = true;
-        puzzleStatus.isFailure = true;
-        puzzleStatus.reason = FailReason.FailedToCollect;
+        this.isActing = true;
       }
     }
   }
-  // 绘制开始
-  ctxtLB.save();
-  ctxtLM.save();
-  ctxtLC.save();
-  ctxtLF.save();
-  ctxtS.save();
-  // 绘制原点设为(x, y)
-  var ox = this.getX() - LappWidth / 2 - camera.x;
-  var oy = this.getY() - LappHeight / 2 - camera.y;
-  ctxtLB.translate(ox, oy);
-  ctxtLM.translate(ox, oy);
-  ctxtLC.translate(ox, oy);
-  ctxtLF.translate(ox, oy);
-  ctxtS.translate(ox, oy);
-  // 摇摆动画: Tail (ctxtLB), Hair/Ribbon (ctxtLF)
-  ctxtLB.drawImage(this.tailImg[this.count], 0, 0, LappWidth, LappHeight);
-  ctxtLF.drawImage(this.hairImg[this.count], 0, 0, LappWidth, LappHeight);
-  ctxtLF.drawImage(this.ribbonImg[this.count], 0, 0, LappWidth, LappHeight);
-  // 眨眼动画: Face (ctxtLM)
-  ctxtLM.drawImage(this.faceImg[this.countBlink], 0, 0, LappWidth, LappHeight);
-  // 行走动画: Leg (ctxtLM), ArmB (ctxtLB), ArmF (ctxtLF)
-  if (stepsRest > 0 && puzzleStatus.isRunning && !actions[actionCount].isFinished && actions[actionCount].type == ActionType.GO) { // 正在行走
-    ctxtLM.drawImage(this.legImg[this.countWalk], 0, 0, LappWidth, LappHeight);
-    ctxtLB.drawImage(this.armbImg[this.countWalk], 0, 0, LappWidth, LappHeight);
-    ctxtLF.drawImage(this.armfImg[this.countWalk], 0, 0, LappWidth, LappHeight);
-  } else {
-    ctxtLM.drawImage(this.legnImg, 0, 0, LappWidth, LappHeight);
-    ctxtLB.drawImage(this.armbnImg, 0, 0, LappWidth, LappHeight);
-    ctxtLF.drawImage(this.armfnImg, 0, 0, LappWidth, LappHeight);
-  }
-  // 无动画: Clothes (ctxtLC)
-  ctxtLC.drawImage(this.clothesImg, 0, 0, LappWidth, LappHeight);
-  // 无动画: Shadow (ctxtI)
-  ctxtS.globalAlpha = 0.3;
-  ctxtS.drawImage(this.shadowImg, 0, LappShadowYBia - this.cellZ * CellZBia, LappWidth, LappHeight);
-  // 表情气泡
-  if (this.showBubble) {
-    var sign = 0;
-    if (currentDirection == 2 || currentDirection == 1) { // Right, Up
-      this.setBubbleR();
-      sign = 1;
-    } else if (currentDirection == 0 || currentDirection == 3) { // Left, Down
-      this.setBubbleL();
-      sign = -1;
-    } else {
-      alert("lappland.js - draw(): No Direction !");
-    }
-    ctxtLF.drawImage(this.bubbleImg, sign * LappBubbleXBia, LappBubbleYBia, LappBubbleWidth, LappBubbleHeight);
-  }
-  // 震惊脸
-  if (this.isShocked) {
-    ctxtLF.drawImage(this.shockImg, 0, 0, LappWidth, LappHeight);
-  }
-  // 绘制结束
-  ctxtLB.restore();
-  ctxtLM.restore();
-  ctxtLC.restore();
-  ctxtLF.restore();
-  ctxtS.restore();
 }
