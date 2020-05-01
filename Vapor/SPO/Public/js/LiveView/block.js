@@ -87,9 +87,9 @@ Block.prototype.update = function() {
         } else { // 到达
           this.itemSprite.setTransform(x + dx, y + DiamondYBia + dy, this.diamondScale, this.diamondScale);
           this.itemSprite.gotoAndStop(0);
+          foreground.collectedNum += 1;
           this.isCollecting = false;
           this.isCollected = true;
-          foreground.collectedNum += 1;
           console.log("Diamond Collected (" + foreground.collectedNum + "/" + foreground.diamondNum + ")");
         }
       }

@@ -1,0 +1,34 @@
+#set("title") { SPO Puzzles, Welcome! }
+
+#set("card_content") {
+  <span class="card-title">Test</span>
+  <p>测试阶段，当前可用函数有：</p>
+  <p>(1) hello(), 返回一个字符串；</p>
+  <p>(2) goForward(), 前行1步；</p>
+  <p>(3) goForward(step: Int), 前行step步；</p>
+  <p>(4) turn(to: Direction), 转向某方向（.Left/.Up/.Right/.Down）；</p>
+  <p>(5) turnLeft(), turnRight(), 向左转/向右转；</p>
+  <p>(6) log(_ content: String), 说一句话；</p>
+  <p>注意：当前不支持 import</p>
+  <p>推荐测试代码：</p>
+  <p>goForward(step: 2)</p>
+  <p>collect()</p>
+  <p>goForward(step: 2)</p>
+  <p>for _ in 1...4 \{ </p>
+  <p>goForward(step: 2)</p>
+  <p>log("I want to get it.")</p>
+  <p>collect()</p>
+  <p>goForward()</p>
+  <p>turnLeft()</p>
+  <p>\}</p>
+  <p>log(hello())</p>
+  <p>turn(to: .Left)</p>
+  <p>log("Succeed now ?")</p>
+  <p>turn(to: .Right)</p>
+}
+
+#set("collapsible_body") {
+  <span>Tips: ......</span>
+}
+
+#embed("spo_base")

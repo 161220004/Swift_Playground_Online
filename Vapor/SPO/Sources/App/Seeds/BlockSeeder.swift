@@ -16,6 +16,16 @@ final class BlockSeeder: Migration {
     static func prepare(on conn: Database.Connection) -> Future<Void> {
         var blocks = [Future<Block>]()
         print("BlockSeeder: Create Blocks")
+        // Blocks in Puzzle 1-1
+        let blocksP1 = [Block(pid: 1, .Normal, x: 0, y: 0, item: .None),
+                        Block(pid: 1, .Normal, x: 1, y: 0, item: .None),
+                        Block(pid: 1, .Normal, x: 2, y: 0, item: .None),
+                        Block(pid: 1, .Purple, x: 3, y: 0, item: .Diamond),
+        ]
+        for i in 0..<blocksP1.count {
+            blocks.append(blocksP1[i].create(on: conn))
+        }
+        
         // Blocks in Puzzle 0 (Test)
         let blocksP0 = [Block(pid: 0, .Normal, x: 4, y: -3, item: .None),
                         Block(pid: 0, .Purple, x: 5, y: -3, item: .Diamond),
@@ -37,6 +47,7 @@ final class BlockSeeder: Migration {
         for i in 0..<blocksP0.count {
             blocks.append(blocksP0[i].create(on: conn))
         }
+        
         return blocks
             .flatten(on: conn)          // [Future<Block>] -> Future<[Block]>
             .transform(to: Void())      // Future<[Block]> -> Future<Void>

@@ -171,7 +171,7 @@ final class RunManager {
     static private func getStampInFilename(_ filename: String) -> String? {
         if (filename.contains("code-")) {
             return String(filename.dropFirst(5).dropLast(6))
-        } else if (filename.contains("stamp-")) {
+        } else if (filename.contains("global-")) {
             return String(filename.dropFirst(6).dropLast(6))
         } else if (filename.contains("spo-proj-")) {
             return String(filename.dropFirst(9))

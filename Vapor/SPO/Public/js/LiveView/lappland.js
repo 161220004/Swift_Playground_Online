@@ -325,14 +325,13 @@ Lappland.prototype.update = function() {
         this.actionIndex += 1; // 下一个动作
         this.isActing = false; // 先休息
         this.restTime = BreakInterval;
-        if (this.actionIndex >= this.actions.length) { // 到达最后一个动作了
-          puzzle.isRunning = false;
-          puzzle.isCompleted = true; // 开启结算
-        }
       }
     } else { // 正在休息
       if (this.restTime > 0) {
         this.restTime -= 1;
+      } else if (this.actionIndex >= this.actions.length) { // 到达最后一个动作了
+        puzzle.isRunning = false;
+        puzzle.isCompleted = true; // 开启结算
       } else { // 休息结束（this.actionIndex已经指向了接下来的动作序号）
         // 初始化动作
         switch (currentAction.type) {

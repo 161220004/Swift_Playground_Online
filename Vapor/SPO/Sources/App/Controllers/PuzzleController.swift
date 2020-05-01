@@ -49,7 +49,7 @@ extension PuzzleController {
     /// Get: one puzzle
     func getPuzzle(_ req: Request) throws -> Future<View> {
         let pid = try req.parameters.next(Int.self)
-        return try req.view().render("spo_p\(pid)")
+        return try req.view().render("spo_\(pid)")
     }
     
     func getScene(_ req: Request) throws -> Future<Response> {
