@@ -28,6 +28,8 @@ function Block(btype, cx, cy, itype, z) {
   this.diamondScale = 1.0; // 收集过程中从 1.0 倒数到 0.3
   this.diamondFlyTime = 0; // 飞行时间 0 ~ MiniDiamondFlyInterval
   this.collectNo = 0; // 是第几个被收集的钻石
+  // 是否被转换颜色
+  this.isSwitched = false;
   // Block Sprite
   this.type = btype;
   this.blockSprite = new PIXI.Sprite(itemsTextures["Block"][btype]);
@@ -57,6 +59,22 @@ Block.prototype.reset = function() {
   this.collectNo = 0; // 是第几个被收集的钻石
   if (this.itemType == ItemType.Diamond) {
     this.itemSprite.play();
+  }
+  if (this.isSwitched) { // 恢复转换前的颜色
+    this.switchIt();
+  }
+}
+
+/** 点亮黑色砖块/熄灭黄色砖块 */
+Block.prototype.switchIt = function() {
+  if (this.type == BlockType.Dark) {
+    this.type = BlockType.Yellow;
+    this.isSwitched = !this.isSwitched;
+    this.blockSprite.texture = itemsTextures["Block"][this.type];
+  } else if (this.type == BlockType.Yellow) {
+    this.type = BlockType.Dark;
+    this.isSwitched = !this.isSwitched;
+    this.blockSprite.texture = itemsTextures["Block"][this.type];
   }
 }
 

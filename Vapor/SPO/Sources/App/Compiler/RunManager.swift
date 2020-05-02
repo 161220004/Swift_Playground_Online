@@ -158,7 +158,10 @@ final class RunManager {
                 }
             } else if (action.contains(Keyword.COLLECT.rawValue)) {
                 // COLLECT
-                paces.append(Pace())
+                paces.append(Pace(type: Keyword.COLLECT.rawValue))
+            } else if (action.contains(Keyword.SWITCHIT.rawValue)) {
+                // SWITCHIT
+                paces.append(Pace(type: Keyword.SWITCHIT.rawValue))
             } else {
                 print("[ Error ] RunManager.translateActions: Undefined Action Appears")
             }

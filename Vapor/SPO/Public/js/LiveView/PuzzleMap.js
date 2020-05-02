@@ -46,7 +46,7 @@ PuzzleMap.prototype.init = function() {
       case BlockType.Green: colorRGB = 0xc8e6c9; break;
       case BlockType.Blue: colorRGB = 0xbbdefb; break;
       case BlockType.Purple: colorRGB = 0xd1c4e9; break;
-      case BlockType.Dark: colorRGB = 0xbdbdbd; break;
+      case BlockType.Dark: colorRGB = 0x757575; break;
       default: colorRGB = 0xeeeeee;
     }
     this.mapBlocks[i] = new PIXI.Graphics();
@@ -92,12 +92,25 @@ PuzzleMap.prototype.update = function() {
   this.miniLapp.visible = this.isVisible;
   this.setMiniLappland();
   for (let i = 0; i < foreground.blocks.length; i++) {
-    this.mapBlocks[i].visible = this.isVisible;
-    if (foreground.blocks[i].itemType == ItemType.Diamond) {
-      if (foreground.blocks[i].isCollected) {
-        this.mapDiamonds[i].visible = false;
-      } else {
-        this.mapDiamonds[i].visible = this.isVisible;
+    if (foreground.blocks[i].type == BlockType.Yellow || foreground.blocks[i].type == BlockType.Dark) { // 重新绘制黄色/黑色
+      let mapboardHeight = MapMargin * 2 + foreground.blockNumY * MapSpace;
+      let mapBlockX = MapPostionLU + MapMargin + (foreground.blocks[i].cellX - foreground.blockLeft) * MapSpace;
+      let mapBlockY = MapPostionLU + mapboardHeight - MapMargin - MapBlockSize
+                    + (foreground.blocks[i].cellY - foreground.blockBottom) * MapSpace;
+      this.mapBlocks[i].clear();
+      this.mapBlocks[i].visible = this.isVisible;
+      if (foreground.blocks[i].type == BlockType.Yellow) this.mapBlocks[i].beginFill(0xfff9c4);
+      if (foreground.blocks[i].type == BlockType.Dark) this.mapBlocks[i].beginFill(0x757575);
+      this.mapBlocks[i].drawRect(mapBlockX, mapBlockY, MapBlockSize, MapBlockSize);
+      this.mapBlocks[i].endFill();
+    } else {
+      this.mapBlocks[i].visible = this.isVisible;
+      if (foreground.blocks[i].itemType == ItemType.Diamond) {
+        if (foreground.blocks[i].isCollected) {
+          this.mapDiamonds[i].visible = false;
+        } else {
+          this.mapDiamonds[i].visible = this.isVisible;
+        }
       }
     }
   }

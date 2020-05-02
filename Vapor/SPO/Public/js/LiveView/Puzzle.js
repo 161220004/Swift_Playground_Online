@@ -4,8 +4,9 @@ var FailReason = {
   FailedToCompile: 1, // Run初，失败：编译失败
   FallFromBlock: 2, // Run途中，失败：掉落
   FailedToCollect: 3, // Run途中，失败：collect空地砖
-  EndNotEnough: 4, // Run结束，失败：宝石收集不全
-  Undefined: 5, // Debug: 未知错误
+  FailedToSwitch: 4, // Run途中，失败：switch错地砖
+  EndNotEnough: 5, // Run结束，失败：宝石收集不全
+  Undefined: 6, // Debug: 未知错误
 }
 
 /** Puzzle 类，描述当前状态
@@ -164,6 +165,20 @@ Puzzle.prototype.judgeResult = function() {
         this.reason = FailReason.FailedToCollect;
         this.showResultSprite();
         console.log("The End: Failed To Collect");
+        return;
+      }
+    }
+    if (lappland.getCurActType() == ActionType.SWITCHIT) { // 转换砖块时检测
+      // 若当前地砖不能转换
+      let blockIndex = foreground.detectOnBlock();
+      if (blockIndex < 0 || (foreground.blocks[blockIndex].type != BlockType.Dark && foreground.blocks[blockIndex].type != BlockType.Yellow)) {
+        lappland.isActing = false;
+        this.isRunning = false;
+        this.isCompleted = true;
+        this.isFailure = true;
+        this.reason = FailReason.FailedToSwitch;
+        this.showResultSprite();
+        console.log("The End: Failed To Switch");
         return;
       }
     }

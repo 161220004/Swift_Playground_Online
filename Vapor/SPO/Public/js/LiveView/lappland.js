@@ -44,6 +44,8 @@ function Lappland() {
   this.turnTime = LappTurnInterval; // TURN: 转向剩余时间
   this.turnXBia = 0; // TURN: 转向时X方向相机偏移量，用于矫正Block的位置计算
   this.collectTime = LappCollectInterval; // COLLECT: 收集宝石跳跃时间
+  this.switchTime = LappSwitchInterval; // SWITCH: 切换砖块时间
+  this.isSwitched = false; // SWITCH: 是否切换砖块完成
   console.log("Lappland Added");
 }
 
@@ -66,6 +68,9 @@ Lappland.prototype.reset = function() {
   this.lastDirection = this.direction; // TURN: 上一次的朝向
   this.turnTime = LappTurnInterval; // TURN: 转向剩余时间
   this.turnXBia = 0; // TURN: 转向时X方向相机偏移量，用于矫正Block的位置计算
+  this.collectTime = LappCollectInterval; // COLLECT: 收集宝石跳跃时间
+  this.switchTime = LappSwitchInterval; // SWITCH: 切换砖块时间
+  this.isSwitched = false; // SWITCH: 是否切换砖块完成
   console.log("Lappland Reset");
 }
 
@@ -317,6 +322,17 @@ Lappland.prototype.update = function() {
             isFinished = true;
           }
           break;
+        case ActionType.SWITCHIT:
+          if (this.switchTime > 0) {
+            this.switchTime -= 1;
+            if (Math.random() < 0.9 - this.switchTime * 0.02) {
+              foreground.trySwitch();
+              this.isSwitched = !this.isSwitched;
+            }
+          } else { // 动作结束
+            if (!this.isSwitched) foreground.trySwitch();
+            isFinished = true;
+          }
         default: // 无动作
           console.log("Error: No Action to Perform Now");
       }
@@ -359,6 +375,11 @@ Lappland.prototype.update = function() {
           case ActionType.COLLECT:
             this.collectTime = LappCollectInterval;
             console.log("Start Collecting");
+            break;
+          case ActionType.SWITCHIT:
+            this.switchTime = LappSwitchInterval;
+            this.isSwitched = false;
+            console.log("Start Switching");
             break;
           default: // 无动作
             console.log("Error: No Action to Perform Now");

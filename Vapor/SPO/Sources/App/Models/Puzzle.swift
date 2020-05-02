@@ -33,7 +33,7 @@ final class Puzzle: MySQLModel, Content {
         self.description = description
         self.lappInitDir = lappdir
         self.randDiamNum = 0
-        self.backInitX = 0
+        self.backInitX = -50
         self.backInitY = 0
     }
     
@@ -42,7 +42,7 @@ final class Puzzle: MySQLModel, Content {
         self.description = description
         self.lappInitDir = lappdir
         self.randDiamNum = randNum
-        self.backInitX = 0
+        self.backInitX = -50
         self.backInitY = 0
     }
     

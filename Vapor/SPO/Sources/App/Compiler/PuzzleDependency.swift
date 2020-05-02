@@ -17,6 +17,7 @@ enum FunctionDependency: String {
     case TurnLeft = "TurnLeft.swift"
     case TurnRight = "TurnRight.swift"
     case Collect = "Collect.swift"
+    case SwitchIt = "SwitchIt.swift"
     case Test = "Hello.swift"
     
 }
@@ -39,6 +40,8 @@ final class PuzzleDependency {
             return self.generate(functions: .Log, .Move, .Collect)
         case 2: // Puzzle 1-2
             return self.generate(functions: .Log, .Move, .Collect, .TurnLeft)
+        case 3: // Puzzle 1-3
+            return self.generate(functions: .Log, .Move, .Collect, .TurnLeft, .SwitchIt)
         default:
             return self.generate(functions: .Log, .Test)
         }

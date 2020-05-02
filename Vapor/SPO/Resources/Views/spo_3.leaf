@@ -1,0 +1,47 @@
+#set("title") { SPO Puzzle 1-1 }
+
+#set("pagination_next") {
+  <a href="/spo/2" class="white indigo-text waves-effect waves-indigo btn left"><< Previous</a>
+  <a href="/spo/4" class="white indigo-text waves-effect waves-indigo btn right">Next >></a>
+}
+
+#set("card_content") {
+  <span class="card-title">第一章: 命令</span>
+  <span class="card-title card-subtitle">>>> 关卡3: 切换砖块颜色</span>
+  <br>
+  <p>目标：收集宝石，然后切换特殊砖块的颜色。</p>
+  <br>
+  <p>到目前为止，你已经学习了如何使用命令“goForward()”、“turnLeft()”和“collect()”让Lappland四处走动和收集宝石。
+     在这一关中，你将用到一个新命令：“switchIt()”（切换砖块颜色）。</p>
+  <br>
+  <p>砖块颜色说明：</p>
+  <p>(1) 普通砖块为白色，宝石所在的砖块为紫色，这两种砖块的颜色不可以改变；</p>
+  <p>(2) 黄色的砖块处于“点亮”状态，可以通过“switchIt()”命令变成“熄灭”状态的黑色砖块；</p>
+  <p>(3) 黑色砖块也可以通过“switchIt()”命令变成“点亮”状态的黄色的砖块；</p>
+  <br>
+  <p>(1) 输入命令让Lappland走到宝石处并收集宝石；</p>
+  <p>(2) 继续输入命令让Lappland走到“熄灭”的地砖处，然后“点亮”这个地砖；</p>
+  <p>(3) 点击“Run”开始运行你的代码；</p>
+}
+
+#set("collapsible_body") {
+  <span>收集宝石，然后让Lappland走到黑色的地砖上，然后使用“switchIt()”命令“点亮”地砖。</span>
+}
+
+#set("pagination_all") {
+  <ul class="pagination">
+    <li class="waves-effect"><a href="/spo/2"><i class="material-icons">chevron_left</i></a></li>
+    <li class="waves-effect"><a href="/spo/1">1-1</a></li>
+    <li class="waves-effect"><a href="/spo/2">1-2</a></li>
+    <li class="active"><a href="#!">1-3</a></li>
+    <li class="waves-effect"><a href="/spo/4">2-1</a></li>
+    <li class="waves-effect"><a href="/spo/5">2-2</a></li>
+    <li class="waves-effect"><a href="/spo/6">2-3</a></li>
+    <li class="waves-effect"><a href="/spo/7">3-1</a></li>
+    <li class="waves-effect"><a href="/spo/8">3-2</a></li>
+    <li class="waves-effect"><a href="/spo/9">3-3</a></li>
+    <li class="waves-effect"><a href="/spo/4"><i class="material-icons">chevron_right</i></a></li>
+  </ul>
+}
+
+#embed("spo_base")

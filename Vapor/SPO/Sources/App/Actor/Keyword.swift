@@ -14,5 +14,6 @@ enum Keyword: String {
     case LOG = "LOG"
     case TURN = "TURN"
     case COLLECT = "COLLECT"
+    case SWITCHIT = "SWITCHIT"
     
 }
