@@ -20,6 +20,10 @@ final class PuzzleSeeder: Migration {
         let puzzle1 = Puzzle(pid: 1, ld: 2, "Puzzle 1-1").create(on: conn)
         puzzles.append(puzzle1)
         
+        // Puzzle 1-2
+        let puzzle2 = Puzzle(pid: 2, ld: 2, "Puzzle 1-2").create(on: conn)
+        puzzles.append(puzzle2)
+        
         // Puzzle 0 (Test)
         let puzzle0 = Puzzle(pid: 0, ld: 2, "Puzzle 0 For Test").create(on: conn)
         puzzles.append(puzzle0)

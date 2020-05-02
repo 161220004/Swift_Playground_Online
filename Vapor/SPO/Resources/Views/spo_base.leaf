@@ -39,8 +39,7 @@
 
   <!-- 关卡导航（上一关/下一关） -->
   <div class="row my-add-top my-add-bottom my-fix-container">
-    <a href="#" class="white indigo-text waves-effect waves-indigo btn left"><< Previous</a>
-    <a href="#" class="white indigo-text waves-effect waves-indigo btn right">Next >></a>
+    #get(pagination_next)
   </div>
 
   <!-- 题目内容 -->
@@ -93,6 +92,13 @@
         <a id="restart" class="btn white indigo-text waves-effect waves-purple my-fix-msg-btn">Restart</a>
       </div>
     </div>
+  </div>
+
+  <!-- 关卡导航（全部） -->
+  <div class="row container center">
+    <br>
+    <br>
+    #get(pagination_all)
   </div>
 
   <!-- Puzzle目录按钮集 -->

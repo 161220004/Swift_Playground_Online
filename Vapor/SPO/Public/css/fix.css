@@ -64,6 +64,11 @@
   margin-top: 80px;
 }
 
+.card-subtitle {
+  font-size: 18px !important;
+  margin-left: 50px !important;
+}
+
 .waves-effect.waves-indigo .waves-ripple {
   /* The alpha value allows the text and background color of the button to still show through. */
   background-color: rgba(197, 202, 233, 0.8);

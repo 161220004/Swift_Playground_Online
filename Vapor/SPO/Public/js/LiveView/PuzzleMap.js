@@ -35,8 +35,9 @@ PuzzleMap.prototype.init = function() {
   // Mini Blocks/Diamonds
   for (let i = 0; i < foreground.blocks.length; i++) {
     // 添加地砖
-    let mapBlockX = MapPostionLU + MapMargin + foreground.blocks[i].cellX * MapSpace;
-    let mapBlockY = MapPostionLU + mapboardHeight - MapMargin - MapBlockSize + foreground.blocks[i].cellY * MapSpace;
+    let mapBlockX = MapPostionLU + MapMargin + (foreground.blocks[i].cellX - foreground.blockLeft) * MapSpace;
+    let mapBlockY = MapPostionLU + mapboardHeight - MapMargin - MapBlockSize
+                  + (foreground.blocks[i].cellY - foreground.blockBottom) * MapSpace;
     let colorRGB;
     switch (foreground.blocks[i].type) {
       case BlockType.Normal: colorRGB = 0xeeeeee; break;
@@ -77,8 +78,8 @@ PuzzleMap.prototype.init = function() {
 /** 重新确认 MiniLappland 的正确位置 */
 PuzzleMap.prototype.setMiniLappland = function() {
   let mapboardHeight = MapMargin * 2 + foreground.blockNumY * MapSpace;
-  let mapLappX = MapPostionLU + MapMargin + lappland.cellX * MapSpace + MapBlockSize / 2;
-  let mapLappY = MapPostionLU + mapboardHeight - MapMargin + lappland.cellY * MapSpace - MapBlockSize / 2;
+  let mapLappX = MapPostionLU + MapMargin + (lappland.cellX - foreground.blockLeft) * MapSpace + MapBlockSize / 2;
+  let mapLappY = MapPostionLU + mapboardHeight - MapMargin + (lappland.cellY - foreground.blockBottom) * MapSpace - MapBlockSize / 2;
   this.miniLapp.position.set(mapLappX, mapLappY);
 }
 

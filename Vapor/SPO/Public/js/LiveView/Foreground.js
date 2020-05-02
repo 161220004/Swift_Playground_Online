@@ -7,6 +7,8 @@ function Foreground() {
   // 用于绘制小地图
   this.blockNumX = 0; // blocks在X方向跨度
   this.blockNumY = 0; // blocks在Y方向跨度
+  this.blockBottom = 0; // blocks在Y方向最小值
+  this.blockLeft = 0; // blocks在X方向最小值
   // 其他数据
   this.diamondNum = 0; // 钻石总数
   this.collectedNum = 0; // 收集总数
@@ -48,6 +50,8 @@ Foreground.prototype.init = function() {
   }
   this.blockNumX = this.blocks[maxXIndex].cellX - this.blocks[minXIndex].cellX + 1;
   this.blockNumY = this.blocks[maxYIndex].cellY - this.blocks[minYIndex].cellY + 1;
+  this.blockBottom = this.blocks[maxYIndex].cellY;
+  this.blockLeft = this.blocks[minXIndex].cellX;
 }
 
 /** 重置 */

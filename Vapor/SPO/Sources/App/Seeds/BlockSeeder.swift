@@ -26,6 +26,21 @@ final class BlockSeeder: Migration {
             blocks.append(blocksP1[i].create(on: conn))
         }
         
+        // Blocks in Puzzle 1-2
+        let blocksP2 = [Block(pid: 2, .Purple, x: 2, y: -2, item: .Diamond),
+                        Block(pid: 2, .Normal, x: 2, y: -1, item: .None),
+                        Block(pid: 2, .Normal, x: 0, y: 0, item: .None),
+                        Block(pid: 2, .Normal, x: 1, y: 0, item: .None),
+                        Block(pid: 2, .Normal, x: 2, y: 0, item: .None),
+                        Block(pid: 2, .Normal, x: 3, y: 0, item: .None),
+                        Block(pid: 2, .Normal, x: 4, y: 0, item: .None),
+                        Block(pid: 2, .Normal, x: 2, y: 1, item: .None),
+                        Block(pid: 2, .Normal, x: 2, y: 2, item: .None),
+                        ]
+        for i in 0..<blocksP2.count {
+            blocks.append(blocksP2[i].create(on: conn))
+        }
+        
         // Blocks in Puzzle 0 (Test)
         let blocksP0 = [Block(pid: 0, .Normal, x: 4, y: -3, item: .None),
                         Block(pid: 0, .Purple, x: 5, y: -3, item: .Diamond),

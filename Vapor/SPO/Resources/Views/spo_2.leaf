@@ -1,0 +1,38 @@
+#set("title") { SPO Puzzle 1-1 }
+
+#set("pagination_next") {
+  <a href="/spo/1" class="white indigo-text waves-effect waves-indigo btn left"><< Previous</a>
+  <a href="/spo/3" class="white indigo-text waves-effect waves-indigo btn right">Next >></a>
+}
+
+#set("card_content") {
+  <span class="card-title">第一章: 命令</span>
+  <span class="card-title card-subtitle">>>> 关卡2: 左转命令</span>
+  <br>
+  <p>目标：把移动和转弯这两个命令结合起来，去收集宝石。</p>
+  <br>
+  <p>这一关和上一关类似，但这一次Lappland需要左转才能到达宝石处，你可以使用上一关中的命令“goForward()”和“collect()”，
+    也可以使用新命令“turnLeft()”（向左转）。</p>
+  <br>
+  <p>(1) 构思让Lappland走到宝石处并收集宝石所需的命令；</p>
+  <p>(2) 在代码编辑区域输入命令；</p>
+  <p>(3) 点击“Run”开始运行你的代码；</p>
+}
+
+#set("collapsible_body") {
+  <span>若要到达宝石处，Lappland需要向前走两步，向左转，然后再向前走两步。</span>
+}
+
+#set("pagination_all") {
+  <ul class="pagination">
+    <li class="waves-effect"><a href="/spo/1"><i class="material-icons">chevron_left</i></a></li>
+    <li class="waves-effect"><a href="/spo/1">1-1</a></li>
+    <li class="active"><a href="#!">1-2</a></li>
+    <li class="waves-effect"><a href="/spo/3">1-3</a></li>
+    <li class="waves-effect"><a href="/spo/4">2-1</a></li>
+    <li class="waves-effect"><a href="/spo/5">2-2</a></li>
+    <li class="waves-effect"><a href="/spo/3"><i class="material-icons">chevron_right</i></a></li>
+  </ul>
+}
+
+#embed("spo_base")
