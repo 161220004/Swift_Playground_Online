@@ -6,7 +6,8 @@ var FailReason = {
   FailedToCollect: 3, // Run途中，失败：collect空地砖
   FailedToSwitch: 4, // Run途中，失败：switch错地砖
   EndNotEnough: 5, // Run结束，失败：宝石收集不全
-  Undefined: 6, // Debug: 未知错误
+  EndNotOn: 6, // Run结束，失败：砖块未全部点亮
+  Undefined: 7, // Debug: 未知错误
 }
 
 /** Puzzle 类，描述当前状态
@@ -185,17 +186,23 @@ Puzzle.prototype.judgeResult = function() {
   }
   // 结束时失败
   if (this.isCompiled && this.isCompleted) {
-    if (foreground.collectedNum == foreground.diamondNum) {
-      this.isSuccess = true;
-      this.reason = FailReason.None;
-      this.showResultSprite();
-      console.log("The End: Success");
-      return;
-    } else {
+    if (foreground.collectedNum != foreground.diamondNum) { // 宝石数不足
       this.isFailure = true;
       this.reason = FailReason.EndNotEnough;
       this.showResultSprite();
       console.log("The End: Diamond Not Enough");
+      return;
+    } else if (foreground.switchOffNum != 0) {  // 可变砖块没有全部点亮
+      this.isFailure = true;
+      this.reason = FailReason.EndNotOn;
+      this.showResultSprite();
+      console.log("The End: Switch Not On");
+      return;
+    } else {
+      this.isSuccess = true;
+      this.reason = FailReason.None;
+      this.showResultSprite();
+      console.log("The End: Success");
       return;
     }
   }

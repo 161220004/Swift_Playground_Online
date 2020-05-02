@@ -48,13 +48,13 @@ const DiamondYBia = -108;
 
 // Puzzle信息栏的钻石尺寸与偏移
 const MiniDiamondX = 460; // 基础偏移（左上）
-const MiniDiamondY = 36; // 基础偏移（左上）
+const MiniDiamondY = 16; // 基础偏移（左上）
 const MiniDiamondSpace = 18; // X方向间距
 const MiniDiamondFlyInterval = 40; // 钻石飞行时间
 
 // Puzzle信息栏的砖块尺寸与偏移
 const MiniSwitchX = 460;
-const MiniSwitchY = 16;
+const MiniSwitchY = 36;
 const MiniSwitchR = 7;
 const MiniSwitchSpace = 18; // X方向间距
 

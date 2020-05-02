@@ -331,8 +331,10 @@ Lappland.prototype.update = function() {
             }
           } else { // 动作结束
             if (!this.isSwitched) foreground.trySwitch();
+            console.log("Block Switched (" + foreground.switchOnNum + "/" + (foreground.switchOnNum + foreground.switchOffNum) + ")");
             isFinished = true;
           }
+          break;
         default: // 无动作
           console.log("Error: No Action to Perform Now");
       }

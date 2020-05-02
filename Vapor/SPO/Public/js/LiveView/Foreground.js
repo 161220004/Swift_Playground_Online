@@ -166,6 +166,8 @@ Foreground.prototype.trySwitch = function() {
   let blockIndex = foreground.detectOnBlock();
   if (blockIndex >= 0 && (foreground.blocks[blockIndex].type == BlockType.Dark || foreground.blocks[blockIndex].type == BlockType.Yellow)) {
     foreground.blocks[blockIndex].switchIt();
+    this.setSwitchNum();
+    this.setSwitchMap();
   } else {
     console.log("Unexpect Error When Switch");
   }
@@ -176,7 +178,4 @@ Foreground.prototype.update = function() {
   for (let i = 0; i < this.blocks.length; i++) {
     this.blocks[i].update();
   }
-  // 绘制右上角点亮总数
-  this.setSwitchNum();
-  this.setSwitchMap();
 }
