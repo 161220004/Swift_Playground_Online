@@ -1,6 +1,2 @@
 # For Mac
 .DS_Store
-
-# Docker volumes
-MySQL/data/*
-!MySQL/data/*.gitkeep

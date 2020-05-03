@@ -5,8 +5,6 @@
 //  Created by 曹洋笛 on 2020/1/31.
 //
 
-import Fluent
-import FluentMySQL
 import Vapor
 import HTTP
 
