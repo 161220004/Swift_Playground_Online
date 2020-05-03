@@ -5,6 +5,6 @@ services:
       context: ./Vapor
       args:
         env: docker
-    image: aldebarain/spo-vapor:latest
+    image: aldebarain/spo:latest
     ports:
       - 8080:8080
