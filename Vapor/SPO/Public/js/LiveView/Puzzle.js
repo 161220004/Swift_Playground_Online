@@ -4,8 +4,10 @@ var FailReason = {
   FailedToCompile: 1, // Run初，失败：编译失败
   FallFromBlock: 2, // Run途中，失败：掉落
   FailedToCollect: 3, // Run途中，失败：collect空地砖
-  EndNotEnough: 4, // Run结束，失败：宝石收集不全
-  Undefined: 5, // Debug: 未知错误
+  FailedToSwitch: 4, // Run途中，失败：switch错地砖
+  EndNotEnough: 5, // Run结束，失败：宝石收集不全
+  EndNotOn: 6, // Run结束，失败：砖块未全部点亮
+  Undefined: 7, // Debug: 未知错误
 }
 
 /** Puzzle 类，描述当前状态
@@ -167,20 +169,40 @@ Puzzle.prototype.judgeResult = function() {
         return;
       }
     }
+    if (lappland.getCurActType() == ActionType.SWITCHIT) { // 转换砖块时检测
+      // 若当前地砖不能转换
+      let blockIndex = foreground.detectOnBlock();
+      if (blockIndex < 0 || (foreground.blocks[blockIndex].type != BlockType.Dark && foreground.blocks[blockIndex].type != BlockType.Yellow)) {
+        lappland.isActing = false;
+        this.isRunning = false;
+        this.isCompleted = true;
+        this.isFailure = true;
+        this.reason = FailReason.FailedToSwitch;
+        this.showResultSprite();
+        console.log("The End: Failed To Switch");
+        return;
+      }
+    }
   }
   // 结束时失败
   if (this.isCompiled && this.isCompleted) {
-    if (foreground.collectedNum == foreground.diamondNum) {
-      this.isSuccess = true;
-      this.reason = FailReason.None;
-      this.showResultSprite();
-      console.log("The End: Success");
-      return;
-    } else {
+    if (foreground.collectedNum != foreground.diamondNum) { // 宝石数不足
       this.isFailure = true;
       this.reason = FailReason.EndNotEnough;
       this.showResultSprite();
       console.log("The End: Diamond Not Enough");
+      return;
+    } else if (foreground.switchOffNum != 0) {  // 可变砖块没有全部点亮
+      this.isFailure = true;
+      this.reason = FailReason.EndNotOn;
+      this.showResultSprite();
+      console.log("The End: Switch Not On");
+      return;
+    } else {
+      this.isSuccess = true;
+      this.reason = FailReason.None;
+      this.showResultSprite();
+      console.log("The End: Success");
       return;
     }
   }

@@ -1,3 +1,0 @@
-#set("title") { SPO Puzzles, Welcome! }
-
-#embed("spo_base")

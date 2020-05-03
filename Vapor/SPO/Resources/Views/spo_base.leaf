@@ -39,47 +39,31 @@
 
   <!-- 关卡导航（上一关/下一关） -->
   <div class="row my-add-top my-add-bottom my-fix-container">
-    <a href="#" class="white indigo-text waves-effect waves-indigo btn left"><< Previous</a>
-    <a href="#" class="white indigo-text waves-effect waves-indigo btn right">Next >></a>
+    #get(pagination_next)
   </div>
 
   <!-- 题目内容 -->
   <div class="row container">
     <div class="col s12 m12 l12">
+      <!-- Card -->
       <div class="card indigo lighten-5">
         <div class="card-content indigo-text text-darken-4">
-          <span class="card-title">Test</span>
-          <p>测试阶段，当前可用函数有：</p>
-          <p>(1) hello(), 返回一个字符串；</p>
-          <p>(2) goForward(), 前行1步；</p>
-          <p>(3) goForward(step: Int), 前行step步；</p>
-          <p>(4) turn(to: Direction), 转向某方向（.Left/.Up/.Right/.Down）；</p>
-          <p>(5) turnLeft(), turnRight(), 向左转/向右转；</p>
-          <p>(6) log(_ content: String), 说一句话；</p>
-          <p>注意：当前不支持 import</p>
-          <p>推荐测试代码：</p>
-          <p>goForward(step: 2)</p>
-          <p>collect()</p>
-          <p>goForward(step: 2)</p>
-          <p>for _ in 1...4 { </p>
-          <p>goForward(step: 2)</p>
-          <p>log("I want to get it.")</p>
-          <p>collect()</p>
-          <p>goForward()</p>
-          <p>turnLeft()</p>
-          <p>}</p>
-          <p>log(hello())</p>
-          <p>turn(to: .Left)</p>
-          <p>log("Succeed now ?")</p>
-          <p>turn(to: .Right)</p>
+          #get(card_content)
         </div>
-        <div class="card-action">
+        <!-- <div class="card-action">
           <div class="row">
-          <div class="col l6 s6 center-align"><a href="#" class="deep-orange-text text-lighter-2">Tip</a></div>
-          <div class="col l6 s6 center-align"><a href="#" class="white-text">Answer</a></div>
+            <div class="col l6 s6 center-align"><a href="#" class="deep-orange-text text-lighter-2">Tip</a></div>
+            <div class="col l6 s6 center-align"><a href="#" class="white-text">Answer</a></div>
           </div>
-        </div>
+        </div> -->
       </div>
+      <!-- Tips -->
+      <ul class="collapsible">
+        <li>
+          <div class="collapsible-header"><i class="material-icons">whatshot</i>Tips</div>
+          <div class="collapsible-body">#get(collapsible_body)</div>
+        </li>
+      </ul>
     </div>
   </div>
 
@@ -102,22 +86,19 @@
       <!-- <p class="my-editor-height indigo lighten-5" id="test_live_view">Default</p> -->
       <div id="canvas_all">
         <canvas id="canvas_pixi" width="476" height="476"></canvas>
-        <!-- <canvas id="canvas_back" width="476" height="476"></canvas>
-        <canvas id="canvas_fore" width="476" height="476"></canvas>
-        <canvas id="canvas_item" width="476" height="476"></canvas>
-        <canvas id="canvas_L_s" width="476" height="476"></canvas>
-        <canvas id="canvas_L_b" width="476" height="476"></canvas>
-        <canvas id="canvas_L_m" width="476" height="476"></canvas>
-        <canvas id="canvas_L_c" width="476" height="476"></canvas>
-        <canvas id="canvas_L_f" width="476" height="476"></canvas>
-        <canvas id="canvas_ctn" width="500" height="476"></canvas>
-        <canvas id="canvas_msg" width="500" height="476"></canvas> -->
       </div>
       <div class="my-fix-msg-line">
         <a id="view_map" class="btn white indigo-text waves-effect waves-purple my-fix-msg-btn">View Map</a>
         <a id="restart" class="btn white indigo-text waves-effect waves-purple my-fix-msg-btn">Restart</a>
       </div>
     </div>
+  </div>
+
+  <!-- 关卡导航（全部） -->
+  <div class="row container center">
+    <br>
+    <br>
+    #get(pagination_all)
   </div>
 
   <!-- Puzzle目录按钮集 -->

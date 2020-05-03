@@ -22,7 +22,7 @@ Background.prototype.reset = function() {
 /** 绘制 */
 Background.prototype.update = function() {
   // 底层随着Lappland按一定比例移动
-  let tileX = (-1) * BackCellBia * (lappland.cellX + 0.4 * lappland.cellY);
+  let tileX = (-1) * BackCellBia * (lappland.cellX - 0.4 * lappland.cellY);
   this.sprite[0].tilePosition.set(tileX, 0);
   // 中层和顶层按固定速率移动
   for (let i = 1; i < 3; i++) {

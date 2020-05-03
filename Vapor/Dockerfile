@@ -1,5 +1,5 @@
 # You can set the Swift version to what you need for your app. Versions can be found here: https://hub.docker.com/_/swift
-FROM swift:5.1.1 as builder
+FROM swift:4.2.1 as builder
 
 LABEL maintainer="AldebaRain"
 LABEL description="Docker Container for Vapor in SPO"
@@ -31,10 +31,6 @@ COPY --from=builder /app/Public ./Public
 # Uncomment the next line if you are using Leaf
 COPY --from=builder /app/Resources ./Resources
 
-# Add the wait script to the image
-ADD https://github.com/ufoscout/docker-compose-wait/releases/download/2.7.3/wait /wait
-RUN chmod +x /wait
-
 ENV ENVIRONMENT=$env
-## Launch the wait tool and then your application
-ENTRYPOINT /wait && ./Run serve --env $ENVIRONMENT --hostname 0.0.0.0 --port 8080
+
+ENTRYPOINT ./Run serve --env $ENVIRONMENT --hostname 0.0.0.0 --port 8080

@@ -44,6 +44,8 @@ function Lappland() {
   this.turnTime = LappTurnInterval; // TURN: 转向剩余时间
   this.turnXBia = 0; // TURN: 转向时X方向相机偏移量，用于矫正Block的位置计算
   this.collectTime = LappCollectInterval; // COLLECT: 收集宝石跳跃时间
+  this.switchTime = LappSwitchInterval; // SWITCH: 切换砖块时间
+  this.isSwitched = false; // SWITCH: 是否切换砖块完成
   console.log("Lappland Added");
 }
 
@@ -66,6 +68,9 @@ Lappland.prototype.reset = function() {
   this.lastDirection = this.direction; // TURN: 上一次的朝向
   this.turnTime = LappTurnInterval; // TURN: 转向剩余时间
   this.turnXBia = 0; // TURN: 转向时X方向相机偏移量，用于矫正Block的位置计算
+  this.collectTime = LappCollectInterval; // COLLECT: 收集宝石跳跃时间
+  this.switchTime = LappSwitchInterval; // SWITCH: 切换砖块时间
+  this.isSwitched = false; // SWITCH: 是否切换砖块完成
   console.log("Lappland Reset");
 }
 
@@ -317,6 +322,19 @@ Lappland.prototype.update = function() {
             isFinished = true;
           }
           break;
+        case ActionType.SWITCHIT:
+          if (this.switchTime > 0) {
+            this.switchTime -= 1;
+            if (Math.random() < 0.9 - this.switchTime * 0.02) {
+              foreground.trySwitch();
+              this.isSwitched = !this.isSwitched;
+            }
+          } else { // 动作结束
+            if (!this.isSwitched) foreground.trySwitch();
+            console.log("Block Switched (" + foreground.switchOnNum + "/" + (foreground.switchOnNum + foreground.switchOffNum) + ")");
+            isFinished = true;
+          }
+          break;
         default: // 无动作
           console.log("Error: No Action to Perform Now");
       }
@@ -325,14 +343,13 @@ Lappland.prototype.update = function() {
         this.actionIndex += 1; // 下一个动作
         this.isActing = false; // 先休息
         this.restTime = BreakInterval;
-        if (this.actionIndex >= this.actions.length) { // 到达最后一个动作了
-          puzzle.isRunning = false;
-          puzzle.isCompleted = true; // 开启结算
-        }
       }
     } else { // 正在休息
       if (this.restTime > 0) {
         this.restTime -= 1;
+      } else if (this.actionIndex >= this.actions.length) { // 到达最后一个动作了
+        puzzle.isRunning = false;
+        puzzle.isCompleted = true; // 开启结算
       } else { // 休息结束（this.actionIndex已经指向了接下来的动作序号）
         // 初始化动作
         switch (currentAction.type) {
@@ -360,6 +377,11 @@ Lappland.prototype.update = function() {
           case ActionType.COLLECT:
             this.collectTime = LappCollectInterval;
             console.log("Start Collecting");
+            break;
+          case ActionType.SWITCHIT:
+            this.switchTime = LappSwitchInterval;
+            this.isSwitched = false;
+            console.log("Start Switching");
             break;
           default: // 无动作
             console.log("Error: No Action to Perform Now");

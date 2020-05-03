@@ -1,7 +1,0 @@
-#set("title") { Hello }
-
-#set("body") {
-	<h1>Hello, #(name)! #(greeting)</h1>
-}
-
-#embed("base")

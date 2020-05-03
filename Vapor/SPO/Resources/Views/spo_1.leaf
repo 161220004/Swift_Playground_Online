@@ -1,0 +1,40 @@
+#set("title") { SPO Puzzle 1-1 }
+
+#set("pagination_next") {
+  <a href="/spo/2" class="white indigo-text waves-effect waves-indigo btn right">Next >></a>
+}
+
+#set("card_content") {
+  <span class="card-title">第一章: 命令</span>
+  <span class="card-title card-subtitle">>>> 关卡1: 发出命令</span>
+  <br>
+  <p>目标：使用Swift命令，让Lappland动起来，去收集宝石。</p>
+  <br>
+  <p>你的角色Lappland喜欢收集宝石，但他一个人做不到。在第一关里，你需要编写Swift命令，让Lappland在关卡世界里动起来，去收集宝石。</p>
+  <br>
+  <p>(1) 找到关卡世界的宝石；</p>
+  <p>(2) 输入正确的“goForward()”（前行1步）和“collect()”（收集宝石）命令组合，让Lappland向前行走并收集宝石；</p>
+  <p>(3) 点击“Run”开始运行你的代码；</p>
+}
+
+#set("collapsible_body") {
+  <span>你需要输入一些命令。请在代码编辑区域使用“goForward()”和“collect()”这两个命令来通关。</span>
+}
+
+#set("pagination_all") {
+  <ul class="pagination">
+    <li class="disabled"><a href="#!"><i class="material-icons">chevron_left</i></a></li>
+    <li class="active"><a href="#!">1-1</a></li>
+    <li class="waves-effect"><a href="/spo/2">1-2</a></li>
+    <li class="waves-effect"><a href="/spo/3">1-3</a></li>
+    <li class="waves-effect"><a href="/spo/4">2-1</a></li>
+    <li class="waves-effect"><a href="/spo/5">2-2</a></li>
+    <li class="waves-effect"><a href="/spo/6">2-3</a></li>
+    <li class="waves-effect"><a href="/spo/7">3-1</a></li>
+    <li class="waves-effect"><a href="/spo/8">3-2</a></li>
+    <li class="waves-effect"><a href="/spo/9">3-3</a></li>
+    <li class="waves-effect"><a href="/spo/2"><i class="material-icons">chevron_right</i></a></li>
+  </ul>
+}
+
+#embed("spo_base")

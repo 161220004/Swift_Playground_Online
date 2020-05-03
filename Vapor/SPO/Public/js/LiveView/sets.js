@@ -49,8 +49,14 @@ const DiamondYBia = -108;
 // Puzzle信息栏的钻石尺寸与偏移
 const MiniDiamondX = 460; // 基础偏移（左上）
 const MiniDiamondY = 16; // 基础偏移（左上）
-const MiniDiamondSpace = 18; // Y方向间距
+const MiniDiamondSpace = 18; // X方向间距
 const MiniDiamondFlyInterval = 40; // 钻石飞行时间
+
+// Puzzle信息栏的砖块尺寸与偏移
+const MiniSwitchX = 460;
+const MiniSwitchY = 36;
+const MiniSwitchR = 7;
+const MiniSwitchSpace = 18; // X方向间距
 
 // 对话框尺寸与偏移
 const ToastMaxWidth = CanvasWidth * 0.55;
@@ -79,6 +85,7 @@ const LappLogInterval = 150; // 对话间隔 (loopCount)
 const LappWalkInterval = 80; // 行走每一步的间隔 (loopCount)
 const LappJumpInterval = 21; // 跳起间隔 = 落地间隔 (loopCount)
 const LappCollectInterval = MiniDiamondFlyInterval + 50; // 收集钻石等待时间
+const LappSwitchInterval = 30; // 切换砖块颜色时间 (loopCount)
 const FinalWaitInterval = 70; // 等待最终结果的时间 (loopCount)
 const FinalLappEmoInterval = 100; // 气泡表情持续时间 (loopCount)
 const FinalAppearInterval = 100; // 结果淡出时间 (loopCount)

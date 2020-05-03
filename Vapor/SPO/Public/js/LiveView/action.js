@@ -5,6 +5,7 @@ var ActionType = {
   LOG: "LOG",
   TURN: "TURN",
   COLLECT: "COLLECT",
+  SWITCHIT: "SWITCHIT",
 }
 
 /** Action 类，描述Lappland动作要素

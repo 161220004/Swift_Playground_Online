@@ -11,6 +11,8 @@ import Foundation
 let CODE_PATH = PROJECT_PATH + "/Resources/Code/"
 /// 运行结果相关文件的路径
 let RESULT_PATH = PROJECT_PATH + "/Resources/Results/"
+/// 场景相关文件的路径
+let SCENE_PATH = PROJECT_PATH + "/Resources/Scene/"
 
 final class RunManager {
     
@@ -158,7 +160,10 @@ final class RunManager {
                 }
             } else if (action.contains(Keyword.COLLECT.rawValue)) {
                 // COLLECT
-                paces.append(Pace())
+                paces.append(Pace(type: Keyword.COLLECT.rawValue))
+            } else if (action.contains(Keyword.SWITCHIT.rawValue)) {
+                // SWITCHIT
+                paces.append(Pace(type: Keyword.SWITCHIT.rawValue))
             } else {
                 print("[ Error ] RunManager.translateActions: Undefined Action Appears")
             }
@@ -171,7 +176,7 @@ final class RunManager {
     static private func getStampInFilename(_ filename: String) -> String? {
         if (filename.contains("code-")) {
             return String(filename.dropFirst(5).dropLast(6))
-        } else if (filename.contains("stamp-")) {
+        } else if (filename.contains("global-")) {
             return String(filename.dropFirst(6).dropLast(6))
         } else if (filename.contains("spo-proj-")) {
             return String(filename.dropFirst(9))
