@@ -22,58 +22,9 @@ public func configure(_ config: inout Config, _ env: inout Environment, _ servic
     middlewares.use(ErrorMiddleware.self) // Catches errors and converts to HTTP response
     services.register(middlewares)
     
-    // 分情况配置
-    let mysqlHostname: String
-    let mysqlPort: Int
-    let mysqlDB: String
-    let mysqlUser: String
-    let mysqlPassword: String
-    if (env == .development || env == .testing) {
-        print("Under Development or Testing Mode")
-        mysqlHostname = "127.0.0.1"
-        mysqlPort = 3306
-        mysqlDB = "spo"
-        mysqlUser = "aldebarain"
-        mysqlPassword = "mysql"
-        print("Default MySQL: hostname = 127.0.0.1, port = 3306")
-    } else {
-        print("Under production mode (Docker)")
-        mysqlHostname = Environment.get("MYSQL_HOSTNAME")!
-        mysqlPort = 3306
-        mysqlDB = Environment.get("MYSQL_DATABASE")!
-        mysqlUser = Environment.get("MYSQL_USER")!
-        mysqlPassword = Environment.get("MYSQL_PASSWORD")!
-        print("Prepared MySQL: hostname = " + mysqlHostname + ", port = \(mysqlPort)")
-    }
-    let mysqlConfig = MySQLDatabaseConfig(
-        hostname: mysqlHostname,
-        port: mysqlPort,
-        username: mysqlUser,
-        password: mysqlPassword,
-        database: mysqlDB,
-        transport: .unverifiedTLS)
-    let mydb = MySQLDatabase(config: mysqlConfig)
-    
-    // 注册数据库
-    var databases = DatabasesConfig()
-    databases.add(database: mydb, as: .mysql)
-    services.register(databases)
-    
-    // 注册migrations
-    var migrations = MigrationConfig()
-    migrations.add(model: Puzzle.self, database: .mysql)
-    migrations.add(model: Block.self, database: .mysql)
+    // 确认运行环境
     if (Environment.get("ENVIRONMENT") == "docker") {
         print("Run in Docker")
     }
-    // 使用Seed初始化数据库
-    print("Use Seed - Puzzle & Block & Dependency")
-    migrations.add(migration: PuzzleSeeder.self, database: .mysql)
-    migrations.add(migration: BlockSeeder.self, database: .mysql)
-    services.register(migrations)
     
-    // 注册Fluent中实现的命令
-    var commands = CommandConfig.default()
-    commands.useFluentCommands()
-    services.register(commands)
 }

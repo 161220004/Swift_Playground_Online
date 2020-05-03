@@ -13,6 +13,7 @@ enum FileManagerError: Error {
     case SaveCodeFileFailed
     case SaveGlobalFileFailed
     case ReadResultFileFailed
+    case ReadSceneFileFailed
     case RemoveOldFileFailed
 }
 
@@ -20,5 +21,6 @@ enum FileManagerError: Error {
 enum TransformError: Error {
     
     case TypeCastingFailed
+    case DecodeJsonFailed
     
 }

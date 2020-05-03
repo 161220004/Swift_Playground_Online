@@ -15,19 +15,12 @@ struct RunInfo: Codable, Content {
     var dir: Int
 }
 
-struct Scene: Codable, Content {
-    var puzzle: Puzzle
-    var blocks: [Block]
-}
-
 final class PuzzleController: RouteCollection {
     
     /// Router
     func boot(router: Router) throws {
         
         router.group("spo") { group in
-            
-            group.get("list", use: getPuzzleList)
             
             group.get(Int.parameter, use: getPuzzle)
             
@@ -41,31 +34,32 @@ final class PuzzleController: RouteCollection {
 
 extension PuzzleController {
     
-    /// Get: a list of all puzzles
-    func getPuzzleList(_ req: Request) -> Future<[Puzzle]> {
-        return Puzzle.query(on: req).all()
-    }
-    
     /// Get: one puzzle
     func getPuzzle(_ req: Request) throws -> Future<View> {
         let pid = try req.parameters.next(Int.self)
         return try req.view().render("spo_\(pid)")
     }
     
-    func getScene(_ req: Request) throws -> Future<Response> {
+    /// Get: Puzzle Scene
+    func getScene(_ req: Request) throws -> Scene {
         let pid = try req.parameters.next(Int.self)
-        return Puzzle.find(pid, on: req).flatMap(to: Response.self) { puzzleOpt in
-            // Filter Blocks
-            guard let puzzle = puzzleOpt else { throw Abort(.notFound) } // 未找到id匹配的Puzzle则Error
-            return Block.query(on: req)
-                .filter(\.puzzleId == puzzle.id!)
-                .all().map() {
-                    return Scene(
-                        puzzle: puzzle,
-                        blocks: $0)
-                }
-                .encode(status: .ok, for: req)
+        print("get Puzzle \(pid) Scene")
+        let jsonFile = SCENE_PATH + "Puzzle\(pid).json"
+        var jsonContent = ""
+        do {
+            jsonContent = try String(contentsOf: URL(fileURLWithPath: jsonFile), encoding: .utf8)
+        } catch {
+            print("[ Error ] PuzzleController.getScene: Failed to Read Result in " + jsonFile)
+            throw FileManagerError.ReadSceneFileFailed
         }
+        var sceneInfo: Scene
+        do {
+            sceneInfo = try JSONDecoder().decode(Scene.self, from: jsonContent)
+        } catch {
+            print("[ Error ] PuzzleController.getScene: Failed to Decode Json Data to Object")
+            throw TransformError.DecodeJsonFailed
+        }
+        return sceneInfo
     }
     
     /// Post: User Code

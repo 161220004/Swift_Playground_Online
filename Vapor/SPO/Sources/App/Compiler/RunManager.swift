@@ -11,6 +11,8 @@ import Foundation
 let CODE_PATH = PROJECT_PATH + "/Resources/Code/"
 /// 运行结果相关文件的路径
 let RESULT_PATH = PROJECT_PATH + "/Resources/Results/"
+/// 场景相关文件的路径
+let SCENE_PATH = PROJECT_PATH + "/Resources/Scene/"
 
 final class RunManager {
     
