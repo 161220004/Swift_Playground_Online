@@ -4,6 +4,8 @@
     "description": "Puzzle 1-2",
     "lappInitDir": 2,
     "randDiamNum": 0,
+    "targetDiamNum": 1,
+    "targetOnNum": 0,
     "backInitX": -50.0,
     "backInitY": 0.0,
   },

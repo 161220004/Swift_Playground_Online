@@ -1,22 +1,39 @@
-// 编辑器相关设置：
-var editor = ace.edit("pz_editor");
-// 主题风格
-editor.setTheme("ace/theme/tomorrow_night_eighties");
-// 当前语言Swift
-editor.getSession().setMode('ace/mode/swift');
-// 光标行高亮
-editor.setHighlightActiveLine(true);
-// 设置字体大小
-editor.setFontSize(14);
-// 开启代码折叠
-editor.getSession().setUseWrapMode(true);
-editor.getSession().setUseSoftTabs(true);
-// 开启代码自动补全
-editor.setOptions({
-  enableBasicAutocompletion: true,
-  enableSnippets: true,
-  enableLiveAutocompletion: true
-});
+/** 编辑器相关设置 */
+function setEditor(editorId) {
+  let editor = ace.edit(editorId);
+  // 主题风格
+  editor.setTheme("ace/theme/chrome");
+  // 当前语言Swift
+  editor.getSession().setMode('ace/mode/swift');
+  // 光标行高亮
+  editor.setHighlightActiveLine(true);
+  // 设置字体大小
+  editor.setFontSize(14);
+  // 开启代码折叠
+  editor.getSession().setUseWrapMode(true);
+  editor.getSession().setUseSoftTabs(true);
+  // 开启代码自动补全
+  editor.setOptions({
+    enableBasicAutocompletion: true,
+    enableSnippets: true,
+    enableLiveAutocompletion: true
+  });
+  return editor;
+}
+
+/** 设置自动提示补全代码 */
+function setCompleteData(data) {
+  var langTools = ace.require("ace/ext/language_tools");
+  langTools.addCompleter({
+    getCompletions: function(editor, session, pos, prefix, callback) {
+      if (prefix.length === 0) {
+        return callback(null, []);
+      } else {
+        return callback(null, data);
+      }
+    }
+  });
+}
 
 // “Run”按钮点击事件
 $("#run_code").click(function(){
@@ -26,7 +43,7 @@ $("#run_code").click(function(){
     resetLiveView();
     // 封装传给后端的数据
     let runInfo = Object();
-    runInfo.code = editor.getValue();
+    runInfo.code = getEditorCode();
     runInfo.dir = lappland.direction;
     // $("#test_live_view").html("Running...")
     // 等待后端处理

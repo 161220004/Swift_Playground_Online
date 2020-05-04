@@ -18,7 +18,6 @@ function Puzzle() {
   this.isCompiled = false; // 是否编译运行成功（待后端传值）
   this.isRunning = false; // 是否正在展示用户代码的运行结果
   this.isCompleted = false; // 动作彻底结束
-  this.description = "";
   this.isSuccess = false; // 是否成功
   this.isFailure = false; // 是否失败
   this.reason = FailReason.Undefined; // 失败原因
@@ -46,6 +45,11 @@ function Puzzle() {
   this.resultSprite.anchor.set(0, 0);
   this.resultSprite.position.set(0, 0);
   Stage.addChild(this.resultSprite);
+  // 编译输出 + 错误/成功信息
+  this.description = "......";
+  $("#terminal_log").html(this.description);
+  $("#result_log").html("");
+  $("#reason_log").html("");
 }
 
 /** 重置所有属性 */
@@ -54,10 +58,13 @@ Puzzle.prototype.reset = function() {
   this.isCompiled = false; // 是否编译运行成功（待后端传值）
   this.isRunning = false; // 是否正在展示用户代码的运行结果
   this.isCompleted = false; // 动作彻底结束
-  this.description = "";
   this.isSuccess = false; // 是否成功
   this.isFailure = false; // 是否失败
   this.reason = FailReason.Undefined; // 失败原因
+  this.description = "......";
+  $("#terminal_log").html(this.description);
+  $("#result_log").html("");
+  $("#reason_log").html("");
   // 结果动画剩余时间
   this.resultTime = FinalWaitInterval + FinalLappEmoInterval + FinalAppearInterval;
   this.blackboard.visible = false;
@@ -70,6 +77,7 @@ Puzzle.prototype.reset = function() {
 Puzzle.prototype.getActions = function(data) {
   this.isCompiled = data.isCompiled;
   this.description = data.description;
+  $("#terminal_log").html(this.description);
   for (let i = 0; i < data.paces.length; i++) {
     let pace = data.paces[i];
     let action = new Action(pace.type, pace.d, pace.dir, pace.log);
@@ -136,6 +144,8 @@ Puzzle.prototype.judgeResult = function() {
     this.isFailure = true;
     this.reason = FailReason.FailedToCompile;
     this.showResultSprite();
+    $("#result_log").html("Result: Failure");
+    $("#reason_log").html("Reason: Failed To Compile");
     console.log("The End: Failed To Compile");
     return;
   }
@@ -151,6 +161,8 @@ Puzzle.prototype.judgeResult = function() {
         this.isFailure = true;
         this.reason = FailReason.FallFromBlock;
         this.showResultSprite();
+        $("#result_log").html("Result: Failure");
+        $("#reason_log").html("Reason: Lappland Fall From Block");
         console.log("The End: Fall From Block");
         return;
       }
@@ -165,6 +177,8 @@ Puzzle.prototype.judgeResult = function() {
         this.isFailure = true;
         this.reason = FailReason.FailedToCollect;
         this.showResultSprite();
+        $("#result_log").html("Result: Failure");
+        $("#reason_log").html("Reason: No Diamond To Collect Here");
         console.log("The End: Failed To Collect");
         return;
       }
@@ -179,6 +193,8 @@ Puzzle.prototype.judgeResult = function() {
         this.isFailure = true;
         this.reason = FailReason.FailedToSwitch;
         this.showResultSprite();
+        $("#result_log").html("Result: Failure");
+        $("#reason_log").html("Reason: No Block To Switch Here");
         console.log("The End: Failed To Switch");
         return;
       }
@@ -186,22 +202,28 @@ Puzzle.prototype.judgeResult = function() {
   }
   // 结束时失败
   if (this.isCompiled && this.isCompleted) {
-    if (foreground.collectedNum != foreground.diamondNum) { // 宝石数不足
+    if (foreground.collectedNum != foreground.targetDiamNum) { // 宝石数不正确
       this.isFailure = true;
       this.reason = FailReason.EndNotEnough;
       this.showResultSprite();
+      $("#result_log").html("Result: Failure");
+      $("#reason_log").html("Reason: Collected Diamond Number Is Not Correct");
       console.log("The End: Diamond Not Enough");
       return;
-    } else if (foreground.switchOffNum != 0) {  // 可变砖块没有全部点亮
+    } else if (foreground.switchOnNum != foreground.targetOnNum) {  // 可变砖块数不正确
       this.isFailure = true;
       this.reason = FailReason.EndNotOn;
       this.showResultSprite();
+      $("#result_log").html("Result: Failure");
+      $("#reason_log").html("Reason: Switched Block Number Is Not Correct");
       console.log("The End: Switch Not On");
       return;
     } else {
       this.isSuccess = true;
       this.reason = FailReason.None;
       this.showResultSprite();
+      $("#result_log").html("Result: Success");
+      $("#reason_log").html("Congratulations");
       console.log("The End: Success");
       return;
     }

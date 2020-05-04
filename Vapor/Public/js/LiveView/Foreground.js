@@ -9,8 +9,10 @@ function Foreground() {
   this.blockNumY = 0; // blocks在Y方向跨度
   this.blockBottom = 0; // blocks在Y方向最小值
   this.blockLeft = 0; // blocks在X方向最小值
+  // 关键数据
+  this.targetDiamNum = SceneData.puzzle.targetDiamNum; // 要求收集的钻石数
+  this.targetOnNum = SceneData.puzzle.targetOnNum; // 要求点亮的砖块数
   // 其他数据
-  this.diamondNum = 0; // 钻石总数
   this.collectedNum = 0; // 收集总数
   this.switchOnNum = 0; // 点亮的砖块总数
   this.switchOffNum = 0; // 熄灭的砖块总数
@@ -87,9 +89,6 @@ Foreground.prototype.init = function() {
   for (let i = 0; i < SceneData.blocks.length; i++) {
     this.blocks[i] = new Block(SceneData.blocks[i].type, SceneData.blocks[i].cellX, SceneData.blocks[i].cellY,
                                SceneData.blocks[i].item, i);
-    if (this.blocks[i].itemType == ItemType.Diamond) {
-      this.diamondNum += 1; // 宝石总数
-    }
     // X/Y跨度左右值
     if (this.blocks[i].cellX < this.blocks[minXIndex].cellX) {
       minXIndex = i;
@@ -107,6 +106,7 @@ Foreground.prototype.init = function() {
   // 绘制右上角点亮总数
   this.setSwitchNum();
   this.initSwitchMap();
+  this.setSwitchMap();
   this.blockNumX = this.blocks[maxXIndex].cellX - this.blocks[minXIndex].cellX + 1;
   this.blockNumY = this.blocks[maxYIndex].cellY - this.blocks[minYIndex].cellY + 1;
   this.blockBottom = this.blocks[maxYIndex].cellY;

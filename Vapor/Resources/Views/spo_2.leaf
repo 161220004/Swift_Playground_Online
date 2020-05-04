@@ -23,6 +23,15 @@
   <span>若要到达宝石处，Lappland需要向前走两步，向左转，然后再向前走两步。</span>
 }
 
+#set("editor") {
+  <div id="normal_editor" class="z-depth-1"></div>
+}
+
+#set("editor_js") {
+  <script src="/js/Ace/RunNormal.js" type="text/javascript"></script>
+  <script src="/js/Ace/AutoComplete2.js" type="text/javascript"></script>
+}
+
 #set("pagination_all") {
   <ul class="pagination">
     <li class="waves-effect"><a href="/spo/1"><i class="material-icons">chevron_left</i></a></li>
@@ -35,7 +44,6 @@
     <li class="waves-effect"><a href="/spo/5">2-2</a></li>
     <li class="waves-effect"><a href="/spo/6">2-3</a></li>
     <li class="grey lighten-4 waves-effect"><a href="/spo/chapter/3">3</a></li>
-    <li class="waves-effect"><a href="/spo/7">3-1</a></li>
     <li class="waves-effect"><a href="/spo/3"><i class="material-icons">chevron_right</i></a></li>
   </ul>
 }

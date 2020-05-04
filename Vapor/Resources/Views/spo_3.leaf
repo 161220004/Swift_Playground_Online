@@ -2,7 +2,7 @@
 
 #set("pagination_next") {
   <a href="/spo/2" class="white indigo-text waves-effect waves-indigo btn left"><< Previous</a>
-  <a href="/spo/4" class="white indigo-text waves-effect waves-indigo btn right">Next >></a>
+  <a href="/spo/chapter/2" class="white indigo-text waves-effect waves-indigo btn right">Next >></a>
 }
 
 #set("card_content") {
@@ -28,6 +28,15 @@
   <span>收集宝石，然后让Lappland走到黑色的地砖上，然后使用“switchIt()”命令“点亮”地砖。</span>
 }
 
+#set("editor") {
+  <div id="normal_editor" class="z-depth-1"></div>
+}
+
+#set("editor_js") {
+  <script src="/js/Ace/RunNormal.js" type="text/javascript"></script>
+  <script src="/js/Ace/AutoComplete3.js" type="text/javascript"></script>
+}
+
 #set("pagination_all") {
   <ul class="pagination">
     <li class="waves-effect"><a href="/spo/2"><i class="material-icons">chevron_left</i></a></li>
@@ -40,7 +49,6 @@
     <li class="waves-effect"><a href="/spo/5">2-2</a></li>
     <li class="waves-effect"><a href="/spo/6">2-3</a></li>
     <li class="grey lighten-4 waves-effect"><a href="/spo/chapter/3">3</a></li>
-    <li class="waves-effect"><a href="/spo/7">3-1</a></li>
     <li class="waves-effect"><a href="/spo/chapter/2"><i class="material-icons">chevron_right</i></a></li>
   </ul>
 }

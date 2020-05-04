@@ -108,7 +108,7 @@ Block.prototype.update = function() {
           foreground.collectedNum += 1;
           this.isCollecting = false;
           this.isCollected = true;
-          console.log("Diamond Collected (" + foreground.collectedNum + "/" + foreground.diamondNum + ")");
+          console.log("Diamond Collected (" + foreground.collectedNum + "/" + foreground.targetDiamNum + ")");
         }
       }
     } else if (!this.isCollected) {

@@ -34,13 +34,13 @@ final class PuzzleDependency {
     
     static public func use(pid: Int) -> [String] {
         switch pid {
-        case 0: // Test
-            return self.generate(functions: .Log, .Move, .MoveMore, .Turn, .TurnLeft, .TurnRight, .Collect, .Test)
         case 1: // Puzzle 1-1
             return self.generate(functions: .Log, .Move, .Collect)
         case 2: // Puzzle 1-2
             return self.generate(functions: .Log, .Move, .Collect, .TurnLeft)
         case 3: // Puzzle 1-3
+            return self.generate(functions: .Log, .Move, .Collect, .TurnLeft, .SwitchIt)
+        case 4: // Puzzle 2-1
             return self.generate(functions: .Log, .Move, .Collect, .TurnLeft, .SwitchIt)
         default:
             return self.generate(functions: .Log, .Test)

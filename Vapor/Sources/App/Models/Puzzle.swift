@@ -22,6 +22,10 @@ struct Puzzle: Codable, Content {
     /// 随机宝石数量
     var randDiamNum: Int
     
+    /// 目标宝石/开关数量
+    var targetDiamNum: Int
+    var targetOnNum: Int
+    
     /// 背景左上角初始的像素位置
     var backInitX: Double
     var backInitY: Double

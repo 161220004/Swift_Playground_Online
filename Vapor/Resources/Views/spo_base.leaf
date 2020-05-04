@@ -64,12 +64,12 @@
   <div class="row container">
     <!-- 代码区 -->
     <div class="col s12 m12 l5">
-      <nav class="black my-nav-height-small" role="navigation">
-        <a class="indigo lighten-3 waves-effect waves-light btn my-fix-run-btn" id="run_code">
+      <nav class="grey lighten-3 my-nav-height-small" role="navigation">
+        <a class="white indigo-text text-darken-4 waves-effect waves-purple btn my-fix-run-btn" id="run_code">
           > Run</a>
       </nav>
       <div class="divider"></div>
-      <div id="pz_editor"></div>
+      #get(editor)
     </div>
     <!-- LiveView区 -->
     <div class="col s12 m12 l7">
@@ -90,10 +90,12 @@
   <div id="modal_log" class="modal">
     <div class="modal-content">
       <h4>运行信息</h4>
-      <p id="terminal_log">...</p>
+      <p id="terminal_log"></p><br>
+      <p id="result_log"></p>
+      <p id="reason_log"></p>
     </div>
     <div class="modal-footer">
-      <a href="#!" class="modal-close waves-effect waves-green btn-flat">确认</a>
+      <a href="#!" class="modal-close waves-effect waves-purple btn-flat">确认</a>
     </div>
   </div>
 
@@ -156,7 +158,8 @@
   <!-- For Ace-Editor -->
   <script src="/js/Ace/src/ace.js" type="text/javascript" charset="utf-8"></script>
   <script src="/js/Ace/src/ext-language_tools.js" type="text/javascript" charset="utf-8"></script>
-  <script src="/js/Ace/editor.js" type="text/javascript"></script>
+  <script src="/js/Ace/Editor.js" type="text/javascript"></script>
+  #get(editor_js)
   <!-- For LiveView (Pixi) -->
   <script src="/js/LiveView/Pixi/pixi.min.js" type="text/javascript"></script>
   <script src="/js/LiveView/Pixi/pixi-legacy.min.js" type="text/javascript"></script>
