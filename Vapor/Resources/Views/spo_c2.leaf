@@ -1,0 +1,38 @@
+#set("title") { SPO Chapter 2 }
+
+#set("chapter_title") { 第二章 &emsp; 函数 }
+
+#set("chapter_introduction") {
+  <h4>函数</h4><br>
+  <p>你每天都在不知不觉地做很多事情。即使是绑鞋带这样的简单任务，都需要按照一定的步骤完成它：绕圈、穿过、拉紧。</p><br>
+  <p>在编程中，函数可以让你命名一组命令，之后你可以随时运行这组命令。</p><br>
+  <p>func tieMyShoe() {</p>
+  <p>&emsp;loop() // 绕圈</p>
+  <p>&emsp;swoop() // 穿过</p>
+  <p>&emsp;pull() // 拉紧</p>
+  <p>\}</p><br>
+  <p>若要定义函数，请使用“func”并选取一个名称（例如“tieMyShoe”），在函数名称后面加上“()”，并在大括号内部添加命令来定义函数的行为。</p><br>
+  <p>定义你的函数后，就可以调用它的名字来运行它的行为：tieMyShoe()</p>
+}
+
+#set("chapter_welcome") {
+  如果你准备好了，那就开始第二章的学习吧！
+}
+
+#set("chapter_start") {
+  <a href="/spo/4" class="btn-floating btn-large yellow pulse">GO</a>
+}
+
+#set("chapter_puzzles") {
+  <ul class="pagination">
+    <li class="disabled"><a href="#!"><i class="material-icons">chevron_left</i></a></li>
+    <li class="waves-effect"><a href="/spo/4">2-1</a></li>
+    <li class="waves-effect"><a href="/spo/5">2-2</a></li>
+    <li class="waves-effect"><a href="/spo/6">2-3</a></li>
+    <li class="disabled"><a href="#!"><i class="material-icons">chevron_right</i></a></li>
+  </ul>
+}
+
+#set("chapter_js") {}
+
+#embed("spo_cbase")

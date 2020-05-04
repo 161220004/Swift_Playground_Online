@@ -20,6 +20,10 @@ final class PuzzleController: RouteCollection {
         
         router.group("spo") { group in
             
+            group.get("welcome", use: getWelcome)
+            
+            group.get("chapter", Int.parameter, use: getChapter)
+            
             group.get(Int.parameter, use: getPuzzle)
             
             group.post(Int.parameter, "code", use: postCode)
@@ -32,7 +36,18 @@ final class PuzzleController: RouteCollection {
 
 extension PuzzleController {
     
-    /// Get: one puzzle
+    /// Get: Welcome
+    func getWelcome(_ req: Request) throws -> Future<View> {
+        return try req.view().render("spo_welcome")
+    }
+    
+    /// Get: One Chapter
+    func getChapter(_ req: Request) throws -> Future<View> {
+        let cid = try req.parameters.next(Int.self)
+        return try req.view().render("spo_c\(cid)")
+    }
+    
+    /// Get: One Puzzle
     func getPuzzle(_ req: Request) throws -> Future<View> {
         let pid = try req.parameters.next(Int.self)
         return try req.view().render("spo_\(pid)")

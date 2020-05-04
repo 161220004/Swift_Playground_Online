@@ -1,0 +1,163 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
+  <!--Let browser know website is optimized for mobile-->
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+	<title>Welcome to Swift Playground Online</title>
+
+  <!-- CSS  -->
+  <!-- My CSS -->
+	<link rel="stylesheet" href="/css/view.css">
+	<link rel="stylesheet" href="/css/fix.css">
+  <!-- Import Google Icon Font -->
+  <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+  <!-- Import materialize.css -->
+  <link type="text/css" rel="stylesheet" href="/css/materialize.min.css"  media="screen,projection"/>
+</head>
+<body>
+  <!-- 导航栏 -->
+  <nav class="indigo lighten-3 my-nav-height-large" role="navigation">
+    <div class="nav-wrapper">
+      <a id="logo-container" href="#" class="center brand-logo"></a>
+      <ul class="right hide-on-med-and-down">
+        <li><a href="#!">首页</a></li>
+      </ul>
+      <ul id="nav-mobile" class="sidenav">
+        <li class="center-align indigo lighten-3"><h3 style="margin: 0px; padding: 16px 8px;">GoTo</h3></li>
+        <li><a href="#!">首页</a></li>
+      </ul>
+      <a href="#" data-target="nav-mobile" class="sidenav-trigger">
+        <i class="material-icons my-fix-menu">menu</i>
+      </a>
+    </div>
+  </nav>
+
+  <!-- Space Line -->
+  <div class="my-space-line-large"></div>
+
+  <!-- 标题 -->
+  <h3 class="center indigo-text text-darken-4">欢迎来到Swift编程学习平台！</h3>
+  <h4 class="center indigo-text text-darken-4">(Swift Playground Online)</h4>
+
+  <!-- Space Line -->
+  <div class="my-space-line-large"></div>
+
+  <!-- 介绍 -->
+  <div class="container indigo-text text-darken-4">
+    <blockquote cite="https://www.cnswift.org/about-swift" class="my-blockquote">
+      <h4>Swift简介</h4><br>
+      <p>&emsp;Swift是编写程序的绝佳选择，无论是手机、电脑还是服务器，任何能跑代码的设备都是如此。
+        它是一门集现代语言之大成，集结了苹果的工程师文化精髓以及开源社区多样化于一身的编程语言。
+        编译器为专为性能所调优，语言专为开发所优化，二者绝不互相妥协。</p><br>
+      <p>&emsp;Swift语言还对新的程序员十分友好。它是第一个工业级系统编程语言，却又像脚本语言那样富有张力且十分有趣。
+         在Playground编写代码并实时查看Swift代码运算结果，完全不需要从头编译然后运行软件。</p><br>
+      <p>&emsp;Swift 代码为大部分现代硬件编译和优化。语法和基本库都基于指导原则设计，这显然也是你让代码的最佳方式。
+         这使得集安全和速度于一身的Swift适用于任何场景，从编写“Hello, world!”到整个操作系统，都是上上之选。</p><br>
+      <p>&emsp;Swift 用轻量级的语法集合强大的类型接口和模式匹配，能够把复杂的想法以简洁优雅的形式表达。
+         得益于此，代码不仅仅更好写了，还变得更加易读和益于优化。</p><br>
+      <p>（摘自 <a href="https://www.cnswift.org/about-swift">https://www.cnswift.org/about-swift</a> ）</p>
+    </blockquote>
+  </div>
+
+  <!-- Space Line -->
+  <div class="my-space-line-huge"></div>
+
+  <div class="center indigo-text text-darken-4">
+    <h5>接下来，让我们和Lappland一起进入Swift编程的世界吧！</h5>
+  </div>
+
+  <!-- Space Line -->
+  <div class="my-space-line-large"></div>
+
+  <div class="row container center">
+    <a href="/spo/chapter/1" class="brown btn-large">开始 >></a>
+  </div>
+
+  <!-- Space Line -->
+  <div class="my-space-line-huge"></div>
+
+  <!-- 章节选择 -->
+  <h4 class="center indigo-text text-darken-4">章节选择</h4>
+  <div class="my-space-line"></div>
+  <div class="row container center">
+    <div class="col s1 l1"></div>
+    <div class="col s2 l2">
+      <a class="btn-floating btn-large red pulse" href="/spo/chapter/1">壹</a>
+      <div class="my-space-line"></div>
+      <div class="divider"></div>
+      <div class="my-space-line"></div>
+      <h6>第一章：命令</h6><br>
+      <p>这一章中你将学会写出简单的命令语句完成目标</p>
+    </div>
+    <div class="col s2 l2">
+      <a class="btn-floating btn-large yellow darken-1 pulse" href="/spo/chapter/2">贰</a>
+      <div class="my-space-line"></div>
+      <div class="divider"></div>
+      <div class="my-space-line"></div>
+      <h6>第二章：函数</h6><br>
+      <p>这一章中你将自己定义函数封装一组命令并使用它</p>
+    </div>
+    <div class="col s2 l2">
+      <a class="btn-floating btn-large green pulse" href="/spo/chapter/3">叁</a>
+      <div class="my-space-line"></div>
+      <div class="divider"></div>
+      <div class="my-space-line"></div>
+      <h6>第三章：条件/循环</h6><br>
+      <p>这一章中你将使用if语句处理不同条件分支，以及使用for/while语句重复一组命令</p>
+    </div>
+    <div class="col s2 l2">
+      <a class="btn-floating btn-large blue pulse" href="/spo/chapter/4">肆</a>
+      <div class="my-space-line"></div>
+      <div class="divider"></div>
+      <div class="my-space-line"></div>
+      <h6>第四章：变量</h6><br>
+      <p>这一章中你将定义变量以储存信息，并使用赋值语句和运算符改变变量的值</p>
+    </div>
+    <div class="col s2 l2">
+      <a class="btn-floating btn-large purple pulse" href="/spo/chapter/5">伍</a>
+      <div class="my-space-line"></div>
+      <div class="divider"></div>
+      <div class="my-space-line"></div>
+      <h6>第五章：类与对象</h6><br>
+      <p>这一章中你将创建特定类的对象，并调用对象的方法以改变属性值</p>
+    </div>
+    <div class="col s1 l1"></div>
+  </div>
+
+  <!-- Space Line -->
+  <div class="my-space-line-large"></div>
+
+  <!-- My Footer -->
+  <footer class="page-footer indigo lighten-3">
+    <div class="container">
+      <div class="row">
+        <div class="col l6 m6 s12">
+          <h5 class="white-text">Footer Content</h5>
+          <p class="grey-text text-lighten-4">You can use rows and columns here to organize your footer content.</p>
+        </div>
+        <div class="col l4 offset-l2 s12">
+          <h5 class="white-text">Links</h5>
+          <ul>
+            <li><a class="grey-text text-lighten-3" href="#!">Link 1</a></li>
+            <li><a class="grey-text text-lighten-3" href="#!">Link 2</a></li>
+          </ul>
+        </div>
+      </div>
+    </div>
+    <div class="footer-copyright indigo lighten-2">
+      <div class="container">
+        © 2014 Copyright AldebaRain
+        <a class="grey-text text-lighten-4 right" href="#!">More Links</a>
+      </div>
+    </div>
+  </footer>
+
+  <!--JavaScript at end of body for optimized loading-->
+  <!-- jQuery -->
+  <script src="https://code.jquery.com/jquery-2.1.1.min.js"></script>
+  <!-- For Materialize -->
+  <script src="/js/Materialize/materialize.min.js" type="text/javascript"></script>
+  <script src="/js/Materialize/initm.js" type="text/javascript"></script>
+</body>
+</html>

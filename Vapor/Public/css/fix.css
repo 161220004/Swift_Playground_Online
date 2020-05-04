@@ -56,12 +56,22 @@
   margin-bottom: 32px;
 }
 
+.my-blockquote {
+  margin: 20px 0;
+  padding-left: 1.5rem;
+  border-left: 7px solid #c5cae9 !important;
+}
+
 .my-space-line {
   margin-top: 40px;
 }
 
 .my-space-line-large {
   margin-top: 80px;
+}
+
+.my-space-line-huge {
+  margin-top: 160px;
 }
 
 .card-subtitle {

@@ -10,12 +10,10 @@
   <!-- My CSS -->
 	<link rel="stylesheet" href="/css/view.css">
 	<link rel="stylesheet" href="/css/fix.css">
-  <!--Import Google Icon Font-->
+  <!-- Import Google Icon Font -->
   <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
-  <!--Import materialize.css-->
+  <!-- Import materialize.css -->
   <link type="text/css" rel="stylesheet" href="/css/materialize.min.css"  media="screen,projection"/>
-  <!-- Ace v1.4.8 -->
-  <!-- <script src="https://cdnjs.cloudflare.com/ajax/libs/ace/1.4.8/ace.js"></script> -->
 </head>
 <body>
   <!-- 导航栏 -->
@@ -23,13 +21,11 @@
     <div class="nav-wrapper">
       <a id="logo-container" href="#" class="center brand-logo">Swift Playground Online</a>
       <ul class="right hide-on-med-and-down">
-        <li><a href="#">Puzzles</a></li>
-        <li><a href="#">Tips</a></li>
+        <li><a href="/spo/welcome">首页</a></li>
       </ul>
       <ul id="nav-mobile" class="sidenav">
         <li class="center-align indigo lighten-3"><h3 style="margin: 0px; padding: 16px 8px;">GoTo</h3></li>
-        <li><a href="puzzles/all">Puzzles</a></li>
-        <li><a href="/">Tips</a></li>
+        <li><a href="/spo/welcome">首页</a></li>
       </ul>
       <a href="#" data-target="nav-mobile" class="sidenav-trigger">
         <i class="material-icons my-fix-menu">menu</i>
@@ -50,12 +46,6 @@
         <div class="card-content indigo-text text-darken-4">
           #get(card_content)
         </div>
-        <!-- <div class="card-action">
-          <div class="row">
-            <div class="col l6 s6 center-align"><a href="#" class="deep-orange-text text-lighter-2">Tip</a></div>
-            <div class="col l6 s6 center-align"><a href="#" class="white-text">Answer</a></div>
-          </div>
-        </div> -->
       </div>
       <!-- Tips -->
       <ul class="collapsible">
@@ -90,27 +80,42 @@
       <div class="my-fix-msg-line">
         <a id="view_map" class="btn white indigo-text waves-effect waves-purple my-fix-msg-btn">View Map</a>
         <a id="restart" class="btn white indigo-text waves-effect waves-purple my-fix-msg-btn">Restart</a>
+        <!-- Modal Trigger, 点击就能得到一个对话框，用来告知运行信息 -->
+        <a class="btn white indigo-text waves-effect waves-purple modal-trigger my-fix-msg-btn" href="#modal_log">Terminal</a>
       </div>
     </div>
   </div>
 
+  <!-- Modal Structure -->
+  <div id="modal_log" class="modal">
+    <div class="modal-content">
+      <h4>运行信息</h4>
+      <p id="terminal_log">...</p>
+    </div>
+    <div class="modal-footer">
+      <a href="#!" class="modal-close waves-effect waves-green btn-flat">确认</a>
+    </div>
+  </div>
+
+  <!-- Space Line -->
+  <div class="my-space-line-large"></div>
+
   <!-- 关卡导航（全部） -->
   <div class="row container center">
-    <br>
-    <br>
     #get(pagination_all)
   </div>
 
   <!-- Puzzle目录按钮集 -->
   <div class="fixed-action-btn">
-    <a class="btn-floating btn-large red">
-      <i class="large material-icons">mode_edit</i>
+    <a class="btn-floating btn-large brown pulse">
+      <i class="large material-icons">attach_file</i>
     </a>
     <ul>
-      <li><a class="btn-floating red"><i class="material-icons">insert_chart</i></a></li>
-      <li><a class="btn-floating yellow darken-1"><i class="material-icons">format_quote</i></a></li>
-      <li><a class="btn-floating green"><i class="material-icons">publish</i></a></li>
-      <li><a class="btn-floating blue"><i class="material-icons">attach_file</i></a></li>
+      <li><a class="btn-floating red" href="/spo/chapter/1">壹</a></li>
+      <li><a class="btn-floating yellow darken-1" href="/spo/chapter/2">贰</a></li>
+      <li><a class="btn-floating green" href="/spo/chapter/3">叁</a></li>
+      <li><a class="btn-floating blue" href="/spo/chapter/4">肆</a></li>
+      <li><a class="btn-floating purple" href="/spo/chapter/5">伍</a></li>
     </ul>
   </div>
 
