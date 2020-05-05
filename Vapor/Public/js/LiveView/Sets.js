@@ -58,6 +58,10 @@ const MiniSwitchY = 36;
 const MiniSwitchR = 7;
 const MiniSwitchSpace = 18; // X方向间距
 
+// Puzzle信息栏的方向指示
+const MiniDirX = 440;
+const MiniDirY = 440;
+
 // 对话框尺寸与偏移
 const ToastMaxWidth = CanvasWidth * 0.55;
 const ToastLeftX = CanvasWidth * 0.1; // Left: 10% ~ 66.4%

@@ -17,6 +17,8 @@ function Foreground() {
   this.switchOnNum = 0; // 点亮的砖块总数
   this.switchOffNum = 0; // 熄灭的砖块总数
   this.switchMap = []; // 所有switch砖块统计（右上角）
+  this.dirArrow = new PIXI.Sprite(arrowTexture); // 方向标
+  this.alphaBia = -0.02; // 用来计算方向标的透明度
   // 初始化
   this.init();
   console.log("Foreground Added");
@@ -111,6 +113,13 @@ Foreground.prototype.init = function() {
   this.blockNumY = this.blocks[maxYIndex].cellY - this.blocks[minYIndex].cellY + 1;
   this.blockBottom = this.blocks[maxYIndex].cellY;
   this.blockLeft = this.blocks[minXIndex].cellX;
+  // 绘制方向标
+  this.dirArrow.anchor.set(0.5);
+  this.dirArrow.zIndex = 199;
+  this.dirArrow.position.set(MiniDirX, MiniDirY);
+  this.dirArrow.alpha = 1;
+  this.dirArrow.rotation = lappland.turnRotation;
+  Stage.addChild(this.dirArrow);
 }
 
 /** 重置 */
@@ -178,4 +187,14 @@ Foreground.prototype.update = function() {
   for (let i = 0; i < this.blocks.length; i++) {
     this.blocks[i].update();
   }
+  // 方向标闪烁动画
+  this.dirArrow.alpha += this.alphaBia;
+  if (this.dirArrow.alpha > 1) {
+    this.dirArrow.alpha = 1;
+    this.alphaBia = -this.alphaBia;
+  } else if (this.dirArrow.alpha < 0.6) {
+    this.dirArrow.alpha = 0.6;
+    this.alphaBia = -this.alphaBia;
+  }
+  this.dirArrow.rotation = lappland.turnRotation;
 }

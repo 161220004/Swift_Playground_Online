@@ -42,6 +42,7 @@ function Lappland() {
   this.logTime = LappLogInterval; // LOG: 对话剩余时间
   this.lastDirection = this.direction; // TURN: 上一次的朝向
   this.turnTime = LappTurnInterval; // TURN: 转向剩余时间
+  this.turnRotation = Math.PI / 2 * this.direction; // TURN: 转体角度
   this.turnXBia = 0; // TURN: 转向时X方向相机偏移量，用于矫正Block的位置计算
   this.collectTime = LappCollectInterval; // COLLECT: 收集宝石跳跃时间
   this.switchTime = LappSwitchInterval; // SWITCH: 切换砖块时间
@@ -287,9 +288,16 @@ Lappland.prototype.update = function() {
               this.turnXBia = sign * CameraLRSpace * this.turnTime / LappTurnInterval;
               this.setTempPosition(this.turnXBia, 0);
             }
+            // 计算转体角度
+            let rotationBia = this.direction - this.lastDirection;
+            if (rotationBia < -2) rotationBia += 4;
+            if (rotationBia > 2) rotationBia -= 4; // 保证旋转角<180度
+            rotationBia *= Math.PI / 2;
+            this.turnRotation = Math.PI / 2 * this.direction - rotationBia * this.turnTime / LappTurnInterval;
           } else { // 动作结束
             this.setPosition();
             this.turnXBia = 0;
+            this.turnRotation = Math.PI / 2 * this.direction;
             isFinished = true;
           }
           break;
