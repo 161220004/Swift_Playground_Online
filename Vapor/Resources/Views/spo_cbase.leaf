@@ -43,9 +43,7 @@
   <div class="my-space-line-large"></div>
 
   <!-- 介绍 -->
-  <div class="container">
-    <div class="my-blockquote indigo-text text-darken-4">#get(chapter_introduction)</div>
-  </div>
+  <div class="container indigo-text text-darken-4">#get(chapter_introduction)</div>
 
   <!-- Space Line -->
   <div class="my-space-line-large"></div>
@@ -65,6 +63,20 @@
   <h5 class="center indigo-text text-darken-4">关卡选择</h5>
   <div class="my-space-line"></div>
   <div class="row container center">#get(chapter_puzzles)</div>
+
+  <!-- Puzzle目录按钮集 -->
+  <div class="fixed-action-btn">
+    <a class="btn-floating btn-large brown">
+      <i class="large material-icons">attach_file</i>
+    </a>
+    <ul>
+      <li><a class="btn-floating red" href="/spo/chapter/1">壹</a></li>
+      <li><a class="btn-floating yellow darken-1" href="/spo/chapter/2">贰</a></li>
+      <li><a class="btn-floating green" href="/spo/chapter/3">叁</a></li>
+      <li><a class="btn-floating blue" href="/spo/chapter/4">肆</a></li>
+      <li><a class="btn-floating purple" href="/spo/chapter/5">伍</a></li>
+    </ul>
+  </div>
 
   <!-- Space Line -->
   <div class="my-space-line-large"></div>

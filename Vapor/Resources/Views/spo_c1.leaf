@@ -3,16 +3,18 @@
 #set("chapter_title") { 第一章 &emsp; 命令 }
 
 #set("chapter_introduction") {
-  <h4>命令</h4><br>
-  <p>你有没有照着食谱烤过什么美味的小点心？或者照着说明书组装过什么酷炫的东西？</p><br>
-  <p>你需要按照正确的说明顺序来做，否则就会得到……意想不到的成品。</p><br>
-  <p>你可以通过编写代码，创建属于你的指令，让设备帮你执行。</p>
-  <p>你的目标就是弄清楚，哪些指令，怎样排序，才能得到最佳成果。</p><br>
-  <p>你需要编写命令，让Lappland不但能动，还能执行任务。</p>
-  <p>例如：告诉Lappland向前走 —— goForward()</p>
-  <canvas id="c1_canvas_pixi" width="300" height="150"></canvas>
-  <br>
-  <p>和我们人类的语言一样，goForward()命令将两个单词揉在一起。“代码”有标点符号和空格，“命令”则没有。</p>
+  <div class="my-blockquote">
+    <h4>命令</h4><br>
+    <p>你有没有照着食谱烤过什么美味的小点心？或者照着说明书组装过什么酷炫的东西？</p><br>
+    <p>你需要按照正确的说明顺序来做，否则就会得到……意想不到的成品。</p><br>
+    <p>你可以通过编写代码，创建属于你的指令，让设备帮你执行。</p>
+    <p>你的目标就是弄清楚，哪些指令，怎样排序，才能得到最佳成果。</p><br>
+    <p>你需要编写命令，让Lappland不但能动，还能执行任务。</p>
+    <p>例如：告诉Lappland向前走 —— goForward()</p>
+    <canvas id="c1_canvas_pixi" width="300" height="150"></canvas>
+    <br>
+    <p>和我们人类的语言一样，goForward()命令将两个单词揉在一起。“代码”有标点符号和空格，“命令”则没有。</p>
+  </div>
 }
 
 #set("chapter_welcome") {
