@@ -3,14 +3,34 @@
   height: 420px;
 }
 
+#main_editor_big {
+  width: 100%;
+  height: 250px;
+}
+
+#main_editor_small {
+  width: 100%;
+  height: 180px;
+}
+
+#main_editor_tiny {
+  width: 100%;
+  height: 140px;
+}
+
 #func_editor_big {
   width: 100%;
   height: 120px;
 }
 
-#main_editor_big {
+#func_editor_small {
   width: 100%;
-  height: 250px;
+  height: 60px;
+}
+
+#func_editor_tiny {
+  width: 100%;
+  height: 40px;
 }
 
 .my-code-font {

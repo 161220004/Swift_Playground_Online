@@ -34,7 +34,7 @@
   <span class="my-code-font">() {</span>
   <div id="func_editor_big" class="z-depth-1"></div>
   <span class="my-code-font">\}</span>
-  <div id="main_editor_big" class="z-depth-1"></div>
+  <div id="main_editor_small" class="z-depth-1"></div>
 }
 
 #set("editor_js") {
