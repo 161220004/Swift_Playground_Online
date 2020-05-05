@@ -10,7 +10,7 @@ var FailReason = {
   Undefined: 7, // Debug: 未知错误
 }
 
-/** Puzzle 类，描述当前状态
+/** Puzzle 类，描述当前状态，图层范围是 1020 ~ 1030
  * @constructor
  */
 function Puzzle() {
@@ -26,7 +26,7 @@ function Puzzle() {
   // 黑色背景
   this.blackboard = new PIXI.Graphics(); // 黑色背景
   this.blackboard.visible = false;
-  this.blackboard.zIndex = 200;
+  this.blackboard.zIndex = 1020;
   this.blackboard.beginFill(0x000000); // 开始绘制
   this.blackboard.drawRect(0, 0, CanvasWidth, CanvasHeight);
   this.blackboard.endFill(); // 停止绘制
@@ -34,14 +34,14 @@ function Puzzle() {
   // 加载动画
   this.loadingSprite = new PIXI.AnimatedSprite(loadingTextures);
   this.loadingSprite.visible = false;
-  this.loadingSprite.zIndex = 201;
+  this.loadingSprite.zIndex = 1021;
   this.loadingSprite.anchor.set(0, 0);
   this.loadingSprite.position.set(0, 0);
   Stage.addChild(this.loadingSprite);
   // 结果动画
   this.resultSprite = new PIXI.Sprite(successTexture);
   this.resultSprite.visible = false;
-  this.resultSprite.zIndex = 202;
+  this.resultSprite.zIndex = 1022;
   this.resultSprite.anchor.set(0, 0);
   this.resultSprite.position.set(0, 0);
   Stage.addChild(this.resultSprite);

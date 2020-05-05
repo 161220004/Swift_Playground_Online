@@ -123,42 +123,53 @@ Lappland.prototype.setDirection = function(dir) {
   this.playNormal();
 }
 
+/** 设置图层位置（当前所在的砖块的上一层） */
+Lappland.prototype.setZIndex = function() {
+  if (foreground) {
+    let blockIndex = foreground.detectOnBlock();
+    if (blockIndex >= 0) {
+      let blockZ = foreground.blocks[blockIndex].blockSprite.zIndex; // 当前所在砖块的图层
+      this.shadow.zIndex = blockZ + 3;
+      this.tail.zIndex = blockZ + 4;
+      this.armb.zIndex = blockZ + 5;
+      this.leg.zIndex = blockZ + 6;
+      this.face.zIndex = blockZ + 7;
+      this.clothes.zIndex = blockZ + 8;
+      this.ribbon.zIndex = blockZ + 9;
+      this.armf.zIndex = blockZ + 10;
+      this.hair.zIndex = blockZ + 11;
+      this.shock.zIndex = blockZ + 12;
+      this.bubble.zIndex = blockZ + 13;
+    }
+  }
+}
+
 /** 添加所有组件到Stage */
 Lappland.prototype.addToStage = function() {
   this.shadow.alpha = 0.3;
-  this.shadow.zIndex = 100;
   this.shadow.anchor.set(0.5);
   Stage.addChild(this.shadow);
-  this.tail.zIndex = 101;
   this.tail.anchor.set(0.5);
   Stage.addChild(this.tail);
-  this.armb.zIndex = 102;
   this.armb.anchor.set(0.5);
   Stage.addChild(this.armb);
-  this.leg.zIndex = 103;
   this.leg.anchor.set(0.5);
   Stage.addChild(this.leg);
-  this.face.zIndex = 104;
   this.face.anchor.set(0.5);
   Stage.addChild(this.face);
-  this.clothes.zIndex = 105;
   this.clothes.anchor.set(0.5);
   Stage.addChild(this.clothes);
-  this.ribbon.zIndex = 106;
   this.ribbon.anchor.set(0.5);
   Stage.addChild(this.ribbon);
-  this.armf.zIndex = 107;
   this.armf.anchor.set(0.5);
   Stage.addChild(this.armf);
-  this.hair.zIndex = 108;
   this.hair.anchor.set(0.5);
   Stage.addChild(this.hair);
-  this.shock.zIndex = 109;
   this.shock.anchor.set(0.5);
   Stage.addChild(this.shock);
-  this.bubble.zIndex = 110;
   this.bubble.anchor.set(0.5);
   Stage.addChild(this.bubble);
+  this.setZIndex();
 }
 
 /** 基本动画 */
@@ -273,6 +284,7 @@ Lappland.prototype.update = function() {
               case 3: this.cellY += dis; break; // Down
               default: console.log("Error: No Direction");
             }
+            this.setZIndex(); // 换图层
           } else { // 动作结束
             if (this.stopWalk()) { // 成功停止
               isFinished = true;
@@ -397,5 +409,7 @@ Lappland.prototype.update = function() {
         this.isActing = true;
       }
     }
+  } else { // puzzle.isRunning = false
+    this.setZIndex(); // 确认图层
   }
 }

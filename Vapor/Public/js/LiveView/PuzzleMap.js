@@ -1,4 +1,4 @@
-/** PuzzleMap 类，小地图
+/** PuzzleMap 类，小地图，图层范围是 1010 ~ 1020
  * @constructor
  */
 function PuzzleMap() {
@@ -18,7 +18,7 @@ PuzzleMap.prototype.init = function() {
   this.mapboard = new PIXI.Graphics();
   this.mapboard.visible = false;
   this.mapboard.alpha = 0.7;
-  this.mapboard.zIndex = 210;
+  this.mapboard.zIndex = 1010;
   this.mapboard.beginFill(0x000000); // 开始绘制
   this.mapboard.drawRect(MapPostionLU, MapPostionLU, mapboardWidth, mapboardHeight);
   this.mapboard.endFill(); // 停止绘制
@@ -28,7 +28,7 @@ PuzzleMap.prototype.init = function() {
   let mapLappY = MapPostionLU + mapboardHeight - MapMargin + lappland.cellY * MapSpace - MapBlockSize / 2;
   this.miniLapp = new PIXI.Sprite(miniLappTexture);
   this.miniLapp.visible = false;
-  this.miniLapp.zIndex = 213;
+  this.miniLapp.zIndex = 1013;
   this.miniLapp.anchor.set(0.5);
   this.miniLapp.position.set(mapLappX, mapLappY);
   Stage.addChild(this.miniLapp);
@@ -51,7 +51,7 @@ PuzzleMap.prototype.init = function() {
     }
     this.mapBlocks[i] = new PIXI.Graphics();
     this.mapBlocks[i].visible = false;
-    this.mapBlocks[i].zIndex = 211;
+    this.mapBlocks[i].zIndex = 1011;
     this.mapBlocks[i].beginFill(colorRGB); // 开始绘制
     this.mapBlocks[i].drawRect(mapBlockX, mapBlockY, MapBlockSize, MapBlockSize);
     this.mapBlocks[i].endFill(); // 停止绘制
@@ -62,7 +62,7 @@ PuzzleMap.prototype.init = function() {
       let mapDiamCY = mapBlockY + MapBlockSize / 2;
       this.mapDiamonds[i] = new PIXI.Graphics();
       this.mapDiamonds[i].visible = false;
-      this.mapDiamonds[i].zIndex = 212;
+      this.mapDiamonds[i].zIndex = 1012;
       this.mapDiamonds[i].beginFill(0x9c27b0); // 开始绘制
       this.mapDiamonds[i].lineStyle(1, 0x8a2be2, 1); // 边框
       this.mapDiamonds[i].drawPolygon([new PIXI.Point(mapDiamCX - MapDiamondWidth / 2, mapDiamCY),

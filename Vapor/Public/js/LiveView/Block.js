@@ -30,11 +30,11 @@ function Block(btype, cx, cy, itype, z) {
   this.collectNo = 0; // 是第几个被收集的钻石
   // 是否被转换颜色
   this.isSwitched = false;
-  // Block Sprite
+  // Block Sprite (图层范围是 10 ~ 1000)
   this.type = btype;
   this.blockSprite = new PIXI.Sprite(itemsTextures["Block"][btype]);
   this.blockSprite.anchor.set(0.5);
-  this.blockSprite.zIndex = 10 + 2 * z;
+  this.blockSprite.zIndex = 10 + 15 * z;
   Stage.addChild(this.blockSprite);
   // Item Sprite
   this.itemType = itype;
@@ -42,7 +42,7 @@ function Block(btype, cx, cy, itype, z) {
   if (this.itemType == ItemType.Diamond) {
     this.itemSprite = new PIXI.AnimatedSprite(itemsTextures["Diamond"], 54, 54);
     this.itemSprite.anchor.set(0.5);
-    this.itemSprite.zIndex = 11 + 2 * z;
+    this.itemSprite.zIndex = 11 + 15 * z;
     Stage.addChild(this.itemSprite);
     this.itemSprite.loop = true;
     this.itemSprite.animationSpeed = 0.15;

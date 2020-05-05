@@ -1,4 +1,4 @@
-/** Foreground 类，场景中地砖的集合
+/** Foreground 类，场景中地砖的集合，图层范围是 10 ~ 1000, 1000 ~ 1010
  * @constructor
  */
 function Foreground() {
@@ -45,7 +45,7 @@ Foreground.prototype.initSwitchMap = function() {
     switchPosX = MiniSwitchX - MiniSwitchSpace * i;
     // 黑色砖块
     this.switchMap[i] = new PIXI.Graphics();
-    this.switchMap[i].zIndex = 199;
+    this.switchMap[i].zIndex = 1000;
     this.switchMap[i].visible = false;
     this.switchMap[i].beginFill(0x616161); // 开始绘制
     this.switchMap[i].lineStyle(1, 0xbdbdbd, 1); // 边框
@@ -54,7 +54,7 @@ Foreground.prototype.initSwitchMap = function() {
     Stage.addChild(this.switchMap[i]);
     // 黄色砖块
     this.switchMap[switchNum + i] = new PIXI.Graphics();
-    this.switchMap[switchNum + i].zIndex = 199;
+    this.switchMap[switchNum + i].zIndex = 1000;
     this.switchMap[switchNum + i].visible = false;
     this.switchMap[switchNum + i].beginFill(0xfff9c4); // 开始绘制
     this.switchMap[switchNum + i].lineStyle(1, 0xbdbdbd, 1); // 边框
@@ -115,7 +115,7 @@ Foreground.prototype.init = function() {
   this.blockLeft = this.blocks[minXIndex].cellX;
   // 绘制方向标
   this.dirArrow.anchor.set(0.5);
-  this.dirArrow.zIndex = 199;
+  this.dirArrow.zIndex = 1000;
   this.dirArrow.position.set(MiniDirX, MiniDirY);
   this.dirArrow.alpha = 1;
   this.dirArrow.rotation = lappland.turnRotation;
