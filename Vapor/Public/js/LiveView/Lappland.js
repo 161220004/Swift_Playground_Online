@@ -125,22 +125,20 @@ Lappland.prototype.setDirection = function(dir) {
 
 /** 设置图层位置（当前所在的砖块的上一层） */
 Lappland.prototype.setZIndex = function() {
-  if (foreground) {
-    let blockIndex = foreground.detectOnBlock();
-    if (blockIndex >= 0) {
-      let blockZ = foreground.blocks[blockIndex].blockSprite.zIndex; // 当前所在砖块的图层
-      this.shadow.zIndex = blockZ + 3;
-      this.tail.zIndex = blockZ + 4;
-      this.armb.zIndex = blockZ + 5;
-      this.leg.zIndex = blockZ + 6;
-      this.face.zIndex = blockZ + 7;
-      this.clothes.zIndex = blockZ + 8;
-      this.ribbon.zIndex = blockZ + 9;
-      this.armf.zIndex = blockZ + 10;
-      this.hair.zIndex = blockZ + 11;
-      this.shock.zIndex = blockZ + 12;
-      this.bubble.zIndex = blockZ + 13;
-    }
+  let blockIndex = foreground.detectOnBlock();
+  if (blockIndex >= 0) {
+    let blockZ = foreground.blocks[blockIndex].blockSprite.zIndex; // 当前所在砖块的图层
+    this.shadow.zIndex = blockZ + 3;
+    this.tail.zIndex = blockZ + 4;
+    this.armb.zIndex = blockZ + 5;
+    this.leg.zIndex = blockZ + 6;
+    this.face.zIndex = blockZ + 7;
+    this.clothes.zIndex = blockZ + 8;
+    this.ribbon.zIndex = blockZ + 9;
+    this.armf.zIndex = blockZ + 10;
+    this.hair.zIndex = blockZ + 11;
+    this.shock.zIndex = blockZ + 12;
+    this.bubble.zIndex = blockZ + 13;
   }
 }
 
@@ -169,7 +167,6 @@ Lappland.prototype.addToStage = function() {
   Stage.addChild(this.shock);
   this.bubble.anchor.set(0.5);
   Stage.addChild(this.bubble);
-  this.setZIndex();
 }
 
 /** 基本动画 */
@@ -193,13 +190,13 @@ Lappland.prototype.playWalk = function() {
   this.armfTexture = this.armf.textures.shift();
   // 开启动画
   this.leg.loop = true;
-  this.leg.animationSpeed = 0.18;
+  this.leg.animationSpeed = 0.24;
   this.leg.play();
   this.armb.loop = true;
-  this.armb.animationSpeed = 0.18;
+  this.armb.animationSpeed = 0.24;
   this.armb.play();
   this.armf.loop = true;
-  this.armf.animationSpeed = 0.18;
+  this.armf.animationSpeed = 0.24;
   this.armf.play();
 }
 
@@ -410,6 +407,6 @@ Lappland.prototype.update = function() {
       }
     }
   } else { // puzzle.isRunning = false
-    this.setZIndex(); // 确认图层
+    if (foreground) this.setZIndex(); // 确认图层
   }
 }

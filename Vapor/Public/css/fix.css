@@ -5,32 +5,27 @@
 
 #main_editor_big {
   width: 100%;
-  height: 250px;
+  height: 235px;
 }
 
 #main_editor_small {
   width: 100%;
-  height: 180px;
+  height: 175px;
 }
 
 #main_editor_tiny {
   width: 100%;
-  height: 140px;
+  height: 95px;
 }
 
 #func_editor_big {
   width: 100%;
-  height: 120px;
+  height: 135px;
 }
 
 #func_editor_small {
   width: 100%;
-  height: 60px;
-}
-
-#func_editor_tiny {
-  width: 100%;
-  height: 40px;
+  height: 95px;
 }
 
 .my-code-font {
