@@ -26,11 +26,15 @@
 }
 
 #set("editor") {
-  <div id="normal_editor" class="z-depth-1"></div>
+  <span class="purple-text my-code-font">func </span>
+  <span class="my-code-font">turnRight() {</span>
+  <div id="func_editor_big" class="z-depth-1"></div>
+  <span class="my-code-font">\}</span>
+  <div id="main_editor_big" class="z-depth-1"></div>
 }
 
 #set("editor_js") {
-  <script src="/js/Ace/RunNormal.js" type="text/javascript"></script>
+  <script src="/js/Ace/RunFunc4.js" type="text/javascript"></script>
   <script src="/js/Ace/AutoComplete4.js" type="text/javascript"></script>
 }
 
