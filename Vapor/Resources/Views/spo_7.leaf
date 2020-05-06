@@ -1,0 +1,63 @@
+#set("title") { SPO Puzzle 3-1 }
+
+#set("pagination_next") {
+  <a href="/spo/6" class="white indigo-text waves-effect waves-indigo btn left"><< Previous</a>
+  <a href="/spo/8" class="white indigo-text waves-effect waves-indigo btn right">Next >></a>
+}
+
+#set("card_content") {
+  <span class="card-title">第三章: 条件/循环</span>
+  <span class="card-title card-subtitle">>>> 关卡1: 行走四方</span>
+  <br>
+  <p>目标：使用一个For循环来重复命令序列。</p>
+  <br>
+  <p>在这一关中，4颗宝石和4黑色砖块分别位于正方形四边相对位置相同的地方，你必须集齐全部宝石、点亮全部砖块。</p>
+  <p>你需要创建一个循环，确定循环次数，重复针对每一条边的代码，从而打通整个关卡。</p><br>
+  <p>在这一关你可以直接调用的函数包括：goForward()、turnLeft()、turnRight()、collect()以及switchIt()。</p><br>
+  <br>
+  <p>(1) 在大括号中输入一条边的解决方案；</p>
+  <p>(2) 确定循环重复的次数；</p>
+  <p>(3) 开始执行你的循环；</p>
+}
+
+#set("collapsible_body") {
+  <span>确认每条边上执行的代码，然后重复4次。</span>
+}
+
+#set("editor") {
+  <span class="purple-text my-code-font">for </span>
+  <span class="my-code-font">i in </span>
+  <span class="blue-text my-code-font">1</span>
+  <span class="my-code-font">...</span>
+  <div class="input-field inline my-short-input">
+    <input id="for_number" type="text" class="validate my-code-font">
+    <label for="for_number">number</label>
+  </div>
+  <span class="my-code-font"> {</span>
+  <div id="for_editor_big" class="z-depth-1"></div>
+  <span class="my-code-font">\}</span>
+  <div id="main_editor_tiny" class="z-depth-1"></div>
+}
+
+#set("editor_js") {
+  <script src="/js/Ace/RunFor7.js" type="text/javascript"></script>
+  <script src="/js/Ace/AutoComplete7.js" type="text/javascript"></script>
+}
+
+#set("pagination_all") {
+  <ul class="pagination">
+    <li class="waves-effect"><a href="/spo/chapter/3"><i class="material-icons">chevron_left</i></a></li>
+    <li class="waves-effect"><a href="/spo/4">2-1</a></li>
+    <li class="waves-effect"><a href="/spo/5">2-2</a></li>
+    <li class="waves-effect"><a href="/spo/6">2-3</a></li>
+    <li class="grey lighten-4 waves-effect"><a href="/spo/chapter/3">3</a></li>
+    <li class="active indigo lighten-2"><a href="#!">3-1</a></li>
+    <li class="waves-effect"><a href="/spo/8">3-2</a></li>
+    <li class="waves-effect"><a href="/spo/9">3-3</a></li>
+    <li class="grey lighten-4 waves-effect"><a href="/spo/chapter/4">4</a></li>
+    <li class="waves-effect"><a href="/spo/10">4-1</a></li>
+    <li class="waves-effect"><a href="/spo/8"><i class="material-icons">chevron_right</i></a></li>
+  </ul>
+}
+
+#embed("spo_base")

@@ -36,7 +36,7 @@ const BackgroundSpeed = {0: [[0, 0], [-1.8, 0.6], [0.2, 0]],
 const LappWidth = 84;
 const LappHeight = 108;
 const LappShadowYBia = 5; // 影子偏移
-const LappJumpZA = -0.03; // 跳跃初速度（Cell）
+const LappJumpZA = -0.036; // 跳跃初速度（Cell）
 const LappBubbleXBia = 50; // 表情气泡X偏移
 const LappBubbleYBia = -70; // 表情气泡Y偏移
 const LappBubbleWidth = 55; // 表情气泡大小
@@ -86,9 +86,9 @@ const MapDiamondHeight = 20; // 小地图钻石大小
 const BreakInterval = 30; // 两动画间的休息间隔 (loopCount)
 const LappTurnInterval = 40; // 转向间隔 (loopCount)
 const LappLogInterval = 150; // 对话间隔 (loopCount)
-const LappWalkInterval = 60; // 行走每一步的间隔 (loopCount)
-const LappJumpInterval = 18; // 跳起间隔 = 落地间隔 (loopCount)
-const LappCollectInterval = MiniDiamondFlyInterval + 40; // 收集钻石等待时间
+const LappWalkInterval = 54; // 行走每一步的间隔 (loopCount)
+const LappJumpInterval = 16; // 跳起间隔 = 落地间隔 (loopCount)
+const LappCollectInterval = MiniDiamondFlyInterval + 35; // 收集钻石等待时间
 const LappSwitchInterval = 30; // 切换砖块颜色时间 (loopCount)
 const FinalWaitInterval = 70; // 等待最终结果的时间 (loopCount)
 const FinalLappEmoInterval = 100; // 气泡表情持续时间 (loopCount)
