@@ -55,6 +55,8 @@ extension PuzzleController {
     
     /// Get: Puzzle Scene
     func getScene(_ req: Request) throws -> Scene {
+        _ = Bash.forceTerminate() // 刷新页面时，此前的编译进程强制终止
+        
         let pid = try req.parameters.next(Int.self)
         print("get Puzzle \(pid) Scene")
         let jsonFile = SCENE_PATH + "Puzzle\(pid).json"
@@ -77,6 +79,8 @@ extension PuzzleController {
     
     /// Post: User Code
     func postCode(_ req: Request) -> Actions {
+        _ = Bash.forceTerminate() // 重新运行用户代码时，此前的编译进程强制终止
+        
         var dependencies: [String] = []
         do {
             // 获取当前PuzzleId
@@ -99,17 +103,18 @@ extension PuzzleController {
             }
             // 编译运行
             if let codeStr  = runInfo.code {
-                DispatchQueue.global(qos: .background).async {
-                    //sleep(5)
-                    // 清除旧文件
-                    RunManager.clear()
-                }
                 // 获取当前方向以控制行动
                 if let dir = Direction(rawValue: runInfo.dir) {
                     // 获取时间戳
                     let stamp = RunManager.getStamp()
+                    print("Get Stamp: " + stamp)
                     // 编译运行
                     let output = RunManager.compile(code: codeStr, dependencies: dependencies, direction: dir, stamp: stamp)
+                    // 清除旧文件
+                    DispatchQueue.global(qos: .background).async {
+                        sleep(5)
+                        RunManager.clear()
+                    }
                     // 获取运行结果
                     return RunManager.translateActions(stamp: stamp, description: output)
                 } else {

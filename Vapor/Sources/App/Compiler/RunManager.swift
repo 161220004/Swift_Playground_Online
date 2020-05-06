@@ -90,15 +90,28 @@ final class RunManager {
         }
         compileLine += fileGlobal + " " + fileCode + " " + fileSave + " " + fileMain + " -o " + projName
         
-        // 打印编译结果
-        print(Bash.run(command: compileLine) ?? "")
+        // 超时处理
+        DispatchQueue.global(qos: .background).async {
+            sleep(15)
+            _ = Bash.forceTerminate()
+        }
         
-        // 确认可运行项目是否存在
+        // 开始编译成可执行文件，并打印编译结果
+        print("\nCompiling Files ...")
+        let compileOutput = Bash.run(command: compileLine) ?? ""
+        print(compileOutput)
+        
+        // 确认可运行项目是否存在，不存在说明编译失败
         if (!FileManager.default.fileExists(atPath: projName)) {
             print("[ Error ] RunManager.compile: Failed to Generate spo-proj")
-            return "Compile Failed"
+            return compileOutput + "\nCompile Failed"
         }
-        return Bash.run(command: projName) ?? ""
+        
+        // 执行该可执行文件
+        print("\nRunning Executable Project ...")
+        let runOutput = Bash.run(command: projName) ?? ""
+        
+        return compileOutput + "\n" + runOutput
     }
     
     /// 读取并解析运行结果文件

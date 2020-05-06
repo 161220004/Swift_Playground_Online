@@ -47,8 +47,8 @@ Foreground.prototype.initSwitchMap = function() {
     this.switchMap[i] = new PIXI.Graphics();
     this.switchMap[i].zIndex = 1000;
     this.switchMap[i].visible = false;
-    this.switchMap[i].beginFill(0x616161); // 开始绘制
-    this.switchMap[i].lineStyle(1, 0xbdbdbd, 1); // 边框
+    // this.switchMap[i].beginFill(0x616161); // 开始绘制
+    this.switchMap[i].lineStyle(2, 0xfafafa, 1); // 边框
     this.switchMap[i].drawCircle(switchPosX, MiniSwitchY, MiniSwitchR);
     this.switchMap[i].endFill(); // 停止绘制
     Stage.addChild(this.switchMap[i]);
@@ -57,7 +57,7 @@ Foreground.prototype.initSwitchMap = function() {
     this.switchMap[switchNum + i].zIndex = 1000;
     this.switchMap[switchNum + i].visible = false;
     this.switchMap[switchNum + i].beginFill(0xfff9c4); // 开始绘制
-    this.switchMap[switchNum + i].lineStyle(1, 0xbdbdbd, 1); // 边框
+    this.switchMap[switchNum + i].lineStyle(2, 0xbdbdbd, 1); // 边框
     this.switchMap[switchNum + i].drawCircle(switchPosX, MiniSwitchY, MiniSwitchR);
     this.switchMap[switchNum + i].endFill(); // 停止绘制
     Stage.addChild(this.switchMap[switchNum + i]);

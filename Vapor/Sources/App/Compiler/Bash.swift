@@ -12,18 +12,31 @@ import Foundation
 let PROJECT_PATH = FileManager.default.currentDirectoryPath
 
 final class Bash {
-
+    
+    static var task = Process()
+    
     static public func run(command cmd: String) -> String? {
         
-        let task = Process()
-        task.launchPath = "/bin/bash"
-        task.arguments = ["-c", cmd]
+        self.task = Process()
+        self.task.launchPath = "/bin/bash"
+        self.task.arguments = ["-c", cmd]
         let pipe = Pipe()
-        task.standardOutput = pipe
-        task.launch()
+        self.task.standardOutput = pipe
+        self.task.standardError = pipe
+        self.task.launch()
+        // self.task.waitUntilExit()
         
         let data = pipe.fileHandleForReading.readDataToEndOfFile()
         let output = String(data: data, encoding: String.Encoding.utf8)
         return output
+    }
+    
+    static public func forceTerminate() -> Bool {
+        if task.isRunning {
+            print("Timeout! Force to Terminate Current Process")
+            task.terminate() // 强制退出
+            return true
+        }
+        return false
     }
 }

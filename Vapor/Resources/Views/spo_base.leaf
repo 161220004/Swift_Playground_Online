@@ -88,7 +88,7 @@
 
   <!-- Modal Structure -->
   <div id="modal_log" class="modal">
-    <div class="modal-content">
+    <div class="modal-content chapter-code-font">
       <h4>运行信息</h4>
       <p id="terminal_log"></p><br>
       <p id="result_log"></p>
