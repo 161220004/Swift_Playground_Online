@@ -348,7 +348,11 @@ Lappland.prototype.update = function() {
             }
           } else { // 动作结束
             if (!this.isSwitched) foreground.trySwitch();
-            console.log("Block Switched (" + foreground.switchOnNum + "/" + (foreground.switchOnNum + foreground.switchOffNum) + ")");
+            if (foreground.targetOnNum != -1) {
+              console.log("Block Switched (" + foreground.switchOnNum + "/" + foreground.targetOnNum + ")");
+            } else {
+              console.log("Block Switched (" + foreground.switchOnNum + "/" + foreground.totalSwitchNum + ")");
+            }
             isFinished = true;
           }
           break;

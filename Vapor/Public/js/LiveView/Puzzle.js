@@ -202,7 +202,8 @@ Puzzle.prototype.judgeResult = function() {
   }
   // 结束时失败
   if (this.isCompiled && this.isCompleted) {
-    if (foreground.collectedNum != foreground.targetDiamNum) { // 宝石数不正确
+    if ((foreground.targetDiamNum != -1 && foreground.collectedNum != foreground.targetDiamNum) ||
+        (foreground.targetDiamNum == -1 && foreground.collectedNum != foreground.totalDiamNum)) { // 宝石数不正确
       this.isFailure = true;
       this.reason = FailReason.EndNotEnough;
       this.showResultSprite();
@@ -210,7 +211,8 @@ Puzzle.prototype.judgeResult = function() {
       $("#reason_log").html("Reason: Collected Diamond Number Is Not Correct");
       console.log("The End: Diamond Not Enough");
       return;
-    } else if (foreground.switchOnNum != foreground.targetOnNum) {  // 可变砖块数不正确
+    } else if ((foreground.targetOnNum != -1 && foreground.switchOnNum != foreground.targetOnNum) ||
+               (foreground.targetOnNum == -1 && foreground.switchOnNum != foreground.totalSwitchNum)) {  // 可变砖块数不正确
       this.isFailure = true;
       this.reason = FailReason.EndNotOn;
       this.showResultSprite();

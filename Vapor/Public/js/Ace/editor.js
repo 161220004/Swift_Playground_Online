@@ -41,10 +41,23 @@ $("#run_code").click(function(){
   if (puzzle.isCompleted || (!puzzle.isCompiled && !puzzle.isCompiling && !puzzle.isCompleted)) {
     // 重置LiveView
     resetLiveView();
-    // 封装传给后端的数据
+    // 设置Random场景
+    foreground.setRandom();
+    // 封装传给后端的数据，包括code和Scene（帮助后端确认Random的最终值）
+    let sceneInfo = Object();
+    sceneInfo.puzzle = SceneData.puzzle;
+    sceneInfo.blocks = [];
+    for (let i = 0; i < foreground.blocks.length; i++) {
+      sceneInfo.blocks[i] = Object();
+      sceneInfo.blocks[i].id = foreground.blocks[i].id;
+      sceneInfo.blocks[i].type = foreground.blocks[i].type;
+      sceneInfo.blocks[i].cellX = foreground.blocks[i].cellX;
+      sceneInfo.blocks[i].cellY = foreground.blocks[i].cellY;
+      sceneInfo.blocks[i].item = foreground.blocks[i].itemType;
+    }
     let runInfo = Object();
     runInfo.code = getEditorCode();
-    runInfo.dir = lappland.direction;
+    runInfo.scene = sceneInfo;
     // $("#test_live_view").html("Running...")
     // 等待后端处理
     puzzle.isCompiling = true;

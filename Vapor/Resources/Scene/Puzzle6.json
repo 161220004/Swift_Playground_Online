@@ -3,7 +3,6 @@
     "id": 6,
     "description": "Puzzle 2-3",
     "lappInitDir": 2,
-    "randDiamNum": 0,
     "targetDiamNum": 6,
     "targetOnNum": 0,
     "backInitX": -350.0,

@@ -18,7 +18,13 @@ enum FunctionDependency: String {
     case TurnRight = "TurnRight.swift"
     case Collect = "Collect.swift"
     case SwitchIt = "SwitchIt.swift"
-    case Test = "Hello.swift"
+    
+    case Trace = "Trace.swift"
+    case BlockObj = "Block.swift"
+    case TMove = "TraceMove.swift"
+    case TMoveMore = "TraceMoveMore.swift"
+    case TCollect = "TraceCollect.swift"
+    case TSwitchIt = "TraceSwitchIt.swift"
     
 }
 
@@ -48,8 +54,14 @@ final class PuzzleDependency {
             return self.generate(functions: .Log, .Move, .Collect, .TurnLeft, .TurnRight)
         case 7: // Puzzle 3-1
             return self.generate(functions: .Log, .Move, .Collect, .TurnLeft, .TurnRight, .SwitchIt)
+        case 8: // Puzzle 3-2
+            return self.generate(functions: .Log, .Trace, .BlockObj, .TMove, .TCollect, .TurnLeft, .TurnRight, .TSwitchIt)
         default:
-            return self.generate(functions: .Log, .Test)
+            return self.generate(functions: .Log)
         }
+    }
+    
+    static public func has(dep: FunctionDependency, inAll: [String]) -> Bool {
+        return inAll.contains(dep.rawValue)
     }
 }

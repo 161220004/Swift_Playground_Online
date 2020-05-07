@@ -93,3 +93,8 @@ const LappSwitchInterval = 30; // 切换砖块颜色时间 (loopCount)
 const FinalWaitInterval = 70; // 等待最终结果的时间 (loopCount)
 const FinalLappEmoInterval = 100; // 气泡表情持续时间 (loopCount)
 const FinalAppearInterval = 100; // 结果淡出时间 (loopCount)
+
+// 随机概率
+const RandDiamPercent = 0.6; // 随机宝石概率
+const RandOnPercent = 0.4; // 随机黄色砖块概率
+const RandSwitchPercent = 0.5; // 随机砖块不是宝石概率
