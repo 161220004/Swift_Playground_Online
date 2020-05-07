@@ -11,18 +11,18 @@
   <br>
   <p>目标：定义并使用你自己的函数实现右转。</p>
   <br>
-  <p>你是否注意到，没有turnRight()（向右转）这个命令？如果角色需要右转多次才能到达宝石处，该怎么办呢？</p>
+  <p class="chapter-code-font">你是否注意到，没有turnRight()（向右转）这个命令？如果角色需要右转多次才能到达宝石处，该怎么办呢？</p>
   <p>有时候为了解决类似的编程问题，你需要组合现有的命令来创建新的行为。</p>
-  <p>对于不止一次的右转，更高效的办法是，将所有左转动作归入一个turnRight()命令中，并多次调用。</p><br>
-  <p>像turnRight()这样的命令实际上是执行多个任务的函数。你一直都在使用函数，到目前为止，你用过的每个命令实际上都是我们提供的函数。</p>
+  <p class="chapter-code-font">对于不止一次的右转，更高效的办法是，将所有左转动作归入一个turnRight()命令中，并多次调用。</p><br>
+  <p class="chapter-code-font">像turnRight()这样的命令实际上是执行多个任务的函数。你一直都在使用函数，到目前为止，你用过的每个命令实际上都是我们提供的函数。</p>
   <br>
-  <p>(1) 思考一下，如何使用之前用过的命令：goForward()、turnLeft()、switchIt()以及collect()，组合实现右转函数turnRight()；</p>
-  <p>(2) 选择函数体内部，定义右转函数turnRight()的内容；</p>
-  <p>(3) 使用现有的命令以及新的turnRight()帮助Lappland获取宝石；</p>
+  <p class="chapter-code-font">(1) 思考一下，如何使用之前用过的命令：goForward()、turnLeft()、switchIt()以及collect()，组合实现右转函数turnRight()；</p>
+  <p class="chapter-code-font">(2) 选择函数体内部，定义右转函数turnRight()的内容；</p>
+  <p>(3) 使用现有的命令以及新的<span class="chapter-code-font">turnRight()</span>帮助Lappland获取宝石；</p>
 }
 
 #set("collapsible_body") {
-  <span>你会很容易想到，turnRight()是三个左转命令的组合。</span>
+  <span class="chapter-code-font">你会很容易想到，turnRight()是三个左转命令的组合。</span>
 }
 
 #set("editor") {

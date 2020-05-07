@@ -9,11 +9,11 @@
   <span class="card-title">第三章: 条件/循环</span>
   <span class="card-title card-subtitle">>>> 关卡1: 行走四方</span>
   <br>
-  <p>目标：使用一个For循环来重复命令序列。</p>
+  <p class="chapter-code-font">目标：使用一个For循环来重复命令序列。</p>
   <br>
   <p>在这一关中，4颗宝石和4黑色砖块分别位于正方形四边相对位置相同的地方，你必须集齐全部宝石、点亮全部砖块。</p>
   <p>你需要创建一个循环，确定循环次数，重复针对每一条边的代码，从而打通整个关卡。</p><br>
-  <p>在这一关你可以直接调用的函数包括：goForward()、turnLeft()、turnRight()、collect()以及switchIt()。</p><br>
+  <p class="chapter-code-font">在这一关你可以直接调用的函数包括：goForward()、turnLeft()、turnRight()、collect()以及switchIt()。</p><br>
   <br>
   <p>(1) 在大括号中输入一条边的解决方案；</p>
   <p>(2) 确定循环重复的次数；</p>

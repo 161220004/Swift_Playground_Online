@@ -1,4 +1,4 @@
-#set("title") { SPO Puzzle 2-2 }
+#set("title") { SPO Puzzle 2-3 }
 
 #set("pagination_next") {
   <a href="/spo/5" class="white indigo-text waves-effect waves-indigo btn left"><< Previous</a>
@@ -15,15 +15,15 @@
   <p>你也可以定义一个函数完成较小的任务，然后在另一个函数中调用这个函数来完成更大的任务。这种较大的问题分解成较小部分的过程称为分解。</p><br>
   <p>这种做法使你的代码变得更加易读，因为你可以基于函数的目的给函数命名。
      同时，它也简化了写代码的过程，因为在写下一个用来完成大任务的函数后，你就不再需要考虑单个命令了。</p><br>
-  <p>在这一关我们提供的命令包括：goForward()、turnLeft()、turnRight()以及collect()。</p>
+  <p class="chapter-code-font">在这一关我们提供的命令包括：goForward()、turnLeft()、turnRight()以及collect()。</p>
   <br>
-  <p>(1) 运行代码来查看调用collectTurnAround()（收集并转身）时会发生什么；</p>
-  <p>(2) 填写solveRow()（解决一侧）的代码，使它能够解决关卡中更大的部分；</p>
-  <p>(3) 调用solveRow()以及其他命令来通关；</p>
+  <p class="chapter-code-font">(1) 运行代码来查看调用collectTurnAround()（收集并转身）时会发生什么；</p>
+  <p class="chapter-code-font">(2) 填写solveRow()（解决一侧）的代码，使它能够解决关卡中更大的部分；</p>
+  <p class="chapter-code-font">(3) 调用solveRow()以及其他命令来通关；</p>
 }
 
 #set("collapsible_body") {
-  <span>配合使用collectTurnAround()（收集并转身）函数和其他命令来定义solveRow()（解决一侧）函数。</span>
+  <span class="chapter-code-font">配合使用collectTurnAround()（收集并转身）函数和其他命令来定义solveRow()（解决一侧）函数。</span>
 }
 
 #set("editor") {

@@ -14,12 +14,12 @@
   <p>你的角色Lappland喜欢收集宝石，但他一个人做不到。在第一关里，你需要编写Swift命令，让Lappland在关卡世界里动起来，去收集宝石。</p>
   <br>
   <p>(1) 找到关卡世界的宝石；</p>
-  <p>(2) 输入正确的“goForward()”（前行1步）和“collect()”（收集宝石）命令组合，让Lappland向前行走并收集宝石；</p>
+  <p>(2) 输入正确的<span class="chapter-code-font">“goForward()”（前行1步）和“collect()”（收集宝石）</span>命令组合，让Lappland向前行走并收集宝石；</p>
   <p>(3) 点击“Run”开始运行你的代码；</p>
 }
 
 #set("collapsible_body") {
-  <span>你需要输入一些命令。请在代码编辑区域使用“goForward()”和“collect()”这两个命令来通关。</span>
+  <span class="chapter-code-font">你需要输入一些命令。请在代码编辑区域使用“goForward()”和“collect()”这两个命令来通关。</span>
 }
 
 #set("editor") {

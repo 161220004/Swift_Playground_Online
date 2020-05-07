@@ -1,26 +1,35 @@
-#set("title") { SPO Puzzle 1-1 }
+#set("title") { SPO Puzzle 3-2 }
 
 #set("pagination_next") {
-  <a href="/spo/1" class="white indigo-text waves-effect waves-indigo btn left"><< Previous</a>
-  <a href="/spo/3" class="white indigo-text waves-effect waves-indigo btn right">Next >></a>
+  <a href="/spo/7" class="white indigo-text waves-effect waves-indigo btn left"><< Previous</a>
+  <a href="/spo/9" class="white indigo-text waves-effect waves-indigo btn right">Next >></a>
 }
 
 #set("card_content") {
-  <span class="card-title">第一章: 命令</span>
-  <span class="card-title card-subtitle">>>> 关卡2: 左转命令</span>
+  <span class="card-title">第三章: 条件/循环</span>
+  <span class="card-title card-subtitle">>>> 关卡2: 条件分支</span>
   <br>
-  <p>目标：把移动和转弯这两个命令结合起来，去收集宝石。</p>
+  <p class="chapter-code-font">目标：使用 if 或 else if 来收集宝石或切换砖块。</p>
   <br>
-  <p>这一关和上一关类似，但这一次Lappland需要左转才能到达宝石处，你可以使用上一关中的命令“goForward()”和“collect()”，
-    也可以使用新命令“turnLeft()”（向左转）。</p>
+  <p>尝试运行几次代码，你会发现开关和宝石均为随机出现：</p>
+  <p>(1) 对于红色的砖块，关卡开始后有随机的两种可能：变成有宝石的砖块，变成没有宝石的普通砖块；</p>
+  <p>(2) 对于绿色的砖块，关卡开始后有随机的两种可能：变成可点亮的黑色砖块，变成可熄灭的黄色砖块；</p>
+  <p>(3) 对于蓝色的砖块，关卡开始后有随机的四种可能：变成有宝石的砖块，变成没有宝石的普通砖块，变成可点亮的黑色砖块，变成可熄灭的黄色砖块；</p>
   <br>
-  <p>(1) 构思让Lappland走到宝石处并收集宝石所需的命令；</p>
-  <p>(2) 在代码编辑区域输入命令；</p>
-  <p>(3) 点击“Run”开始运行你的代码；</p>
+  <p class="chapter-code-font">为了确认是否要收集宝石或者切换砖块，使用if语句来检查一种可能的条件，并使用else if语句来检查另一种可能性。</p><br>
+  <p class="chapter-code-font">这里我们提供三种条件：位于宝石处（isOnGem），位于点亮的砖块处（isOnYellowBlock），
+     以及位于熄灭的砖块处（isOnDarkBlock）。</p>
+  <p class="chapter-code-font">另外，在这一关你可以直接调用的函数包括：goForward()、turnLeft()、turnRight()、collect()以及switchIt()。</p><br>
+  <br>
+  <p>(1) 对于一个随机的砖块，进行条件判断；</p>
+  <p>(2) 如果有宝石就收集，如果是熄灭的砖块就点亮；</p>
+  <p>(3) 针对每一个随机砖块都进行上述步骤；</p>
 }
 
 #set("collapsible_body") {
-  <span>若要到达宝石处，Lappland需要向前走两步，向左转，然后再向前走两步。</span>
+  <span class="chapter-code-font">添加if语句检查第一个条件后，可以添加else if块检查第二个条件。
+        如果Lappland在宝石处（isOnGem），就收集；如果在黑色砖块处（isOnDarkBlock），就点亮。</span><br>
+  <span class="chapter-code-font">你可以使用我们之前学过的For循环简化代码哦！</span>
 }
 
 #set("editor") {

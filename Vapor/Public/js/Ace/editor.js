@@ -41,6 +41,7 @@ $("#run_code").click(function(){
   if (puzzle.isCompleted || (!puzzle.isCompiled && !puzzle.isCompiling && !puzzle.isCompleted)) {
     // 重置LiveView
     resetLiveView();
+    puzzleMap.isVisible = false; // 先关闭小地图
     // 设置Random场景
     foreground.setRandom();
     // 封装传给后端的数据，包括code和Scene（帮助后端确认Random的最终值）

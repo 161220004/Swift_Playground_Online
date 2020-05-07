@@ -1,4 +1,4 @@
-/** PuzzleMap 类，小地图，图层范围是 1010 ~ 1020
+/** PuzzleMap 类，小地图，图层范围是 1030 ~ 1040
  * @constructor
  */
 function PuzzleMap() {
@@ -52,7 +52,7 @@ PuzzleMap.prototype.init = function() {
   this.mapboard = new PIXI.Graphics();
   this.mapboard.visible = false;
   this.mapboard.alpha = 0.7;
-  this.mapboard.zIndex = 1010;
+  this.mapboard.zIndex = 1030;
   this.mapboard.beginFill(0x000000); // 开始绘制
   this.mapboard.drawRect(MapPostionLU, MapPostionLU, this.mapboardWidth, this.mapboardHeight);
   this.mapboard.endFill(); // 停止绘制
@@ -60,7 +60,7 @@ PuzzleMap.prototype.init = function() {
   // Mini Lappland
   this.miniLapp = new PIXI.Sprite(miniLappTexture);
   this.miniLapp.visible = false;
-  this.miniLapp.zIndex = 1013;
+  this.miniLapp.zIndex = 1033;
   this.miniLapp.anchor.set(0.5);
   this.setMiniLappland();
   Stage.addChild(this.miniLapp);
@@ -68,7 +68,7 @@ PuzzleMap.prototype.init = function() {
   for (let i = 0; i < foreground.blocks.length; i++) {
     // 添加地砖
     this.mapBlocks[i] = new PIXI.Graphics();
-    this.mapBlocks[i].zIndex = 1011;
+    this.mapBlocks[i].zIndex = 1031;
     let mapBlockPos = this.setMapBlock(this.mapBlocks[i], foreground.blocks[i]);
     Stage.addChild(this.mapBlocks[i]);
     // 添加宝石（Purple/Red/Blue）
@@ -78,7 +78,7 @@ PuzzleMap.prototype.init = function() {
       let mapDiamCY = mapBlockPos[1] + MapBlockSize / 2;
       this.mapDiamonds[i] = new PIXI.Graphics();
       this.mapDiamonds[i].visible = false;
-      this.mapDiamonds[i].zIndex = 1012;
+      this.mapDiamonds[i].zIndex = 1032;
       this.mapDiamonds[i].beginFill(0x9c27b0); // 开始绘制
       this.mapDiamonds[i].lineStyle(1, 0x8a2be2, 1); // 边框
       this.mapDiamonds[i].drawPolygon([new PIXI.Point(mapDiamCX - MapDiamondWidth / 2, mapDiamCY),
@@ -93,9 +93,6 @@ PuzzleMap.prototype.init = function() {
 
 /** 可变绘制 */
 PuzzleMap.prototype.update = function() {
-  if (puzzle.isCompiling || puzzle.isCompleted) {
-    this.isVisible = false;
-  }
   this.mapboard.visible = this.isVisible;
   this.miniLapp.visible = this.isVisible;
   this.setMiniLappland();

@@ -13,7 +13,7 @@
   <br>
   <p>在这项挑战中，你需要收集大量的宝石，数量多到可以采用很多种方式来通关。</p>
   <p>选取一条重复某种模式的路线，并在你的函数中使用该模式。</p><br>
-  <p>在这一关你可以直接调用的函数包括：goForward()、turnLeft()、turnRight()以及collect()。</p><br>
+  <p class="chapter-code-font">在这一关你可以直接调用的函数包括：goForward()、turnLeft()、turnRight()以及collect()。</p><br>
   <p>如果你的代码第一次运行不成功，请不断尝试，毕竟熟能生巧！</p>
   <br>
   <p>(1) 思考一下，可以定义怎样的模式，能够更好的重复使用；</p>
