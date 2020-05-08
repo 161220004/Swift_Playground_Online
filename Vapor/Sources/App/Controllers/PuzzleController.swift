@@ -9,8 +9,8 @@ import Vapor
 import HTTP
 
 struct RunInfo: Codable, Content {
-    var code: String?
-    var dir: Int
+    var code: String
+    var scene: Scene
 }
 
 final class PuzzleController: RouteCollection {
@@ -19,6 +19,10 @@ final class PuzzleController: RouteCollection {
     func boot(router: Router) throws {
         
         router.group("spo") { group in
+            
+            group.get("welcome", use: getWelcome)
+            
+            group.get("chapter", Int.parameter, use: getChapter)
             
             group.get(Int.parameter, use: getPuzzle)
             
@@ -32,43 +36,63 @@ final class PuzzleController: RouteCollection {
 
 extension PuzzleController {
     
-    /// Get: one puzzle
+    /// Get: Welcome
+    func getWelcome(_ req: Request) throws -> Future<View> {
+        return try req.view().render("spo_welcome")
+    }
+    
+    /// Get: One Chapter
+    func getChapter(_ req: Request) throws -> Future<View> {
+        let cid = try req.parameters.next(Int.self)
+        return try req.view().render("spo_c\(cid)")
+    }
+    
+    /// Get: One Puzzle
     func getPuzzle(_ req: Request) throws -> Future<View> {
         let pid = try req.parameters.next(Int.self)
         return try req.view().render("spo_\(pid)")
     }
     
-    /// Get: Puzzle Scene
-    func getScene(_ req: Request) throws -> Scene {
-        let pid = try req.parameters.next(Int.self)
-        print("get Puzzle \(pid) Scene")
+    /// 从Json文件获取SceneInfo对象
+    func readSceneInfo(pid: Int) throws -> Scene {
         let jsonFile = SCENE_PATH + "Puzzle\(pid).json"
         var jsonContent = ""
         do {
             jsonContent = try String(contentsOf: URL(fileURLWithPath: jsonFile), encoding: .utf8)
         } catch {
-            print("[ Error ] PuzzleController.getScene: Failed to Read Result in " + jsonFile)
+            print("[ Error ] PuzzleController.readSceneInfo: Failed to Read Result in " + jsonFile)
             throw FileManagerError.ReadSceneFileFailed
         }
         var sceneInfo: Scene
         do {
             sceneInfo = try JSONDecoder().decode(Scene.self, from: jsonContent)
         } catch {
-            print("[ Error ] PuzzleController.getScene: Failed to Decode Json Data to Object")
+            print("[ Error ] PuzzleController.readSceneInfo: Failed to Decode Json Data to Object")
             throw TransformError.DecodeJsonFailed
         }
         return sceneInfo
     }
     
+    /// Get: Puzzle Scene
+    func getScene(_ req: Request) throws -> Scene {
+        _ = Bash.forceTerminate() // 刷新页面时，此前的编译进程强制终止
+        // 获取Pid
+        let pid = try req.parameters.next(Int.self)
+        print("\nGet Puzzle \(pid) Scene")
+        // 读取Json文件并解码为对象
+        return try readSceneInfo(pid: pid)
+    }
+    
     /// Post: User Code
     func postCode(_ req: Request) -> Actions {
+        _ = Bash.forceTerminate() // 重新运行用户代码时，此前的编译进程强制终止
+        
+        var pid: Int = 0
         var dependencies: [String] = []
-        do {
-            // 获取当前PuzzleId
-            let pid = try req.parameters.next(Int.self)
-            // 根据pid获取所需依赖
+        do { // 获取当前PuzzleId，并根据pid获取所需依赖
+            pid = try req.parameters.next(Int.self)
             dependencies = PuzzleDependency.use(pid: pid)
-            print("Set Puzzle \(pid) Dependencies: \(dependencies)")
+            print("\nSet Puzzle \(pid) Dependencies: \(dependencies)")
         } catch {
             print("[ Error ] PuzzleController.postCode: Failed to Get Pid From URL")
             return Actions()
@@ -83,28 +107,17 @@ extension PuzzleController {
                 return Actions()
             }
             // 编译运行
-            if let codeStr  = runInfo.code {
-                DispatchQueue.global(qos: .background).async {
-                    //sleep(5)
-                    // 清除旧文件
-                    RunManager.clear()
-                }
-                // 获取当前方向以控制行动
-                if let dir = Direction(rawValue: runInfo.dir) {
-                    // 获取时间戳
-                    let stamp = RunManager.getStamp()
-                    // 编译运行
-                    let output = RunManager.compile(code: codeStr, dependencies: dependencies, direction: dir, stamp: stamp)
-                    // 获取运行结果
-                    return RunManager.translateActions(stamp: stamp, description: output)
-                } else {
-                    print("[ Error ] PuzzleController.postCode: Failed to Get Direction from Decoded Data")
-                    return Actions()
-                }
-            } else {
-                print("[ Error ] PuzzleController.postCode: Failed to Get Code from Decoded Data")
-                return Actions()
+            let stamp = RunManager.getStamp() // 获取时间戳
+            print("Get Stamp: " + stamp)
+            // 编译运行
+            let output = RunManager.compile(code: runInfo.code, stamp: stamp, scene: runInfo.scene, dependencies: dependencies)
+            // 清除旧文件
+            DispatchQueue.global(qos: .background).async {
+                sleep(5)
+                RunManager.clear()
             }
+            // 获取运行结果
+            return RunManager.translateActions(stamp: stamp, description: output)
         } else {
             print("[ Error ] PuzzleController.postCode: Failed to Get Data from Request")
             return Actions()

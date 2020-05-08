@@ -2,5 +2,5 @@ import Foundation
 
 func turnRight() {
     CURRENT_DIRECTION_RAW = (CURRENT_DIRECTION_RAW + 1) % 4
-    saveResult("TURN: \(CURRENT_DIRECTION_RAW)")
+    SAVE_RESULT_ON_SERVER_SIDE("TURN: \(CURRENT_DIRECTION_RAW)")
 }

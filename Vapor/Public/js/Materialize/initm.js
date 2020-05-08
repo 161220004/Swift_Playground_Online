@@ -7,4 +7,7 @@ $(function(){ // document ready
 
   // 题干的Tips
   $('.collapsible').collapsible();
+
+  // 运行信息对话框
+  $('.modal').modal();
 });

@@ -1,0 +1,57 @@
+#set("title") { SPO Puzzle 2-1 }
+
+#set("pagination_next") {
+  <a href="/spo/chapter/2" class="white indigo-text waves-effect waves-indigo btn left"><< Previous</a>
+  <a href="/spo/5" class="white indigo-text waves-effect waves-indigo btn right">Next >></a>
+}
+
+#set("card_content") {
+  <span class="card-title">第二章: 函数</span>
+  <span class="card-title card-subtitle">>>> 关卡1: 创建右转函数</span>
+  <br>
+  <p>目标：定义并使用你自己的函数实现右转。</p>
+  <br>
+  <p class="chapter-code-font">你是否注意到，没有turnRight()（向右转）这个命令？如果角色需要右转多次才能到达宝石处，该怎么办呢？</p>
+  <p>有时候为了解决类似的编程问题，你需要组合现有的命令来创建新的行为。</p>
+  <p class="chapter-code-font">对于不止一次的右转，更高效的办法是，将所有左转动作归入一个turnRight()命令中，并多次调用。</p><br>
+  <p class="chapter-code-font">像turnRight()这样的命令实际上是执行多个任务的函数。你一直都在使用函数，到目前为止，你用过的每个命令实际上都是我们提供的函数。</p>
+  <br>
+  <p class="chapter-code-font">(1) 思考一下，如何使用之前用过的命令：goForward()、turnLeft()、switchIt()以及collect()，组合实现右转函数turnRight()；</p>
+  <p class="chapter-code-font">(2) 选择函数体内部，定义右转函数turnRight()的内容；</p>
+  <p>(3) 使用现有的命令以及新的<span class="chapter-code-font">turnRight()</span>帮助Lappland获取宝石；</p>
+}
+
+#set("collapsible_body") {
+  <span class="chapter-code-font">你会很容易想到，turnRight()是三个左转命令的组合。</span>
+}
+
+#set("editor") {
+  <span class="purple-text my-code-font">func </span>
+  <span class="my-code-font">turnRight() {</span>
+  <div id="func_editor_big" class="z-depth-1"></div>
+  <span class="my-code-font">\}</span>
+  <div id="main_editor_big" class="z-depth-1"></div>
+}
+
+#set("editor_js") {
+  <script src="/js/Ace/RunFunc4.js" type="text/javascript"></script>
+  <script src="/js/Ace/AutoComplete4.js" type="text/javascript"></script>
+}
+
+#set("pagination_all") {
+  <ul class="pagination">
+    <li class="waves-effect"><a href="/spo/chapter/2"><i class="material-icons">chevron_left</i></a></li>
+    <li class="waves-effect"><a href="/spo/1">1-1</a></li>
+    <li class="waves-effect"><a href="/spo/2">1-2</a></li>
+    <li class="waves-effect"><a href="/spo/3">1-3</a></li>
+    <li class="grey lighten-4 waves-effect"><a href="/spo/chapter/2">2</a></li>
+    <li class="active indigo lighten-2"><a href="#!">2-1</a></li>
+    <li class="waves-effect"><a href="/spo/5">2-2</a></li>
+    <li class="waves-effect"><a href="/spo/6">2-3</a></li>
+    <li class="grey lighten-4 waves-effect"><a href="/spo/chapter/3">3</a></li>
+    <li class="waves-effect"><a href="/spo/7">3-1</a></li>
+    <li class="waves-effect"><a href="/spo/5"><i class="material-icons">chevron_right</i></a></li>
+  </ul>
+}
+
+#embed("spo_base")

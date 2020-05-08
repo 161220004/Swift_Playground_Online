@@ -1,5 +1,3 @@
-import Foundation
-
 func goForward() {
-    saveResult("GO: 1")
+    SAVE_RESULT_ON_SERVER_SIDE("GO: 1")
 }

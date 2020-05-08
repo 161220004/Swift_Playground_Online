@@ -7,13 +7,6 @@
 
 import Foundation
 
-/// 用户代码相关文件的路径
-let CODE_PATH = PROJECT_PATH + "/Resources/Code/"
-/// 运行结果相关文件的路径
-let RESULT_PATH = PROJECT_PATH + "/Resources/Results/"
-/// 场景相关文件的路径
-let SCENE_PATH = PROJECT_PATH + "/Resources/Scene/"
-
 final class RunManager {
     
     /// 获取当前系统时间的时间戳
@@ -32,21 +25,39 @@ final class RunManager {
         return CODE_PATH + "global-" + stamp + ".swift"
     }
     
+    /// 根据砖块数组生成场景定义代码
+    static private func generateSceneCode(scene: Scene, deps: [String]) -> String {
+        if (PuzzleDependency.has(dep: .Trace, inAll: deps) && PuzzleDependency.has(dep: .BlockObj, inAll: deps)) { // 可追踪，则定义场景
+            var sceneCode = "var PUZZLE_SCENE_BLOCK_ARRAY = [\n"
+            for block in scene.blocks {
+                sceneCode += "Block(id: \(block.id), x: \(block.cellX), y: \(block.cellY), type: \(block.type), item: \"" + block.item + "\"),\n"
+            }
+            sceneCode = sceneCode.dropLast(2) + "]\n" // 删除最后的",\n"
+            return sceneCode
+        } else {
+            return ""
+        }
+    }
+    
     /// 保存用户的源代码，并生成时间戳/方向等变量定义源代码
-    static private func saveCode(_ content: String, stamp: String, dir: Direction) throws {
+    static private func saveCode(_ content: String, stamp: String, scene: Scene, deps: [String]) throws {
         
         let fileURL = getCodeFilename(stamp: stamp)
         let globalURL = getGlobalFilename(stamp: stamp)
-        let stampLine = "let CURRENT_STAMP = \"" + stamp + "\""
-        let directionLine = "var CURRENT_DIRECTION_RAW = \(dir.rawValue)"
-        let globalLines = stampLine + "\n" + directionLine
-        do {
+        // 时间戳定义源码
+        let stampLine = "var CURRENT_STAMP = \"" + stamp + "\""
+        // 初始方向定义源码
+        let directionLine = "var CURRENT_DIRECTION_RAW = \(scene.puzzle.lappInitDir)"
+        // 场景定义源码
+        let sceneLines = generateSceneCode(scene: scene, deps: deps)
+        let globalLines = stampLine + "\n" + directionLine + "\n" + sceneLines
+        do { // 用户源码保存
             try content.write(to: URL(fileURLWithPath: fileURL), atomically: true, encoding: .utf8)
         } catch {
             print("[ Error ] RunManager.saveCode: Failed to Write Code in " + fileURL)
             throw FileManagerError.SaveCodeFileFailed
         }
-        do {
+        do { // Global源码保存
             try globalLines.write(to: URL(fileURLWithPath: globalURL), atomically: true, encoding: .utf8)
         } catch {
             print("[ Error ] RunManager.saveCode: Failed to Write Stamp in " + globalURL)
@@ -56,16 +67,16 @@ final class RunManager {
     
     /// 编译运行
     /// - Returns: 返回运行结果（失败或运行成功的bash输出内容）
-    static public func compile(code mainbody: String, dependencies: [String], direction: Direction, stamp: String) -> String {
+    static public func compile(code mainbody: String, stamp: String, scene: Scene, dependencies: [String]) -> String {
         
         // 使用用户代码组装main函数
-        let funcHead = "func main() {\n"
+        let funcHead = "func main() {\nSAVE_RESULT_ON_SERVER_SIDE(\"\")\n" // 保证result文件存在
         let funcTail = "\n}"
         let code = funcHead + mainbody + funcTail
         
         // 保存组装后的代码为code-$(stamp).swift文件
         do {
-            try self.saveCode(code, stamp: stamp, dir: direction)
+            try self.saveCode(code, stamp: stamp, scene: scene, deps: dependencies)
         } catch {
             print("[ Error ] RunManager.compile: Failed in Calling saveCode")
             return "Compile Failed"
@@ -81,7 +92,7 @@ final class RunManager {
             if (util == "") { return "" }
             else { return CODE_PATH + util }
         }
-        let projName = CODE_PATH + "spo-proj-" + stamp
+        let projName = RESULT_PATH + "spo-proj-" + stamp
         
         // 命令行编译文件
         var compileLine = "swiftc "
@@ -90,15 +101,28 @@ final class RunManager {
         }
         compileLine += fileGlobal + " " + fileCode + " " + fileSave + " " + fileMain + " -o " + projName
         
-        // 打印编译结果
-        print(Bash.run(command: compileLine) ?? "")
+        // 超时处理
+        DispatchQueue.global(qos: .background).async {
+            sleep(90)
+            _ = Bash.forceTerminate()
+        }
         
-        // 确认可运行项目是否存在
+        // 开始编译成可执行文件，并打印编译结果
+        print("\nCompiling Files ...")
+        let compileOutput = Bash.run(command: compileLine) ?? ""
+        print(compileOutput)
+        
+        // 确认可运行项目是否存在，不存在说明编译失败
         if (!FileManager.default.fileExists(atPath: projName)) {
             print("[ Error ] RunManager.compile: Failed to Generate spo-proj")
-            return "Compile Failed"
+            return compileOutput + "\nCompile Failed"
         }
-        return Bash.run(command: projName) ?? ""
+        
+        // 执行该可执行文件
+        print("\nRunning Executable Project ...")
+        let runOutput = Bash.run(command: projName) ?? ""
+        
+        return compileOutput + "\n" + runOutput
     }
     
     /// 读取并解析运行结果文件
@@ -177,7 +201,7 @@ final class RunManager {
         if (filename.contains("code-")) {
             return String(filename.dropFirst(5).dropLast(6))
         } else if (filename.contains("global-")) {
-            return String(filename.dropFirst(6).dropLast(6))
+            return String(filename.dropFirst(7).dropLast(6))
         } else if (filename.contains("spo-proj-")) {
             return String(filename.dropFirst(9))
         } else if (filename.contains("result-")) {

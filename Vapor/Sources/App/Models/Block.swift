@@ -21,7 +21,7 @@ enum BlockType: Int {
 struct Block: Codable, Content {
     
     /// 绘制顺序
-    var id: Int?
+    var id: Int
     
     /// 类型
     var type: Int

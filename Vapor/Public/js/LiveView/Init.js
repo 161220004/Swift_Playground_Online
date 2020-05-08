@@ -34,6 +34,8 @@ function resetLiveView() {
   lappland.reset();
   foreground.reset();
   background.reset();
+  // 重置动作指挥
+  conductor.reset();
 }
 
 /** 循环刷新 */

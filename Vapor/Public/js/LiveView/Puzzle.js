@@ -10,7 +10,7 @@ var FailReason = {
   Undefined: 7, // Debug: 未知错误
 }
 
-/** Puzzle 类，描述当前状态
+/** Puzzle 类，描述当前状态，图层范围是 1020 ~ 1030
  * @constructor
  */
 function Puzzle() {
@@ -18,7 +18,6 @@ function Puzzle() {
   this.isCompiled = false; // 是否编译运行成功（待后端传值）
   this.isRunning = false; // 是否正在展示用户代码的运行结果
   this.isCompleted = false; // 动作彻底结束
-  this.description = "";
   this.isSuccess = false; // 是否成功
   this.isFailure = false; // 是否失败
   this.reason = FailReason.Undefined; // 失败原因
@@ -27,7 +26,7 @@ function Puzzle() {
   // 黑色背景
   this.blackboard = new PIXI.Graphics(); // 黑色背景
   this.blackboard.visible = false;
-  this.blackboard.zIndex = 200;
+  this.blackboard.zIndex = 1020;
   this.blackboard.beginFill(0x000000); // 开始绘制
   this.blackboard.drawRect(0, 0, CanvasWidth, CanvasHeight);
   this.blackboard.endFill(); // 停止绘制
@@ -35,17 +34,22 @@ function Puzzle() {
   // 加载动画
   this.loadingSprite = new PIXI.AnimatedSprite(loadingTextures);
   this.loadingSprite.visible = false;
-  this.loadingSprite.zIndex = 201;
+  this.loadingSprite.zIndex = 1021;
   this.loadingSprite.anchor.set(0, 0);
   this.loadingSprite.position.set(0, 0);
   Stage.addChild(this.loadingSprite);
   // 结果动画
   this.resultSprite = new PIXI.Sprite(successTexture);
   this.resultSprite.visible = false;
-  this.resultSprite.zIndex = 202;
+  this.resultSprite.zIndex = 1022;
   this.resultSprite.anchor.set(0, 0);
   this.resultSprite.position.set(0, 0);
   Stage.addChild(this.resultSprite);
+  // 编译输出 + 错误/成功信息
+  this.description = "......";
+  $("#terminal_log").html(this.description);
+  $("#result_log").html("");
+  $("#reason_log").html("");
 }
 
 /** 重置所有属性 */
@@ -54,10 +58,13 @@ Puzzle.prototype.reset = function() {
   this.isCompiled = false; // 是否编译运行成功（待后端传值）
   this.isRunning = false; // 是否正在展示用户代码的运行结果
   this.isCompleted = false; // 动作彻底结束
-  this.description = "";
   this.isSuccess = false; // 是否成功
   this.isFailure = false; // 是否失败
   this.reason = FailReason.Undefined; // 失败原因
+  this.description = "......";
+  $("#terminal_log").html(this.description);
+  $("#result_log").html("");
+  $("#reason_log").html("");
   // 结果动画剩余时间
   this.resultTime = FinalWaitInterval + FinalLappEmoInterval + FinalAppearInterval;
   this.blackboard.visible = false;
@@ -70,13 +77,14 @@ Puzzle.prototype.reset = function() {
 Puzzle.prototype.getActions = function(data) {
   this.isCompiled = data.isCompiled;
   this.description = data.description;
+  $("#terminal_log").html(this.description);
   for (let i = 0; i < data.paces.length; i++) {
     let pace = data.paces[i];
     let action = new Action(pace.type, pace.d, pace.dir, pace.log);
-    lappland.actionsStr += action.type + " - ";
-    lappland.actions[i] = action;
+    conductor.actionsStr += action.type + " - ";
+    conductor.actions[i] = action;
   }
-  console.log("Already Init Actions From User Code: " + lappland.actionsStr);
+  console.log("Already Init Actions From User Code: " + conductor.actionsStr);
 }
 
 /** 开始动画（根据已获取的用户代码） */
@@ -84,7 +92,7 @@ Puzzle.prototype.performActions = function() {
   this.isCompiling = false; // 编译结束
   this.stopLoadingSprite();
   if (this.isCompiled == true) { // 若编译通过
-    if (lappland.actions.length > 0) { // 存在动画
+    if (conductor.actions.length > 0) { // 存在动画
       // 开启动画
       this.isRunning = true;
     } else { // 没有动画
@@ -136,49 +144,57 @@ Puzzle.prototype.judgeResult = function() {
     this.isFailure = true;
     this.reason = FailReason.FailedToCompile;
     this.showResultSprite();
+    $("#result_log").html("Result: Failure");
+    $("#reason_log").html("Reason: Failed To Compile");
     console.log("The End: Failed To Compile");
     return;
   }
   // 运行时失败
-  if (this.isRunning && lappland.isActing) {
-    if (lappland.getCurActType() == ActionType.GO) { // 行走时检测
+  if (this.isRunning && (conductor.lappIsActing || conductor.sceneIsActing)) {
+    if (conductor.getCurActType() == ActionType.GO) { // 行走时检测
       // 若不在地砖上
       if (foreground.detectOnBlock() < 0) {
-        lappland.isActing = false;
+        conductor.lappIsActing = false;
         lappland.showShock();
         this.isRunning = false;
         this.isCompleted = true;
         this.isFailure = true;
         this.reason = FailReason.FallFromBlock;
         this.showResultSprite();
+        $("#result_log").html("Result: Failure");
+        $("#reason_log").html("Reason: Lappland Fall From Block");
         console.log("The End: Fall From Block");
         return;
       }
     }
-    if (lappland.getCurActType() == ActionType.COLLECT) { // 收集时检测
+    if (conductor.getCurActType() == ActionType.COLLECT) { // 收集时检测
       // 若当前地砖没有钻石
       let blockIndex = foreground.detectOnBlock();
       if (blockIndex < 0 || foreground.blocks[blockIndex].itemType != ItemType.Diamond || foreground.blocks[blockIndex].isCollected) {
-        lappland.isActing = false;
+        conductor.lappIsActing = false;
         this.isRunning = false;
         this.isCompleted = true;
         this.isFailure = true;
         this.reason = FailReason.FailedToCollect;
         this.showResultSprite();
+        $("#result_log").html("Result: Failure");
+        $("#reason_log").html("Reason: No Diamond To Collect Here");
         console.log("The End: Failed To Collect");
         return;
       }
     }
-    if (lappland.getCurActType() == ActionType.SWITCHIT) { // 转换砖块时检测
+    if (conductor.getCurActType() == ActionType.SWITCHIT) { // 转换砖块时检测
       // 若当前地砖不能转换
       let blockIndex = foreground.detectOnBlock();
       if (blockIndex < 0 || (foreground.blocks[blockIndex].type != BlockType.Dark && foreground.blocks[blockIndex].type != BlockType.Yellow)) {
-        lappland.isActing = false;
+        conductor.lappIsActing = false;
         this.isRunning = false;
         this.isCompleted = true;
         this.isFailure = true;
         this.reason = FailReason.FailedToSwitch;
         this.showResultSprite();
+        $("#result_log").html("Result: Failure");
+        $("#reason_log").html("Reason: No Block To Switch Here");
         console.log("The End: Failed To Switch");
         return;
       }
@@ -186,22 +202,30 @@ Puzzle.prototype.judgeResult = function() {
   }
   // 结束时失败
   if (this.isCompiled && this.isCompleted) {
-    if (foreground.collectedNum != foreground.diamondNum) { // 宝石数不足
+    if ((foreground.targetDiamNum != -1 && foreground.collectedNum != foreground.targetDiamNum) ||
+        (foreground.targetDiamNum == -1 && foreground.collectedNum != foreground.totalDiamNum)) { // 宝石数不正确
       this.isFailure = true;
       this.reason = FailReason.EndNotEnough;
       this.showResultSprite();
+      $("#result_log").html("Result: Failure");
+      $("#reason_log").html("Reason: Collected Diamond Number Is Not Correct");
       console.log("The End: Diamond Not Enough");
       return;
-    } else if (foreground.switchOffNum != 0) {  // 可变砖块没有全部点亮
+    } else if ((foreground.targetOnNum != -1 && foreground.switchOnNum != foreground.targetOnNum) ||
+               (foreground.targetOnNum == -1 && foreground.switchOnNum != foreground.totalSwitchNum)) {  // 可变砖块数不正确
       this.isFailure = true;
       this.reason = FailReason.EndNotOn;
       this.showResultSprite();
+      $("#result_log").html("Result: Failure");
+      $("#reason_log").html("Reason: Switched Block Number Is Not Correct");
       console.log("The End: Switch Not On");
       return;
     } else {
       this.isSuccess = true;
       this.reason = FailReason.None;
       this.showResultSprite();
+      $("#result_log").html("Result: Success");
+      $("#reason_log").html("Congratulations");
       console.log("The End: Success");
       return;
     }

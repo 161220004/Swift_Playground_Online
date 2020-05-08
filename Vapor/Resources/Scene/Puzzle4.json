@@ -1,0 +1,20 @@
+{
+  "puzzle": {
+    "id": 4,
+    "description": "Puzzle 2-1",
+    "lappInitDir": 2,
+    "targetDiamNum": 1,
+    "targetOnNum": 1,
+    "backInitX": -150.0,
+    "backInitY": 0.0,
+  },
+  "blocks": [
+    {"id": 1, "type": 0, "cellX":  0, "cellY": 0, "item": ""},
+    {"id": 2, "type": 0, "cellX":  1, "cellY": 0, "item": ""},
+    {"id": 3, "type": 5, "cellX": -1, "cellY": 1, "item": "Diamond"},
+    {"id": 4, "type": 6, "cellX":  1, "cellY": 1, "item": ""},
+    {"id": 5, "type": 0, "cellX": -1, "cellY": 2, "item": ""},
+    {"id": 6, "type": 0, "cellX":  0, "cellY": 2, "item": ""},
+    {"id": 7, "type": 0, "cellX":  1, "cellY": 2, "item": ""},
+  ],
+}

@@ -1,8 +1,6 @@
 // 查看地图按钮
 $("#view_map").click(function() {
-  if (!puzzle.isCompiling && !puzzle.isCompleted) {
-    if (puzzleMap) puzzleMap.isVisible = !puzzleMap.isVisible;
-  }
+  puzzleMap.isVisible = !puzzleMap.isVisible;
 });
 
 // 重置按钮
@@ -11,5 +9,8 @@ $("#restart").click(function() {
   if (puzzle.isCompleted || (!puzzle.isCompiled && !puzzle.isCompiling && !puzzle.isCompleted)) {
     console.log("Restart !");
     resetLiveView();
+    puzzleMap.isVisible = false;
+  } else {
+    alert("请在未开始编译或动画运行完全结束后开始新的一次尝试～");
   }
 });
