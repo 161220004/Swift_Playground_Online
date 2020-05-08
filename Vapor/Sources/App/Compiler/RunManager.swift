@@ -7,13 +7,6 @@
 
 import Foundation
 
-/// 用户代码相关文件的路径
-let CODE_PATH = PROJECT_PATH + "/Resources/Code/"
-/// 运行结果相关文件的路径
-let RESULT_PATH = PROJECT_PATH + "/Resources/Results/"
-/// 场景相关文件的路径
-let SCENE_PATH = PROJECT_PATH + "/Resources/Scene/"
-
 final class RunManager {
     
     /// 获取当前系统时间的时间戳
@@ -110,7 +103,7 @@ final class RunManager {
         
         // 超时处理
         DispatchQueue.global(qos: .background).async {
-            sleep(30)
+            sleep(90)
             _ = Bash.forceTerminate()
         }
         

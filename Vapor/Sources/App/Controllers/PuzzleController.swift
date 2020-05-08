@@ -78,7 +78,7 @@ extension PuzzleController {
         _ = Bash.forceTerminate() // 刷新页面时，此前的编译进程强制终止
         // 获取Pid
         let pid = try req.parameters.next(Int.self)
-        print("get Puzzle \(pid) Scene")
+        print("\nGet Puzzle \(pid) Scene")
         // 读取Json文件并解码为对象
         return try readSceneInfo(pid: pid)
     }
