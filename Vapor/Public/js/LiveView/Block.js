@@ -33,14 +33,12 @@ function Block(btype, cx, cy, itype, id) {
   this.isSwitched = false;
   // Block Sprite (图层范围是 10 ~ 1000)
   this.type = btype;
-  this.initType = btype; // 初始BlockType（获取Random之前）
   this.blockSprite = new PIXI.Sprite(itemsTextures["Block"][btype]);
   this.blockSprite.anchor.set(0.5);
   this.blockSprite.zIndex = 10 + 15 * id;
   Stage.addChild(this.blockSprite);
   // Item Sprite
   this.itemType = itype;
-  this.initItem = itype; // 初始ItemType（获取Random之前）
   this.itemSprite;
   if (this.type == BlockType.Purple || this.type == BlockType.Red || this.type == BlockType.Blue) { // 可能有宝石
     this.itemSprite = new PIXI.AnimatedSprite(itemsTextures["Diamond"], 54, 54);
@@ -57,24 +55,11 @@ function Block(btype, cx, cy, itype, id) {
   }
 }
 
-/** 重置 */
-Block.prototype.reset = function() {
-  this.isCollected = false;
-  this.isCollecting = false;
-  this.diamondScale = 1.0; // 收集过程中从 1.0 倒数到 0.3
-  this.diamondFlyTime = 0; // 飞行时间 0 ~ MiniDiamondFlyInterval
-  this.collectNo = 0; // 是第几个被收集的钻石
-  if (this.itemType == ItemType.Diamond) {
-    this.itemSprite.play();
-  }
-  if (this.isSwitched) { // 恢复转换前的颜色
-    this.switchIt();
-  }
-  // 回退到Random类型获取之前
-  this.type = this.initType;
-  this.itemType = this.initItem;
-  if (this.type == BlockType.Red || this.type == BlockType.Blue) { // 隐藏随机宝石
-    this.itemSprite.visible = false;
+/** 从Stage移除 */
+Block.prototype.removeFromStage = function() {
+  Stage.removeChild(this.blockSprite);
+  if (this.itemSprite) {
+    Stage.removeChild(this.itemSprite);
   }
 }
 

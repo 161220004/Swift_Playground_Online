@@ -4,8 +4,8 @@
 function PuzzleMap() {
   this.isVisible = false;
   // 黑色背景
-  this.mapboardWidth = MapMargin * 2 + foreground.blockNumX * MapSpace;
-  this.mapboardHeight = MapMargin * 2 + foreground.blockNumY * MapSpace;
+  this.mapboardWidth;
+  this.mapboardHeight;
   this.mapboard;
   // Lappland图标
   this.miniLapp;
@@ -13,6 +13,24 @@ function PuzzleMap() {
   this.mapBlocks = [];
   this.mapDiamonds = [];
   this.init();
+}
+
+/* 绘制黑色背景 */
+PuzzleMap.prototype.setMapBoard = function() {
+  this.mapboardWidth = MapMargin * 2 + foreground.blockNumX * MapSpace;
+  this.mapboardHeight = MapMargin * 2 + foreground.blockNumY * MapSpace;
+  this.mapboard.clear();
+  this.mapboard.beginFill(0x000000); // 开始绘制
+  this.mapboard.drawRect(MapPostionLU, MapPostionLU, this.mapboardWidth, this.mapboardHeight);
+  this.mapboard.endFill(); // 停止绘制
+  this.mapboard.visible = this.isVisible;
+}
+
+/* 清空所有MapBlocks */
+PuzzleMap.prototype.clearMapBlocks = function() {
+  for (let i = 0; i < this.mapBlocks.length; i++) {
+    this.mapBlocks[i].clear();
+  }
 }
 
 /* 绘制一个砖块 */
@@ -30,7 +48,6 @@ PuzzleMap.prototype.setMapBlock = function(mapBlock, block) {
     case BlockType.Dark: colorRGB = 0x757575; break;
     default: colorRGB = 0xeeeeee;
   }
-  mapBlock.clear();
   mapBlock.beginFill(colorRGB); // 开始绘制
   mapBlock.drawRect(mapBlockX, mapBlockY, MapBlockSize, MapBlockSize);
   mapBlock.endFill();
@@ -44,6 +61,7 @@ PuzzleMap.prototype.setMiniLappland = function() {
   let mapLappY = MapPostionLU + this.mapboardHeight - MapMargin +
                  (lappland.cellY - foreground.blockBottom) * MapSpace - MapBlockSize / 2;
   this.miniLapp.position.set(mapLappX, mapLappY);
+  this.miniLapp.visible = this.isVisible;
 }
 
 /** 初始化 */
@@ -53,9 +71,7 @@ PuzzleMap.prototype.init = function() {
   this.mapboard.visible = false;
   this.mapboard.alpha = 0.7;
   this.mapboard.zIndex = 1030;
-  this.mapboard.beginFill(0x000000); // 开始绘制
-  this.mapboard.drawRect(MapPostionLU, MapPostionLU, this.mapboardWidth, this.mapboardHeight);
-  this.mapboard.endFill(); // 停止绘制
+  this.setMapBoard();
   Stage.addChild(this.mapboard);
   // Mini Lappland
   this.miniLapp = new PIXI.Sprite(miniLappTexture);
@@ -93,9 +109,9 @@ PuzzleMap.prototype.init = function() {
 
 /** 可变绘制 */
 PuzzleMap.prototype.update = function() {
-  this.mapboard.visible = this.isVisible;
-  this.miniLapp.visible = this.isVisible;
+  this.setMapBoard();
   this.setMiniLappland();
+  this.clearMapBlocks(); // 清除旧地砖
   for (let i = 0; i < foreground.blocks.length; i++) {
     this.setMapBlock(this.mapBlocks[i], foreground.blocks[i]);
     // 可能有宝石（即存在this.mapDiamonds[i]）

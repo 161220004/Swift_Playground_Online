@@ -81,8 +81,9 @@ Foreground.prototype.setSwitchMap = function(isInit) {
   }
 }
 
-/** 初始化 */
-Foreground.prototype.init = function() {
+/** 初始化所有砖块 */
+Foreground.prototype.initBlocks = function() {
+  this.blocks = []; // 清空数组
   let minXIndex = 0; // X跨度左值
   let maxXIndex = 0; // X跨度右值
   let minYIndex = 0; // Y跨度左值
@@ -101,6 +102,11 @@ Foreground.prototype.init = function() {
   this.blockNumY = this.blocks[maxYIndex].cellY - this.blocks[minYIndex].cellY + 1;
   this.blockBottom = this.blocks[maxYIndex].cellY;
   this.blockLeft = this.blocks[minXIndex].cellX;
+}
+
+/** 初始化 */
+Foreground.prototype.init = function() {
+  this.initBlocks(); // 初始化所有砖块
   // 初始化右上角点亮总数
   this.setSwitchMap(true);
   // 绘制方向标
@@ -115,9 +121,10 @@ Foreground.prototype.init = function() {
 /** 重置 */
 Foreground.prototype.reset = function() {
   this.collectedNum = 0; // 收集总数
-  for (let i = 0; i < this.blocks.length; i++) {
-    this.blocks[i].reset();
+  for (let i = 0; i < this.blocks.length; i++) { // 移除全部砖块
+    this.blocks[i].removeFromStage();
   }
+  this.initBlocks(); // 重新绘制每一个砖块
   this.setSwitchMap(false); // 绘制右上角点亮总数
   console.log("Foreground Reset");
 }
