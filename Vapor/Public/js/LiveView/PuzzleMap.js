@@ -98,12 +98,11 @@ PuzzleMap.prototype.update = function() {
   this.setMiniLappland();
   for (let i = 0; i < foreground.blocks.length; i++) {
     this.setMapBlock(this.mapBlocks[i], foreground.blocks[i]);
-    // 若有宝石
-    if (foreground.blocks[i].itemType == ItemType.Diamond) {
-      if (foreground.blocks[i].isCollected) {
-        this.mapDiamonds[i].visible = false;
-      } else {
-        this.mapDiamonds[i].visible = this.isVisible;
+    // 可能有宝石（即存在this.mapDiamonds[i]）
+    if (foreground.blocks[i].type == BlockType.Purple || foreground.blocks[i].type == BlockType.Red || foreground.blocks[i].type == BlockType.Blue) {
+      this.mapDiamonds[i].visible = false;
+      if (foreground.blocks[i].itemType == ItemType.Diamond && !foreground.blocks[i].isCollected) { // 的确有宝石
+        this.mapDiamonds[i].visible = true;
       }
     }
   }
