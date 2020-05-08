@@ -102,7 +102,7 @@ PuzzleMap.prototype.update = function() {
     if (foreground.blocks[i].type == BlockType.Purple || foreground.blocks[i].type == BlockType.Red || foreground.blocks[i].type == BlockType.Blue) {
       this.mapDiamonds[i].visible = false;
       if (foreground.blocks[i].itemType == ItemType.Diamond && !foreground.blocks[i].isCollected) { // 的确有宝石
-        this.mapDiamonds[i].visible = true;
+        this.mapDiamonds[i].visible = this.isVisible;
       }
     }
   }

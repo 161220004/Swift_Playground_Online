@@ -1,3 +1,3 @@
 func log(_ content: String) {
-    saveResult("LOG: " + content)
+    SAVE_RESULT_ON_SERVER_SIDE("LOG: " + content)
 }

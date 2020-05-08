@@ -144,7 +144,7 @@ Block.prototype.update = function() {
     if (this.isCollecting) {
       if (this.diamondScale > 0.3) { // 正在缩小中
         this.collectNo = foreground.collectedNum;
-        this.diamondScale -= 0.014; // 50 loopCount
+        this.diamondScale -= 0.7 / DiamShrankInterval; // 缩小
         this.itemSprite.setTransform(x, y + DiamondYBia, this.diamondScale, this.diamondScale);
       } else { // 正在飞向右上角
         let dx = (MiniDiamondX - MiniDiamondSpace * this.collectNo) - x;

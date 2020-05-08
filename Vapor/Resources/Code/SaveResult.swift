@@ -2,7 +2,7 @@ import Foundation
 
 // CURRENT_STAMP 需在其他文件中定义为全局常量
 
-func saveResult(_ content: String) {
+func SAVE_RESULT_ON_SERVER_SIDE(_ content: String) {
     
     let result = content + "\n"
     

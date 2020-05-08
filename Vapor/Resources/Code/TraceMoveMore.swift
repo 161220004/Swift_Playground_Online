@@ -1,5 +1,5 @@
 func goForward(step: Int) { // Trace
-    saveResult("GO: \(step)")
+    SAVE_RESULT_ON_SERVER_SIDE("GO: \(step)")
     switch CURRENT_DIRECTION_RAW {
     case 0: // Left
         LAPPLAND_CURRENT_POSITION_X -= step

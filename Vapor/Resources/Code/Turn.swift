@@ -11,5 +11,5 @@ enum Direction: Int {
 
 func turn(to: Direction) {
     CURRENT_DIRECTION_RAW = to.rawValue
-    saveResult("TURN: \(CURRENT_DIRECTION_RAW)")
+    SAVE_RESULT_ON_SERVER_SIDE("TURN: \(CURRENT_DIRECTION_RAW)")
 }

@@ -1,3 +1,3 @@
 func collect() {
-    saveResult("COLLECT")
+    SAVE_RESULT_ON_SERVER_SIDE("COLLECT")
 }

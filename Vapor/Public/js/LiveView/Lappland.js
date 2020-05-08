@@ -190,13 +190,13 @@ Lappland.prototype.playWalk = function() {
   this.armfTexture = this.armf.textures.shift();
   // 开启动画
   this.leg.loop = true;
-  this.leg.animationSpeed = 0.24;
+  this.leg.animationSpeed = 0.22;
   this.leg.play();
   this.armb.loop = true;
-  this.armb.animationSpeed = 0.24;
+  this.armb.animationSpeed = 0.22;
   this.armb.play();
   this.armf.loop = true;
-  this.armf.animationSpeed = 0.24;
+  this.armf.animationSpeed = 0.22;
   this.armf.play();
 }
 

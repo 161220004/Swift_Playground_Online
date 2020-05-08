@@ -77,7 +77,7 @@ final class RunManager {
     static public func compile(code mainbody: String, stamp: String, scene: Scene, dependencies: [String]) -> String {
         
         // 使用用户代码组装main函数
-        let funcHead = "func main() {\nsaveResult(\"\")\n" // 保证result文件存在
+        let funcHead = "func main() {\nSAVE_RESULT_ON_SERVER_SIDE(\"\")\n" // 保证result文件存在
         let funcTail = "\n}"
         let code = funcHead + mainbody + funcTail
         
