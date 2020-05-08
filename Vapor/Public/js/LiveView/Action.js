@@ -1,11 +1,15 @@
 /** 枚举类型： 动作类型，包括: "GO", "LOG", "TURN", "COLLECT", ... */
 var ActionType = {
   NONE: "NONE",
+  // Lappland
   GO: "GO",
   LOG: "LOG",
   TURN: "TURN",
   COLLECT: "COLLECT",
   SWITCHIT: "SWITCHIT",
+  // Scene
+  NEWBLOCK: "NEWBLOCK",
+  BLOCKADDGEM: "BLOCKADDGEM",
 }
 
 /** Action 类，描述Lappland动作要素

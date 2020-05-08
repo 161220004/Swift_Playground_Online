@@ -135,7 +135,7 @@ Block.prototype.update = function() {
   // 计算坐标
   let cellXBia = this.cellX - lappland.cellX;
   let cellYBia = this.cellY - lappland.cellY;
-  let x = CameraX[lappland.direction] + cellXBia * XBia + cellYBia * YBiaX + lappland.turnXBia;
+  let x = CameraX[lappland.direction] + cellXBia * XBia + cellYBia * YBiaX + conductor.turnXBia;
   let y = CameraY + cellYBia * YBiaY;
   // 绘制地砖
   this.blockSprite.position.set(x, y + BlockYBia);

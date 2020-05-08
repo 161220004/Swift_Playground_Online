@@ -108,7 +108,7 @@ Foreground.prototype.init = function() {
   this.dirArrow.zIndex = 1000;
   this.dirArrow.position.set(MiniDirX, MiniDirY);
   this.dirArrow.alpha = 1;
-  this.dirArrow.rotation = lappland.turnRotation;
+  this.dirArrow.rotation = conductor.turnRotation;
   Stage.addChild(this.dirArrow);
 }
 
@@ -201,5 +201,5 @@ Foreground.prototype.update = function() {
     this.dirArrow.alpha = 0.6;
     this.alphaBia = -this.alphaBia;
   }
-  this.dirArrow.rotation = lappland.turnRotation;
+  this.dirArrow.rotation = conductor.turnRotation;
 }

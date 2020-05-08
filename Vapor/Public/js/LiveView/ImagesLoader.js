@@ -53,6 +53,7 @@ function getPartTextures(allTextures, allImgs, addition) {
 var background;
 var foreground;
 var lappland;
+var conductor;
 
 // 加载全部图片
 const loader = PIXI.Loader.shared;
@@ -104,6 +105,8 @@ loader
     // alert("Get Scene " + pid + ": \n" + JSON.stringify(data));
     SceneData = data;
     console.log("Scene Data Already Inited: " + SceneData.puzzle.description);
+    // 初始化动作指挥者
+    conductor = new Conductor();
     // 添加人物 Sprite
     lappland = new Lappland();
     // 添加前景 Sprite

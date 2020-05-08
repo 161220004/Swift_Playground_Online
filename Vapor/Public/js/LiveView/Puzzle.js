@@ -81,10 +81,10 @@ Puzzle.prototype.getActions = function(data) {
   for (let i = 0; i < data.paces.length; i++) {
     let pace = data.paces[i];
     let action = new Action(pace.type, pace.d, pace.dir, pace.log);
-    lappland.actionsStr += action.type + " - ";
-    lappland.actions[i] = action;
+    conductor.actionsStr += action.type + " - ";
+    conductor.actions[i] = action;
   }
-  console.log("Already Init Actions From User Code: " + lappland.actionsStr);
+  console.log("Already Init Actions From User Code: " + conductor.actionsStr);
 }
 
 /** 开始动画（根据已获取的用户代码） */
@@ -92,7 +92,7 @@ Puzzle.prototype.performActions = function() {
   this.isCompiling = false; // 编译结束
   this.stopLoadingSprite();
   if (this.isCompiled == true) { // 若编译通过
-    if (lappland.actions.length > 0) { // 存在动画
+    if (conductor.actions.length > 0) { // 存在动画
       // 开启动画
       this.isRunning = true;
     } else { // 没有动画
@@ -150,11 +150,11 @@ Puzzle.prototype.judgeResult = function() {
     return;
   }
   // 运行时失败
-  if (this.isRunning && lappland.isActing) {
-    if (lappland.getCurActType() == ActionType.GO) { // 行走时检测
+  if (this.isRunning && (conductor.lappIsActing || conductor.sceneIsActing)) {
+    if (conductor.getCurActType() == ActionType.GO) { // 行走时检测
       // 若不在地砖上
       if (foreground.detectOnBlock() < 0) {
-        lappland.isActing = false;
+        conductor.lappIsActing = false;
         lappland.showShock();
         this.isRunning = false;
         this.isCompleted = true;
@@ -167,11 +167,11 @@ Puzzle.prototype.judgeResult = function() {
         return;
       }
     }
-    if (lappland.getCurActType() == ActionType.COLLECT) { // 收集时检测
+    if (conductor.getCurActType() == ActionType.COLLECT) { // 收集时检测
       // 若当前地砖没有钻石
       let blockIndex = foreground.detectOnBlock();
       if (blockIndex < 0 || foreground.blocks[blockIndex].itemType != ItemType.Diamond || foreground.blocks[blockIndex].isCollected) {
-        lappland.isActing = false;
+        conductor.lappIsActing = false;
         this.isRunning = false;
         this.isCompleted = true;
         this.isFailure = true;
@@ -183,11 +183,11 @@ Puzzle.prototype.judgeResult = function() {
         return;
       }
     }
-    if (lappland.getCurActType() == ActionType.SWITCHIT) { // 转换砖块时检测
+    if (conductor.getCurActType() == ActionType.SWITCHIT) { // 转换砖块时检测
       // 若当前地砖不能转换
       let blockIndex = foreground.detectOnBlock();
       if (blockIndex < 0 || (foreground.blocks[blockIndex].type != BlockType.Dark && foreground.blocks[blockIndex].type != BlockType.Yellow)) {
-        lappland.isActing = false;
+        conductor.lappIsActing = false;
         this.isRunning = false;
         this.isCompleted = true;
         this.isFailure = true;

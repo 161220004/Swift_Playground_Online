@@ -168,6 +168,7 @@
   <script src="/js/LiveView/PuzzleMap.js" type="text/javascript"></script>
   <script src="/js/LiveView/Init.js" type="text/javascript"></script>
   <script src="/js/LiveView/ImagesLoader.js" type="text/javascript"></script>
+  <script src="/js/LiveView/Conductor.js" type="text/javascript"></script>
   <script src="/js/LiveView/Background.js" type="text/javascript"></script>
   <script src="/js/LiveView/Block.js" type="text/javascript"></script>
   <script src="/js/LiveView/Foreground.js" type="text/javascript"></script>
