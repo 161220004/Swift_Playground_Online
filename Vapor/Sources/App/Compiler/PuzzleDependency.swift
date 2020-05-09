@@ -23,6 +23,8 @@ enum FunctionDependency: String {
     case BlockObj = "Block.swift"
     case TMove = "TraceMove.swift"
     case TMoveMore = "TraceMoveMore.swift"
+    case TTurnLeft = "TraceTurnLeft.swift"
+    case TTurnRight = "TraceTurnRight.swift"
     case TCollect = "TraceCollect.swift"
     case TSwitchIt = "TraceSwitchIt.swift"
     
@@ -55,7 +57,7 @@ final class PuzzleDependency {
         case 7: // Puzzle 3-1
             return self.generate(functions: .Log, .Move, .Collect, .TurnLeft, .TurnRight, .SwitchIt)
         case 8: // Puzzle 3-2
-            return self.generate(functions: .Log, .Trace, .BlockObj, .TMove, .TCollect, .TurnLeft, .TurnRight, .TSwitchIt)
+            return self.generate(functions: .Log, .Trace, .BlockObj, .TMove, .TTurnLeft, .TTurnRight, .TCollect, .TSwitchIt)
         default:
             return self.generate(functions: .Log)
         }

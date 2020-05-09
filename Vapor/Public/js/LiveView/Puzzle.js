@@ -80,7 +80,7 @@ Puzzle.prototype.getActions = function(data) {
   $("#terminal_log").html(this.description);
   for (let i = 0; i < data.paces.length; i++) {
     let pace = data.paces[i];
-    let action = new Action(pace.type, pace.d, pace.dir, pace.log);
+    let action = new Action(pace.type, pace.d, pace.dir, pace.log, pace.pos, pace.b);
     conductor.actionsStr += action.type + " - ";
     conductor.actions[i] = action;
   }

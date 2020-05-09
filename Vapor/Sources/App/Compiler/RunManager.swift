@@ -28,7 +28,8 @@ final class RunManager {
     /// 根据砖块数组生成场景定义代码
     static private func generateSceneCode(scene: Scene, deps: [String]) -> String {
         if (PuzzleDependency.has(dep: .Trace, inAll: deps) && PuzzleDependency.has(dep: .BlockObj, inAll: deps)) { // 可追踪，则定义场景
-            var sceneCode = "var PUZZLE_SCENE_BLOCK_ARRAY = [\n"
+            let directionLine = "var CURRENT_DIRECTION_RAW = \(scene.puzzle.lappInitDir)\n"
+            var sceneCode = directionLine + "var PUZZLE_SCENE_BLOCK_ARRAY = [\n"
             for block in scene.blocks {
                 sceneCode += "Block(id: \(block.id), x: \(block.cellX), y: \(block.cellY), type: \(block.type), item: \"" + block.item + "\"),\n"
             }
@@ -39,18 +40,16 @@ final class RunManager {
         }
     }
     
-    /// 保存用户的源代码，并生成时间戳/方向等变量定义源代码
+    /// 保存用户的源代码，并生成时间戳等变量定义源代码
     static private func saveCode(_ content: String, stamp: String, scene: Scene, deps: [String]) throws {
         
         let fileURL = getCodeFilename(stamp: stamp)
         let globalURL = getGlobalFilename(stamp: stamp)
         // 时间戳定义源码
-        let stampLine = "var CURRENT_STAMP = \"" + stamp + "\""
-        // 初始方向定义源码
-        let directionLine = "var CURRENT_DIRECTION_RAW = \(scene.puzzle.lappInitDir)"
+        let stampLine = "var CURRENT_STAMP = \"" + stamp + "\"\n"
         // 场景定义源码
         let sceneLines = generateSceneCode(scene: scene, deps: deps)
-        let globalLines = stampLine + "\n" + directionLine + "\n" + sceneLines
+        let globalLines = stampLine + sceneLines
         do { // 用户源码保存
             try content.write(to: URL(fileURLWithPath: fileURL), atomically: true, encoding: .utf8)
         } catch {
@@ -175,10 +174,8 @@ final class RunManager {
                 }
             } else if (action.contains(Keyword.TURN.rawValue)) {
                 // TURN: $(Direction)
-                if let dirInt = Int(action.dropFirst(6)) {
-                    if let dir = Direction(rawValue: dirInt) {
-                        paces.append(Pace(dir: dir))
-                    }
+                if let dir = Int(action.dropFirst(6)) {
+                    paces.append(Pace(dir: dir))
                 } else {
                     print("[ Error ] RunManager.translateActions: Failed to Analyse TURN Action")
                 }
@@ -192,7 +189,7 @@ final class RunManager {
                 print("[ Error ] RunManager.translateActions: Undefined Action Appears")
             }
         }
-        return Actions(isLegal: true, isRight: true, paces: paces, description: description)
+        return Actions(paces, description: description)
     }
     
     /// 取到一个带时间戳文件名内的时间戳（code-..., stamp-..., spo-proj-..., result-...）

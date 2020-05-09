@@ -82,11 +82,8 @@ Conductor.prototype.updateLappland = function() {
               this.turnXBia = sign * CameraLRSpace * this.turnTime / LappTurnInterval;
               lappland.setTempPosition(this.turnXBia, 0);
             }
-            // 计算转体角度
-            let rotationBia = lappland.direction - lappland.lastDirection;
-            if (rotationBia < -2) rotationBia += 4;
-            if (rotationBia > 2) rotationBia -= 4; // 保证旋转角<180度
-            rotationBia *= Math.PI / 2;
+            // 转体角度，旋转角-180~180度
+            let rotationBia = currentAction.dir * Math.PI / 2;
             this.turnRotation = Math.PI / 2 * lappland.direction - rotationBia * this.turnTime / LappTurnInterval;
           } else { // 动作结束
             lappland.setPosition();
@@ -170,7 +167,8 @@ Conductor.prototype.updateLappland = function() {
           case ActionType.TURN:
             this.lappIsActing = true;
             this.turnTime = LappTurnInterval;
-            lappland.setDirection(currentAction.dir);
+            let targetDirection = (lappland.direction + currentAction.dir + 4) % 4;
+            lappland.setDirection(targetDirection);
             if (lappland.direction != lappland.lastDirection && lappland.direction + lappland.lastDirection != 3){
               let sign = (lappland.direction == 2 || lappland.direction == 1) ? (1) : (-1); // 是否移向左焦点
               this.turnXBia = sign * CameraLRSpace;
