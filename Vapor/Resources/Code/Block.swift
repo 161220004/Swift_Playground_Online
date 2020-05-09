@@ -2,8 +2,8 @@ import Foundation
 
 // Block数组在global文件中：PUZZLE_SCENE_BLOCK_ARRAY
 
-// 用户声明的Block个数
-var NEW_INITED_BLOCK_NUMBER = 0
+// Block个数
+var CURRENT_BLOCK_NUMBER = 0
 
 class Block {
     
@@ -20,61 +20,58 @@ class Block {
     // Item
     var item: String
     
-    // 是否被收集过一次，仅对item为Diamond的生效
-    var isCollected: Bool
+    // 能否Switch
+    public var isOn: Bool
+    public var isOff: Bool
+    
+    // 能否收集
+    public var hasGem: Bool
     
     // 用户专用，只需要定义位置
     init(x: Int, y: Int) {
-        NEW_INITED_BLOCK_NUMBER += 1
-        self.id = NEW_INITED_BLOCK_NUMBER
+        CURRENT_BLOCK_NUMBER += 1
+        self.id = CURRENT_BLOCK_NUMBER
         self.x = x
         self.y = y
         self.type = 0 // 普通
         self.item = ""
-        self.isCollected = false
+        self.isOn = false
+        self.isOff = false
+        self.hasGem = false
     }
     
     // 后端专用
     init(id: Int, x: Int, y: Int, type: Int, item: String) {
+        CURRENT_BLOCK_NUMBER += 1
         self.id = id
         self.x = x
         self.y = y
         self.type = type
         self.item = item
-        self.isCollected = false
+        self.isOn = (self.type == 2)
+        self.isOff = (self.type == 6)
+        self.hasGem = (self.item == "Diamond")
     }
     
     public func isAt(x: Int, y: Int) -> Bool { // 是否处于某位置
         return (self.x == x && self.y == y)
     }
     
-    public func canCollect() -> Bool { // 是否可以执行 collect()
-        return (self.item == "Diamond" && !self.isCollected)
-    }
-    
-    public func canSwitch() -> Bool { // 是否可以执行 switchIt()
-        return (self.type == 2 || self.type == 6)
-    }
-    
-    public func canSwitchOn() -> Bool { // 是否可以执行 switchIt() (off -> on)
-        return (self.type == 6)
-    }
-    
-    public func canSwitchOff() -> Bool { // 是否可以执行 switchIt() (on -> off)
-        return (self.type == 2)
-    }
-    
     public func SET_THIS_BLOCK_DIAMOND_COLLECTED() { // 收集宝石
-        if self.canCollect() {
-            self.isCollected = true
+        if self.hasGem {
+            self.hasGem = false
         }
     }
     
     public func SET_THIS_BLOCK_SWITCHED() { // 切换砖块
-        if self.canSwitchOn() {
+        if self.isOff {
             self.type = 2
-        } else if self.canSwitchOff() {
+            self.isOn = true
+            self.isOff = false
+        } else if self.isOn {
             self.type = 6
+            self.isOn = false
+            self.isOff = true
         }
     }
     

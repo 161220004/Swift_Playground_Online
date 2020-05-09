@@ -5,7 +5,7 @@ var LAPPLAND_CURRENT_POSITION_Y = 0
 // （这是用户可以使用的条件判断）判断Lappland当前是否位于黄色的砖块上
 var isOnYellowBlock = { () -> Bool in
     if let currentBlock = GET_CURRENT_LAPPLAND_AT_BLOCK() {
-        return currentBlock.canSwitchOff()
+        return currentBlock.isOn
     } else {
         return false
     }
@@ -14,7 +14,7 @@ var isOnYellowBlock = { () -> Bool in
 // （这是用户可以使用的条件判断）判断Lappland当前是否位于黑色的砖块上
 var isOnDarkBlock = { () -> Bool in
     if let currentBlock = GET_CURRENT_LAPPLAND_AT_BLOCK() {
-        return currentBlock.canSwitchOn()
+        return currentBlock.isOff
     } else {
         return false
     }
@@ -23,7 +23,7 @@ var isOnDarkBlock = { () -> Bool in
 // （这是用户可以使用的条件判断）判断Lappland当前是否位于宝石上
 var isOnGem = { () -> Bool in 
     if let currentBlock = GET_CURRENT_LAPPLAND_AT_BLOCK() {
-        return currentBlock.canCollect()
+        return currentBlock.hasGem
     } else {
         return false
     }
