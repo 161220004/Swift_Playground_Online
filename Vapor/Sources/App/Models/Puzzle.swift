@@ -7,7 +7,7 @@
 
 import Vapor
 
-/// 访问Json
+/// 访问数据库的接口
 struct Puzzle: Codable, Content {
     
     /// Puzzle序号
@@ -26,8 +26,5 @@ struct Puzzle: Codable, Content {
     /// 背景左上角初始的像素位置
     var backInitX: Double
     var backInitY: Double
-    
-    /// 关卡的特殊附加代码
-    var additionalCode: String
     
 }

@@ -7,7 +7,6 @@
     "targetOnNum": -1,
     "backInitX": -50.0,
     "backInitY": 0.0,
-    "additionalCode": "",
   },
   "blocks": [
     {"id": 1, "type": 1, "cellX": 0, "cellY": 0, "item": ""},

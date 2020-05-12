@@ -49,7 +49,7 @@ final class RunManager {
         let stampLine = "var CURRENT_STAMP = \"" + stamp + "\"\n"
         // 场景定义源码
         let sceneLines = generateSceneCode(scene: scene, deps: deps)
-        let globalLines = stampLine + sceneLines + scene.puzzle.additionalCode
+        let globalLines = stampLine + sceneLines
         do { // 用户源码保存
             try content.write(to: URL(fileURLWithPath: fileURL), atomically: true, encoding: .utf8)
         } catch {

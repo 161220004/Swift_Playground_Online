@@ -7,7 +7,6 @@
     "targetOnNum": 0,
     "backInitX": -150.0,
     "backInitY": 0.0,
-    "additionalCode": "",
   },
   "blocks": [
     {"id":  1, "type": 5, "cellX":  0, "cellY": -2, "item": "Diamond"},
