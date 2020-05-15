@@ -13,15 +13,17 @@ final class Actions: Codable, Content {
     
     /// 是否编译运行成功所得的结果
     var isCompiled: Bool
+    
     /// 动画步骤
     var paces: [Pace]
+    
     /// 描述整个动画
     var description: String
     
     init(_ paces: [Pace], description: String) {
         self.isCompiled = true
         self.paces = paces
-        self.description = ""
+        self.description = description
     }
     
     init() {

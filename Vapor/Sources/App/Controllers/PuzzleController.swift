@@ -75,7 +75,6 @@ extension PuzzleController {
     
     /// Get: Puzzle Scene
     func getScene(_ req: Request) throws -> Scene {
-        _ = Bash.forceTerminate() // 刷新页面时，此前的编译进程强制终止
         // 获取Pid
         let pid = try req.parameters.next(Int.self)
         print("\nGet Puzzle \(pid) Scene")
@@ -85,8 +84,6 @@ extension PuzzleController {
     
     /// Post: User Code
     func postCode(_ req: Request) -> Actions {
-        _ = Bash.forceTerminate() // 重新运行用户代码时，此前的编译进程强制终止
-        
         var pid: Int = 0
         var dependencies: [String] = []
         do { // 获取当前PuzzleId，并根据pid获取所需依赖

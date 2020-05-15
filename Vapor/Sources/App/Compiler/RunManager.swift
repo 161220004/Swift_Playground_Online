@@ -103,12 +103,12 @@ final class RunManager {
         // 超时处理
         DispatchQueue.global(qos: .background).async {
             sleep(90)
-            _ = Bash.forceTerminate()
+            Bash.forceTerminate(stamp)
         }
         
         // 开始编译成可执行文件，并打印编译结果
         print("\nCompiling Files ...")
-        let compileOutput = Bash.run(command: compileLine) ?? ""
+        let compileOutput = Bash.run(compileLine, stamp) ?? ""
         print(compileOutput)
         
         // 确认可运行项目是否存在，不存在说明编译失败
@@ -119,7 +119,7 @@ final class RunManager {
         
         // 执行该可执行文件
         print("\nRunning Executable Project ...")
-        let runOutput = Bash.run(command: projName) ?? ""
+        let runOutput = Bash.run(projName, stamp) ?? ""
         
         return compileOutput + "\n" + runOutput
     }
@@ -232,8 +232,11 @@ final class RunManager {
     static public func clear() {
         
         print("\nClearing Old Files: ")
-        // 当前600秒之前的时间戳
-        let oldStamp = Double(Date().timeIntervalSince1970.advanced(by: -600))
+        // 当前120秒之前的时间戳
+        let oldStamp = Double(Date().timeIntervalSince1970.advanced(by: -120))
+        // 删除此前的编译进程
+        Bash.removeOldProcess(oldStamp)
+        // 删除此前的文件
         var contentsOfCode: [String]
         var contentsOfResult: [String]
         do {
