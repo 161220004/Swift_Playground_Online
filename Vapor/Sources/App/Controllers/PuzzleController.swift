@@ -18,11 +18,11 @@ final class PuzzleController: RouteCollection {
     /// Router
     func boot(router: Router) throws {
         
-        router.group("spo") { group in
-            
-            group.get("welcome", use: getWelcome)
-            
-            group.get("chapter", Int.parameter, use: getChapter)
+        router.get("welcome", use: getWelcome)
+        
+        router.get("chapter", Int.parameter, use: getChapter)
+        
+        router.group("puzzle") { group in
             
             group.get(Int.parameter, use: getPuzzle)
             

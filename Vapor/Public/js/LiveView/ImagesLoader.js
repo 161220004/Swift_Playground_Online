@@ -101,7 +101,7 @@ loader
   puzzle = new Puzzle();
 
   // GET方法从后端获取数据以布局 Puzzle
-  $.get("/spo/" + PID + "/scene", function(data, status) {
+  $.get("/puzzle/" + PID + "/scene", function(data, status) {
     // alert("Get Scene " + pid + ": \n" + JSON.stringify(data));
     SceneData = data;
     console.log("Scene Data Already Inited: " + SceneData.puzzle.description);

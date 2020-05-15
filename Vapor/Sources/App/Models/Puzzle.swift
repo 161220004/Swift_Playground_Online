@@ -7,7 +7,7 @@
 
 import Vapor
 
-/// 访问数据库的接口
+/// 访问Json
 struct Puzzle: Codable, Content {
     
     /// Puzzle序号

@@ -63,7 +63,7 @@ $("#run_code").click(function(){
     // 等待后端处理
     puzzle.isCompiling = true;
     puzzle.playLoadingSprite();
-    $.post("/spo/" + PID + "/code", JSON.stringify(runInfo), function(data) {
+    $.post("/puzzle/" + PID + "/code", JSON.stringify(runInfo), function(data) {
       // alert("Get Result: \n" + JSON.stringify(data));
       console.log("Run !");
       // 解析结果并开启动画

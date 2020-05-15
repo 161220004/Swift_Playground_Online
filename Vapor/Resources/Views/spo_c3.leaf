@@ -52,15 +52,15 @@
 }
 
 #set("chapter_start") {
-  <a href="/spo/7" class="btn-floating btn-large green pulse">GO</a>
+  <a href="/puzzle/7" class="btn-floating btn-large green pulse">GO</a>
 }
 
 #set("chapter_puzzles") {
   <ul class="pagination">
     <li class="disabled"><a href="#!"><i class="material-icons">chevron_left</i></a></li>
-    <li class="waves-effect"><a href="/spo/7">3-1</a></li>
-    <li class="waves-effect"><a href="/spo/8">3-2</a></li>
-    <li class="waves-effect"><a href="/spo/9">3-3</a></li>
+    <li class="waves-effect"><a href="/puzzle/7">3-1</a></li>
+    <li class="waves-effect"><a href="/puzzle/8">3-2</a></li>
+    <li class="waves-effect"><a href="/puzzle/9">3-3</a></li>
     <li class="disabled"><a href="#!"><i class="material-icons">chevron_right</i></a></li>
   </ul>
 }

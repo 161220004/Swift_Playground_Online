@@ -38,6 +38,7 @@ class Block {
         self.isOn = false
         self.isOff = false
         self.hasGem = false
+        SAVE_RESULT_ON_SERVER_SIDE("Block \(x) \(y) INIT")
     }
     
     // 后端专用
@@ -75,4 +76,12 @@ class Block {
         }
     }
     
+    public func switchMySelf() {
+        SAVE_RESULT_ON_SERVER_SIDE("Block \(x) \(y) SWITCH")
+        self.SET_THIS_BLOCK_SWITCHED()
+        if self.isAt(x: LAPPLAND_CURRENT_POSITION_X, y: LAPPLAND_CURRENT_POSITION_Y) {
+            isOnYellowBlock = !isOnYellowBlock
+            isOnDarkBlock = !isOnDarkBlock
+        }
+    }
 }

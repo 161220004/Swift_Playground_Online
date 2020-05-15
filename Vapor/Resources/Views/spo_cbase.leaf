@@ -21,11 +21,11 @@
     <div class="nav-wrapper">
       <a id="logo-container" href="#" class="center brand-logo">Swift Playground Online</a>
       <ul class="right hide-on-med-and-down">
-        <li><a href="/spo/welcome">首页</a></li>
+        <li><a href="/welcome">首页</a></li>
       </ul>
       <ul id="nav-mobile" class="sidenav">
         <li class="center-align indigo lighten-3"><h3 style="margin: 0px; padding: 16px 8px;">GoTo</h3></li>
-        <li><a href="/spo/welcome">首页</a></li>
+        <li><a href="/welcome">首页</a></li>
       </ul>
       <a href="#" data-target="nav-mobile" class="sidenav-trigger">
         <i class="material-icons my-fix-menu">menu</i>
@@ -70,11 +70,11 @@
       <i class="large material-icons">attach_file</i>
     </a>
     <ul>
-      <li><a class="btn-floating red" href="/spo/chapter/1">壹</a></li>
-      <li><a class="btn-floating yellow darken-1" href="/spo/chapter/2">贰</a></li>
-      <li><a class="btn-floating green" href="/spo/chapter/3">叁</a></li>
-      <li><a class="btn-floating blue" href="/spo/chapter/4">肆</a></li>
-      <li><a class="btn-floating purple" href="/spo/chapter/5">伍</a></li>
+      <li><a class="btn-floating red" href="/chapter/1">壹</a></li>
+      <li><a class="btn-floating yellow darken-1" href="/chapter/2">贰</a></li>
+      <li><a class="btn-floating green" href="/chapter/3">叁</a></li>
+      <li><a class="btn-floating blue" href="/chapter/4">肆</a></li>
+      <li><a class="btn-floating purple" href="/chapter/5">伍</a></li>
     </ul>
   </div>
 

@@ -1,8 +1,8 @@
 #set("title") { SPO Puzzle 3-1 }
 
 #set("pagination_next") {
-  <a href="/spo/6" class="white indigo-text waves-effect waves-indigo btn left"><< Previous</a>
-  <a href="/spo/8" class="white indigo-text waves-effect waves-indigo btn right">Next >></a>
+  <a href="/puzzle/6" class="white indigo-text waves-effect waves-indigo btn left"><< Previous</a>
+  <a href="/puzzle/8" class="white indigo-text waves-effect waves-indigo btn right">Next >></a>
 }
 
 #set("card_content") {
@@ -46,17 +46,17 @@
 
 #set("pagination_all") {
   <ul class="pagination">
-    <li class="waves-effect"><a href="/spo/chapter/3"><i class="material-icons">chevron_left</i></a></li>
-    <li class="waves-effect"><a href="/spo/4">2-1</a></li>
-    <li class="waves-effect"><a href="/spo/5">2-2</a></li>
-    <li class="waves-effect"><a href="/spo/6">2-3</a></li>
-    <li class="grey lighten-4 waves-effect"><a href="/spo/chapter/3">3</a></li>
+    <li class="waves-effect"><a href="/chapter/3"><i class="material-icons">chevron_left</i></a></li>
+    <li class="waves-effect"><a href="/puzzle/4">2-1</a></li>
+    <li class="waves-effect"><a href="/puzzle/5">2-2</a></li>
+    <li class="waves-effect"><a href="/puzzle/6">2-3</a></li>
+    <li class="grey lighten-4 waves-effect"><a href="/chapter/3">3</a></li>
     <li class="active indigo lighten-2"><a href="#!">3-1</a></li>
-    <li class="waves-effect"><a href="/spo/8">3-2</a></li>
-    <li class="waves-effect"><a href="/spo/9">3-3</a></li>
-    <li class="grey lighten-4 waves-effect"><a href="/spo/chapter/4">4</a></li>
-    <li class="waves-effect"><a href="/spo/10">4-1</a></li>
-    <li class="waves-effect"><a href="/spo/8"><i class="material-icons">chevron_right</i></a></li>
+    <li class="waves-effect"><a href="/puzzle/8">3-2</a></li>
+    <li class="waves-effect"><a href="/puzzle/9">3-3</a></li>
+    <li class="grey lighten-4 waves-effect"><a href="/chapter/4">4</a></li>
+    <li class="waves-effect"><a href="/puzzle/10">4-1</a></li>
+    <li class="waves-effect"><a href="/puzzle/8"><i class="material-icons">chevron_right</i></a></li>
   </ul>
 }
 
