@@ -1,0 +1,107 @@
+#set("title") { SPO Chapter 4 }
+
+#set("chapter_title") { 第四章 &emsp;变量/参数 }
+
+#set("chapter_introduction") {
+  <div class="my-blockquote">
+    <h4>变量</h4><br>
+    <p>想一想存在“通讯录”列表中全部的名字和电话号码，它们的数量可比你能记住的多得多。</p>
+    <div class="my-short-width my-tap-code">
+      <ul class="collection">
+        <li class="collection-item avatar">
+          <i class="material-icons circle purple">phone</i>
+          <span class="title">AldebaRain</span>
+          <div class="divider"></div>
+          <p>153xxxx8512</p>
+        </li>
+      </ul>
+    </div>
+    <p>程序员使用变量（一种已命名的容器）来储存信息。</p>
+    <p>如图列表中的联系人一样，如果你不更改变量中的信息，变量也不会自己变化。</p>
+    <p class="chapter-code-font">若要创建新变量，使用var并在它后面加上变量名称和值。例如：</p>
+    <div class="my-short-width my-tap-code">
+      <ul class="collection chapter-code-font">
+        <li class="collection-item avatar">
+          <img src="/images/Extra/Amiya.png" alt="" class="circle">
+          <span>新联系人</span>
+          <div class="divider"></div>
+          <p>var name = "Amiya"</p>
+          <p>var age = 19</p>
+        </li>
+      </ul>
+    </div>
+    <p>赋值运算符（=）设定变量的值；name储存字符串（引号内的文本）；age储存整数值。</p><br>
+    <p>你也可以使用赋值运算符，为变量设置一个新的值：</p>
+    <div class="chapter-code-font">
+      <p>age = 10 * 2</p>
+      <p>age = age + 1</p>
+    </div><br>
+    <p>创建变量后，它储存的信息类型永远不会改变，例如给变量赋予了整数值，以后你就不能给它赋予字符串：</p>
+    <div class="chapter-code-font">
+      <p>age = 18</p>
+      <p>age = "twenty-one" &emsp; // <span class="red-text">Error</span>: 不能将String类型的值赋予给Int类型</p>
+    </div>
+  </div><br>
+  <div class="my-blockquote">
+    <h4>参数</h4><br>
+    <p>假设你正在粉刷房子的墙壁。</p>
+    <p>你可以使用代码，为你想要使用的四种不同颜色，创建四个不同的粉刷墙壁函数：</p>
+    <div class="chapter-code-font">
+      <p>func paintRoomGreen() {...\}</p>
+      <p>func paintRoomPink() {...\}</p>
+      <p>func paintRoomOrange() {...\}</p>
+      <p>func paintRoomBlue() {...\}</p>
+    </div><br>
+    <p>你可能需要多次调用函数，调用的次数取决于你想要刷多少层：</p>
+    <div class="chapter-code-font">
+      <p>paintRoomGreen()</p>
+      <p>paintRoomGreen()</p>
+      <p>paintRoomGreen()</p>
+    </div><br>
+    <p>与其为每种颜色定义一个不同的函数，不如使用参数来指定输入的颜色：</p>
+    <div class="chapter-code-font">
+      <p>func paintRoom(color: Color)</p>
+    </div>
+    <p class="chapter-code-font">参数color是函数的输入值的名称；参数的输入是一种特定的类型，如 Color（颜色）</p><br>
+    <p>调用函数时，为每个参数传入实参的值，函数将使用该值来决定它的运行方式：</p>
+    <div class="chapter-code-font">
+      <p>paintRoom(color: <span class="green">__</span>)</p>
+    </div><br>
+    <p>你甚至可以使用好几个参数，传入额外的实参，这样你就可以使用一个函数，既指定房间要粉刷的颜色，又指定要粉刷的层数：</p>
+    <div class="chapter-code-font">
+      <p>paintRoom(color: <span class="blue">__</span>, layers: 3)</p>
+    </div><br>
+    <p class="chapter-code-font">下面的函数有一个Int类型的参数，名为distance，它在函数的主体中指定了for循环运行的次数：</p>
+    <div class="chapter-code-font">
+      <p>func goMore(distance: Int) {</p>
+      <p>&emsp;&emsp; for i in 1...distance {</p>
+      <p>&emsp;&emsp; &emsp;&emsp; goForward()</p>
+      <p>&emsp;&emsp; \}</p>
+      <p>\}</p>
+      <p>goMore(distance: 3)</p>
+    </div>
+    <p class="chapter-code-font">调用goMore时，传入一个实参，指定你将向前走的步数。</p>
+  </div>
+}
+
+#set("chapter_welcome") {
+  如果你准备好了，那就开始第四章的挑战吧！
+}
+
+#set("chapter_start") {
+  <a href="/puzzle/10" class="btn-floating btn-large green pulse">GO</a>
+}
+
+#set("chapter_puzzles") {
+  <ul class="pagination">
+    <li class="disabled"><a href="#!"><i class="material-icons">chevron_left</i></a></li>
+    <li class="waves-effect"><a href="/puzzle/10">4-1</a></li>
+    <li class="waves-effect"><a href="/puzzle/11">4-2</a></li>
+    <li class="waves-effect"><a href="/puzzle/12">4-3</a></li>
+    <li class="disabled"><a href="#!"><i class="material-icons">chevron_right</i></a></li>
+  </ul>
+}
+
+#set("chapter_js") {}
+
+#embed("spo_cbase")

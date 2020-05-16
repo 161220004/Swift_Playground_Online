@@ -48,7 +48,7 @@
 }
 
 #set("chapter_welcome") {
-  如果你准备好了，那就开始第三章的学习吧！
+  如果你准备好了，那就开始第三章的挑战吧！
 }
 
 #set("chapter_start") {

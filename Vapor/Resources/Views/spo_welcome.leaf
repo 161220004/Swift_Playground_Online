@@ -111,8 +111,8 @@
       <div class="my-space-line"></div>
       <div class="divider"></div>
       <div class="my-space-line"></div>
-      <h6>第四章：变量</h6><br>
-      <p>这一章中你将定义变量以储存信息，并使用赋值语句和运算符改变变量的值</p>
+      <h6>第四章：变量/参数</h6><br>
+      <p>这一章中你将定义变量以储存信息，使用赋值语句和运算符改变变量的值，并学会给函数添加参数</p>
     </div>
     <div class="col s2 l2">
       <a class="btn-floating btn-large purple pulse" href="/chapter/5">伍</a>
