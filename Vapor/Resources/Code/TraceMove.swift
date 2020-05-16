@@ -20,4 +20,5 @@ func goForward() { // Trace
         isOnDarkBlock = false
         isOnGem = false
     }
+    hasBlockForward = JUDGE_CURRENT_LAPPLAND_FORWARD_BLOCK()
 }

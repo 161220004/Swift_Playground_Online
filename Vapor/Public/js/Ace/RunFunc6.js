@@ -8,8 +8,8 @@ func1Editor.setValue("goForward()\ngoForward()\ncollect()\nturnLeft()\nturnLeft(
 
 /** 获取用户代码的方法 */
 function getEditorCode() {
-  let func1Code = "func collectTurnAround() {\n" + func1Editor.getValue() + "\n}\n"
-  let func2Code = "func solveRow() {\n" + func2Editor.getValue() + "\n}\n"
+  let func1Code = "func collectTurnAround() {\n" + func1Editor.getValue() + "\n}\n";
+  let func2Code = "func solveRow() {\n" + func2Editor.getValue() + "\n}\n";
   let mainCode = mainEditor.getValue();
   return func1Code + func2Code + mainCode;
 }

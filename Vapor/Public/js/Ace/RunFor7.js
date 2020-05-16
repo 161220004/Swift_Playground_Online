@@ -7,7 +7,7 @@ function getEditorCode() {
   let forNumber = $("#for_number").val();
   let forContent = forEditor.getValue();
   if (!forNumber || forNumber == "") forNumber = "number"; // 禁止为空，避免死循环
-  let forCode = "for i in 1..." + forNumber + " {\n" + forContent + "\n}\n"
+  let forCode = "for i in 1..." + forNumber + " {\n" + forContent + "\n}\n";
   let mainCode = mainEditor.getValue();
   return forCode + mainCode;
 }
