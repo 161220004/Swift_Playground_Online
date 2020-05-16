@@ -15,10 +15,12 @@
      让Lappland四处走动和收集宝石。
      在这一关中，你将用到一个新命令：<span class="chapter-code-font">“switchIt()”</span>（切换砖块颜色）。</p>
   <br>
-  <p>砖块颜色说明：</p>
-  <p>(1) 普通砖块为白色，宝石所在的砖块为紫色，这两种砖块的颜色不可以改变；</p>
-  <p class="chapter-code-font">(2) 黄色的砖块处于“点亮”状态，可以通过“switchIt()”命令变成“熄灭”状态的黑色砖块；</p>
-  <p class="chapter-code-font">(3) 黑色砖块也可以通过“switchIt()”命令变成“点亮”状态的黄色的砖块；</p>
+  <div class="my-blockquote chapter-code-font">
+    <p>砖块颜色说明：</p>
+    <p>&emsp; 普通砖块为白色，宝石所在的砖块为紫色，这两种砖块的颜色不可以改变；</p>
+    <p>&emsp; 黄色的砖块处于“点亮”状态，可以通过“switchIt()”命令变成“熄灭”状态的黑色砖块；</p>
+    <p>&emsp; 黑色砖块也可以通过“switchIt()”命令变成“点亮”状态的黄色的砖块；</p>
+  </div>
   <br>
   <p>(1) 输入命令让Lappland走到宝石处并收集宝石；</p>
   <p>(2) 继续输入命令让Lappland走到“熄灭”的地砖处，然后“点亮”这个地砖；</p>

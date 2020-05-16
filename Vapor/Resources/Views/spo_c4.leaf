@@ -30,7 +30,7 @@
         </li>
       </ul>
     </div>
-    <p>赋值运算符（=）设定变量的值；name储存字符串（引号内的文本）；age储存整数值。</p><br>
+    <p class="chapter-code-font">赋值运算符（=）设定变量的值；name储存字符串（引号内的文本）；age储存整数值。</p><br>
     <p>你也可以使用赋值运算符，为变量设置一个新的值：</p>
     <div class="chapter-code-font">
       <p>age = 10 * 2</p>

@@ -1,0 +1,27 @@
+{
+  "puzzle": {
+    "id": 10,
+    "description": "Puzzle 4-1",
+    "lappInitDir": 2,
+    "targetDiamNum": 3,
+    "targetOnNum": 4,
+    "backInitX": -100.0,
+    "backInitY": 0.0,
+  },
+  "blocks": [
+    {"id":  1, "type": 6, "cellX": 1, "cellY": -2, "item": ""},
+    {"id":  2, "type": 5, "cellX": 2, "cellY": -2, "item": "Diamond"},
+    {"id":  3, "type": 6, "cellX": 3, "cellY": -2, "item": ""},
+    {"id":  4, "type": 5, "cellX": 1, "cellY": -1, "item": "Diamond"},
+    {"id":  5, "type": 5, "cellX": 3, "cellY": -1, "item": "Diamond"},
+    {"id":  6, "type": 0, "cellX": 0, "cellY":  0, "item": ""},
+    {"id":  7, "type": 0, "cellX": 1, "cellY":  0, "item": ""},
+    {"id":  8, "type": 6, "cellX": 2, "cellY":  0, "item": ""},
+    {"id":  9, "type": 0, "cellX": 3, "cellY":  0, "item": ""},
+    {"id": 10, "type": 5, "cellX": 1, "cellY":  1, "item": "Diamond"},
+    {"id": 11, "type": 5, "cellX": 3, "cellY":  1, "item": "Diamond"},
+    {"id": 12, "type": 6, "cellX": 1, "cellY":  2, "item": ""},
+    {"id": 13, "type": 5, "cellX": 2, "cellY":  2, "item": "Diamond"},
+    {"id": 14, "type": 6, "cellX": 3, "cellY":  2, "item": ""},
+  ],
+}
