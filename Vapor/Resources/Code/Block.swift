@@ -20,12 +20,28 @@ class Block {
     // Item
     var item: String
     
-    // 能否Switch
-    public var isOn: Bool
-    public var isOff: Bool
+    // 是否记录SWITCH结果
+    var DO_SAVE_RESULT = false
     
-    // 能否收集
-    public var hasGem: Bool
+    // 是否点亮状态
+    public var isOn: Bool { // 监听
+        didSet { // 已经变成On
+            if (isOn != oldValue) {
+                if (self.type == 6 || self.type == 2) { // 同步 Switch On/Off 本砖块
+                    self.type = 8 - self.type
+                    if (self.DO_SAVE_RESULT) {
+                        SAVE_RESULT_ON_SERVER_SIDE("Block \(self.x) \(self.y) SWITCH")
+                    }
+                    if self.isAt(x: LAPPLAND_CURRENT_POSITION_X, y: LAPPLAND_CURRENT_POSITION_Y) {
+                        isOnYellowBlock = !isOnYellowBlock
+                        isOnDarkBlock = !isOnDarkBlock
+                    }
+                } else { // 否则禁止更改
+                    isOn = false
+                }
+            }
+        }
+    }
     
     // 用户专用，只需要定义位置
     init(x: Int, y: Int) {
@@ -36,8 +52,6 @@ class Block {
         self.type = 0 // 普通
         self.item = ""
         self.isOn = false
-        self.isOff = false
-        self.hasGem = false
         SAVE_RESULT_ON_SERVER_SIDE("Block \(x) \(y) INIT")
     }
     
@@ -49,39 +63,37 @@ class Block {
         self.y = y
         self.type = type
         self.item = item
-        self.isOn = (self.type == 2)
-        self.isOff = (self.type == 6)
-        self.hasGem = (self.item == "Diamond")
+        self.isOn = (self.type == 2) // 初始化时不会调用监听
+    }
+    
+    public func HAS_DIAMOND_ON_BLOCK() -> Bool { // 是否有宝石
+        return (self.item == "Diamond")
+    }
+    
+    public func IS_YELLOW_BLOCK() -> Bool { // 是否是黄色砖块
+        return (self.type == 2)
+    }
+    
+    public func IS_DARK_BLOCK() -> Bool { // 是否是黑色砖块
+        return (self.type == 6)
+    }
+    
+    public func SET_THIS_BLOCK_DIAMOND_COLLECTED() { // 收集宝石
+        self.item = ""
+    }
+    
+    public func SET_THIS_BLOCK_SWITCHED() { // 没有结果的Switch
+        self.isOn = !self.isOn
+    }
+    
+    public func switchMySelf() { // 打印结果的Switch
+        self.DO_SAVE_RESULT = true
+        self.isOn = !self.isOn
+        self.DO_SAVE_RESULT = false
     }
     
     public func isAt(x: Int, y: Int) -> Bool { // 是否处于某位置
         return (self.x == x && self.y == y)
     }
     
-    public func SET_THIS_BLOCK_DIAMOND_COLLECTED() { // 收集宝石
-        if self.hasGem {
-            self.hasGem = false
-        }
-    }
-    
-    public func SET_THIS_BLOCK_SWITCHED() { // 切换砖块
-        if self.isOff {
-            self.type = 2
-            self.isOn = true
-            self.isOff = false
-        } else if self.isOn {
-            self.type = 6
-            self.isOn = false
-            self.isOff = true
-        }
-    }
-    
-    public func switchMySelf() {
-        SAVE_RESULT_ON_SERVER_SIDE("Block \(x) \(y) SWITCH")
-        self.SET_THIS_BLOCK_SWITCHED()
-        if self.isAt(x: LAPPLAND_CURRENT_POSITION_X, y: LAPPLAND_CURRENT_POSITION_Y) {
-            isOnYellowBlock = !isOnYellowBlock
-            isOnDarkBlock = !isOnDarkBlock
-        }
-    }
 }

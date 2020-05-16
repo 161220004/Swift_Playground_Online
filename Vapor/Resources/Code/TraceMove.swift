@@ -12,9 +12,9 @@ func goForward() { // Trace
     default: break
     }
     if let currentBlock = GET_CURRENT_LAPPLAND_AT_BLOCK() { // 更新条件判断
-        isOnYellowBlock = currentBlock.isOn
-        isOnDarkBlock = currentBlock.isOff
-        isOnGem = currentBlock.hasGem
+        isOnYellowBlock = currentBlock.IS_YELLOW_BLOCK()
+        isOnDarkBlock = currentBlock.IS_DARK_BLOCK()
+        isOnGem = currentBlock.HAS_DIAMOND_ON_BLOCK()
     } else {
         isOnYellowBlock = false
         isOnDarkBlock = false
