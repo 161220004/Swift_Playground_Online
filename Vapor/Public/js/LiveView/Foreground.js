@@ -173,6 +173,17 @@ Foreground.prototype.detectOnBlock = function() {
   }
 }
 
+/** 用于获取当前地砖动作的地砖的Index，获得则返回该地砖下标，没找到返回-1 */
+Foreground.prototype.detectCurrentBlock = function() {
+  let currentPos = conductor.getCurBlockActPos();
+  if (currentPos.length >= 2) {
+    for (let i = 0; i < this.blocks.length; i++) {
+      if (this.blocks[i].cellX == currentPos[0] && this.blocks[i].cellY == currentPos[1]) return i;
+    }
+  }
+  return -1;
+}
+
 /** 开始收集当前的宝石，若当前位置没有则报错（理论上不应该报错，因为在Puzzle.judgeResult中已经检测出来了） */
 Foreground.prototype.tryCollect = function() {
   let blockIndex = foreground.detectOnBlock();
@@ -186,6 +197,17 @@ Foreground.prototype.tryCollect = function() {
 /** 开始转换当前的地砖，若不能转换则报错（理论上不应该报错，因为在Puzzle.judgeResult中已经检测出来了） */
 Foreground.prototype.trySwitch = function() {
   let blockIndex = foreground.detectOnBlock();
+  if (blockIndex >= 0 && (foreground.blocks[blockIndex].type == BlockType.Dark || foreground.blocks[blockIndex].type == BlockType.Yellow)) {
+    foreground.blocks[blockIndex].switchIt();
+    this.setSwitchMap(false);
+  } else {
+    console.log("Unexpect Error When Switch");
+  }
+}
+
+/** 开始转换特定的地砖，若不能转换则报错（理论上不应该报错，因为在Puzzle.judgeResult中已经检测出来了） */
+Foreground.prototype.trySwitchCurrent = function() {
+  let blockIndex = this.detectCurrentBlock();
   if (blockIndex >= 0 && (foreground.blocks[blockIndex].type == BlockType.Dark || foreground.blocks[blockIndex].type == BlockType.Yellow)) {
     foreground.blocks[blockIndex].switchIt();
     this.setSwitchMap(false);

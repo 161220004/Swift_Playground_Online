@@ -27,7 +27,7 @@ final class RunManager {
     
     /// 根据砖块数组生成场景定义代码
     static private func generateSceneCode(scene: Scene, deps: [String]) -> String {
-        if (PuzzleDependency.has(dep: .Trace, inAll: deps) && PuzzleDependency.has(dep: .BlockObj, inAll: deps)) { // 可追踪，则定义场景
+        if (PuzzleDependency.has(dep: .Trace, inAll: deps) && PuzzleDependency.has(dep: .BlockClass, inAll: deps)) { // 可追踪，则定义场景
             let directionLine = "var CURRENT_DIRECTION_RAW = \(scene.puzzle.lappInitDir)\n"
             var sceneCode = directionLine + "var PUZZLE_SCENE_BLOCK_ARRAY = [\n"
             for block in scene.blocks {
@@ -157,7 +157,7 @@ final class RunManager {
                 if let step = Int(action.dropFirst(4)) {
                     paces.append(Pace(step: step))
                 } else {
-                    print("[ Error ] RunManager.translateActions: Failed to Analyse GO Action")
+                    print("[ Error ] RunManager.translateActions: Failed to Analyse \"" + action + "\" Action")
                 }
             } else if (action.contains(Keyword.LOG.rawValue)) {
                 // LOG: $(String)
@@ -165,14 +165,14 @@ final class RunManager {
                 if (log.count > 0) {
                     paces.append(Pace(log: log))
                 } else {
-                    print("[ Error ] RunManager.translateActions: Failed to Analyse LOG Action")
+                    print("[ Error ] RunManager.translateActions: Failed to Analyse \"" + action + "\" Action")
                 }
             } else if (action.contains(Keyword.TURN.rawValue)) {
                 // TURN: $(Direction)
                 if let dir = Int(action.dropFirst(6)) {
                     paces.append(Pace(dir: dir))
                 } else {
-                    print("[ Error ] RunManager.translateActions: Failed to Analyse TURN Action")
+                    print("[ Error ] RunManager.translateActions: Failed to Analyse \"" + action + "\" Action")
                 }
             } else if (action.contains(Keyword.COLLECT.rawValue)) {
                 // COLLECT
@@ -180,8 +180,19 @@ final class RunManager {
             } else if (action.contains(Keyword.SWITCHIT.rawValue)) {
                 // SWITCHIT
                 paces.append(Pace(type: Keyword.SWITCHIT.rawValue))
+            } else if (action.contains(Keyword.BLOCK.rawValue)) {
+                // BLOCK x y INIT/SWITCH
+                let actionStrs = action.components(separatedBy: " ")
+                var blockPos: [Int] = []
+                if let blockPosX = Int(actionStrs[1]), let blockPosY = Int(actionStrs[2]) {
+                    blockPos.append(blockPosX)
+                    blockPos.append(blockPosY)
+                    paces.append(Pace(pos: blockPos, b: actionStrs[3]))
+                } else {
+                    print("[ Error ] RunManager.translateActions: Failed to Analyse \"" + action + "\" Action")
+                }
             } else {
-                print("[ Error ] RunManager.translateActions: Undefined Action Appears")
+                print("[ Error ] RunManager.translateActions: Undefined Action \"" + action + "\" Appears")
             }
         }
         return Actions(paces, description: description)

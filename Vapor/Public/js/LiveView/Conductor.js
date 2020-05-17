@@ -48,11 +48,22 @@ Conductor.prototype.getCurActType = function() {
   }
 }
 
+/** 获取当前地砖动作类型 */
+Conductor.prototype.getCurBlockActType = function() {
+  return this.actions[this.actionIndex].b;
+}
+
+/** 获取当前地砖位置 */
+Conductor.prototype.getCurBlockActPos = function() {
+  return this.actions[this.actionIndex].pos;
+}
+
 /** 刷新Lappland动作 */
 Conductor.prototype.updateLappland = function() {
   if (puzzle.isRunning) {
     let currentAction = this.actions[this.actionIndex];
-    if (this.lappIsActing) { // Lappland正在动作
+    /* Lappland正在动作 */
+    if (this.lappIsActing) {
       let isFinished = false;
       switch (currentAction.type) {
         case ActionType.GO:
@@ -147,9 +158,40 @@ Conductor.prototype.updateLappland = function() {
         this.lappIsActing = false; // 先休息
         this.restTime = BreakInterval;
       }
-    } else if (this.sceneIsActing) { // Scene动作
+    }
+    /* Scene正在动作 */
+    else if (this.sceneIsActing) {
+      let isFinished = false;
+      if (currentAction.b == ActionType.BLOCKSWITCH) {
+        if (this.switchTime > 0) {
+          this.switchTime -= 1;
+          if (Math.random() < 0.9 - this.switchTime * 0.02) {
+            foreground.trySwitchCurrent();
+            this.isSwitched = !this.isSwitched;
+          }
+        } else { // 动作结束
+          if (!this.isSwitched) foreground.trySwitchCurrent();
+          if (foreground.targetOnNum != -1) {
+            console.log("Block Switched (" + foreground.switchOnNum + "/" + foreground.targetOnNum + ")");
+          } else {
+            console.log("Block Switched (" + foreground.switchOnNum + "/" + foreground.totalSwitchNum + ")");
+          }
+          isFinished = true;
+        }
+      } else if (currentAction.b == ActionType.BLOCKINIT) {
 
-    } else { // 正在休息
+      } else {
+        console.log("Error: Block Action Not Valid");
+      }
+      if (isFinished) { // 若当前动作结束
+        console.log("Finish Action [" + this.actionIndex + "]");
+        this.actionIndex += 1; // 下一个动作
+        this.sceneIsActing = false; // 先休息
+        this.restTime = BreakInterval;
+      }
+    }
+    /* 正在休息 */
+    else {
       if (this.restTime > 0) {
         this.restTime -= 1;
       } else if (this.actionIndex >= this.actions.length) { // 到达最后一个动作了
@@ -193,6 +235,18 @@ Conductor.prototype.updateLappland = function() {
             this.switchTime = LappSwitchInterval;
             this.isSwitched = false;
             console.log("Start Switching");
+            break;
+          case ActionType.BLOCK:
+            this.sceneIsActing = true;
+            if (currentAction.b == ActionType.BLOCKSWITCH) {
+              this.switchTime = LappSwitchInterval;
+              this.isSwitched = false;
+              console.log("Block Start Switching Itself");
+            } else if (currentAction.b == ActionType.BLOCKINIT) {
+
+            } else {
+              console.log("Error: Block Action Not Valid");
+            }
             break;
           default: // 无动作
             console.log("Error: No Action to Perform Now");

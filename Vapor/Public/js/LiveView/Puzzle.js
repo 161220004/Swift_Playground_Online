@@ -81,7 +81,12 @@ Puzzle.prototype.getActions = function(data) {
   for (let i = 0; i < data.paces.length; i++) {
     let pace = data.paces[i];
     let action = new Action(pace.type, pace.d, pace.dir, pace.log, pace.pos, pace.b);
-    conductor.actionsStr += action.type + " - ";
+    if (action.type == ActionType.BLOCK) {
+      conductor.actionsStr += action.type + " " + action.pos + " " + action.b + " - ";
+    } else {
+      conductor.actionsStr += action.type + " - ";
+    }
+
     conductor.actions[i] = action;
   }
   console.log("Already Init Actions From User Code: " + conductor.actionsStr);
@@ -151,7 +156,8 @@ Puzzle.prototype.judgeResult = function() {
   }
   // 运行时失败
   if (this.isRunning && (conductor.lappIsActing || conductor.sceneIsActing)) {
-    if (conductor.getCurActType() == ActionType.GO) { // 行走时检测
+    let currentActionType = conductor.getCurActType();
+    if (currentActionType == ActionType.GO) { // 行走时检测
       // 若不在地砖上
       if (foreground.detectOnBlock() < 0) {
         conductor.lappIsActing = false;
@@ -167,7 +173,7 @@ Puzzle.prototype.judgeResult = function() {
         return;
       }
     }
-    if (conductor.getCurActType() == ActionType.COLLECT) { // 收集时检测
+    if (currentActionType == ActionType.COLLECT) { // 收集时检测
       // 若当前地砖没有钻石
       let blockIndex = foreground.detectOnBlock();
       if (blockIndex < 0 || foreground.blocks[blockIndex].itemType != ItemType.Diamond || foreground.blocks[blockIndex].isCollected) {
@@ -183,7 +189,7 @@ Puzzle.prototype.judgeResult = function() {
         return;
       }
     }
-    if (conductor.getCurActType() == ActionType.SWITCHIT) { // 转换砖块时检测
+    if (currentActionType == ActionType.SWITCHIT) { // 转换砖块时检测
       // 若当前地砖不能转换
       let blockIndex = foreground.detectOnBlock();
       if (blockIndex < 0 || (foreground.blocks[blockIndex].type != BlockType.Dark && foreground.blocks[blockIndex].type != BlockType.Yellow)) {
@@ -197,6 +203,27 @@ Puzzle.prototype.judgeResult = function() {
         $("#reason_log").html("Reason: No Block To Switch Here");
         console.log("The End: Failed To Switch");
         return;
+      }
+    }
+    if (currentActionType == ActionType.BLOCK) { // 地砖操作检测
+      let currentBlockActType = conductor.getCurBlockActType();
+      if (currentBlockActType == ActionType.BLOCKINIT) {
+
+      } else if (currentBlockActType == ActionType.BLOCKSWITCH) {
+        // 若当前地砖不能转换
+        let blockIndex = foreground.detectCurrentBlock();
+        if (blockIndex < 0 || (foreground.blocks[blockIndex].type != BlockType.Dark && foreground.blocks[blockIndex].type != BlockType.Yellow)) {
+          conductor.sceneIsActing = false;
+          this.isRunning = false;
+          this.isCompleted = true;
+          this.isFailure = true;
+          this.reason = FailReason.FailedToSwitch;
+          this.showResultSprite();
+          $("#result_log").html("Result: Failure");
+          $("#reason_log").html("Reason: Block Is Not Able To Switch");
+          console.log("The End: Failed To Switch");
+          return;
+        }
       }
     }
   }

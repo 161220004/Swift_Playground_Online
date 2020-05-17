@@ -21,7 +21,7 @@ class Block {
     var item: String
     
     // 是否记录SWITCH结果
-    var DO_SAVE_RESULT = false
+    var DO_SAVE_RESULT = true
     
     // 是否点亮状态
     public var isOn: Bool { // 监听
@@ -30,7 +30,7 @@ class Block {
                 if (self.type == 6 || self.type == 2) { // 同步 Switch On/Off 本砖块
                     self.type = 8 - self.type
                     if (self.DO_SAVE_RESULT) {
-                        SAVE_RESULT_ON_SERVER_SIDE("Block \(self.x) \(self.y) SWITCH")
+                        SAVE_RESULT_ON_SERVER_SIDE("BLOCK \(self.x) \(self.y) SWITCH")
                     }
                     if self.isAt(x: LAPPLAND_CURRENT_POSITION_X, y: LAPPLAND_CURRENT_POSITION_Y) {
                         isOnYellowBlock = !isOnYellowBlock
@@ -52,7 +52,7 @@ class Block {
         self.type = 0 // 普通
         self.item = ""
         self.isOn = false
-        SAVE_RESULT_ON_SERVER_SIDE("Block \(x) \(y) INIT")
+        SAVE_RESULT_ON_SERVER_SIDE("BLOCK \(x) \(y) INIT")
     }
     
     // 后端专用
@@ -83,13 +83,13 @@ class Block {
     }
     
     public func SET_THIS_BLOCK_SWITCHED() { // 没有结果的Switch
+        self.DO_SAVE_RESULT = false
         self.isOn = !self.isOn
+        self.DO_SAVE_RESULT = true
     }
     
-    public func switchMySelf() { // 打印结果的Switch
-        self.DO_SAVE_RESULT = true
+    public func switchMyself() { // 打印结果的Switch
         self.isOn = !self.isOn
-        self.DO_SAVE_RESULT = false
     }
     
     public func isAt(x: Int, y: Int) -> Bool { // 是否处于某位置
