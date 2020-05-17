@@ -70,9 +70,9 @@
     <li class="waves-effect"><a href="/puzzle/8">3-2</a></li>
     <li class="active indigo lighten-2"><a href="#!">3-3</a></li>
     <li class="grey lighten-4 waves-effect"><a href="/chapter/4">4</a></li>
-    <li class="waves-effect"><a href="/puzzle/7">4-1</a></li>
-    <li class="waves-effect"><a href="/puzzle/8">4-2</a></li>
-    <li class="waves-effect"><a href="/puzzle/9">4-3</a></li>
+    <li class="waves-effect"><a href="/puzzle/10">4-1</a></li>
+    <li class="waves-effect"><a href="/puzzle/11">4-2</a></li>
+    <li class="waves-effect"><a href="/puzzle/12">4-3</a></li>
     <li class="waves-effect"><a href="/chapter/4"><i class="material-icons">chevron_right</i></a></li>
   </ul>
 }

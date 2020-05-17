@@ -1,0 +1,3 @@
+func logPosition() {
+    SAVE_RESULT_ON_SERVER_SIDE("LOG: I'm At Position (\(LAPPLAND_CURRENT_POSITION_X), \(LAPPLAND_CURRENT_POSITION_Y))")
+}

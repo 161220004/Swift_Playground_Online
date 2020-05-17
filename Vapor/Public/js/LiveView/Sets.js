@@ -85,7 +85,7 @@ const MapDiamondHeight = 20; // 小地图钻石大小
 // 动画间隔或持续时间
 const BreakInterval = 30; // 两动画间的休息间隔 (loopCount)
 const LappTurnInterval = 40; // 转向间隔 (loopCount)
-const LappLogInterval = 150; // 对话间隔 (loopCount)
+const LappLogInterval = 100; // 对话间隔 (loopCount)
 const LappWalkInterval = 50; // 行走每一步的间隔 (loopCount)
 const LappJumpInterval = 16; // 跳起间隔 = 落地间隔 (loopCount)
 const DiamShrankInterval = 28; // 钻石缩小时间 (loopCount)

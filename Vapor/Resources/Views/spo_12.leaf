@@ -1,0 +1,63 @@
+#set("title") { SPO Puzzle 4-3 }
+
+#set("pagination_next") {
+  <a href="/puzzle/11" class="white indigo-text waves-effect waves-indigo btn left"><< Previous</a>
+  <a href="/chapter/5" class="white indigo-text waves-effect waves-indigo btn right">Next >></a>
+}
+
+#set("card_content") {
+  <span class="card-title">第四章: 变量/参数</span>
+  <span class="card-title card-subtitle">>>> 关卡3: 畅所欲言</span>
+  <br>
+  <p>目标：收集全部的宝石，点亮全部的砖块。</p>
+  <br>
+  <p>上一关中，你定义了一个可以连续行走任意步数的函数goForward(step: Int)。从这一关开始，我们可以直接使用这个函数了！</p><br>
+  <p class="chapter-code-font">另外，我们又提供了两个函数：log(_ content: String)，以及logPosition()。</p>
+  <p>这两个函数都能够帮助Lappland“说话”，她会使用一个对话气泡告诉你她说了些什么。</p><br>
+  <p>Swift语言允许在提供形参名之前写一个实参名的标签，用空格分隔，比如：<span class="chapter-code-font">
+     greet(person: String, from hometown: String)，其中的“from”就是实参名标签。</span></p>
+  <p class="chapter-code-font">如果你为一个形参提供了实参标签，那么这个实参就必须在调用函数的时候使用标签：
+     greet(person: "Lappland", from: "Syracuse")。</p><br>
+  <p>如果对于函数的形参不想使用实参标签的话，可以利用下划线（ _ ）来为这个形参代替显式的实参标签，这样在调用函数时就可以直接填写具体的值，
+     而不需要实参标签。<span class="chapter-code-font">例如我们的log函数可以这样调用：log("Hello World")</span>。</p><br>
+  <p><span class="chapter-code-font">logPosition</span>函数能够使得Lappland报出自己当前位置的坐标，
+     请熟悉一下这个坐标的增减规则，因为我们在下一章会用到！</p><br>
+  <p class="chapter-code-font">其实，在之前的所有章节，你都可以使用log函数，如果感兴趣，你可以回头去尝试一下。</p>
+  <p><span class="chapter-code-font">log</span>函数能够很好地帮你进行Debug。
+     你可以让Lappland在关键的时候说一些什么，这样你就能够把错误的位置锁定在一个较小的范围。</p><br>
+  <p class="chapter-code-font">在这一关你可以直接调用之前的全部函数，包括：
+     goForward()、goForward(step: Int)、turnLeft()、turnRight()、collect() 以及switchIt()。</p>
+  <p class="chapter-code-font">你还可以使用之前出现过的全部条件，包括：位于宝石处（isOnGem），位于点亮的砖块处（isOnYellowBlock），
+     位于熄灭的砖块处（isOnDarkBlock），以及前方是否存在砖块（hasBlockForward）。</p>
+}
+
+#set("collapsible_body") {
+  <span class="chapter-code-font">这一节你可以自由发挥，祝你玩得开心！</span><br>
+}
+
+#set("editor") {
+  <div id="normal_editor" class="z-depth-1"></div>
+}
+
+#set("editor_js") {
+  <script src="/js/Ace/RunNormal.js" type="text/javascript"></script>
+  <script src="/js/Ace/AutoComplete12.js" type="text/javascript"></script>
+}
+
+#set("pagination_all") {
+  <ul class="pagination">
+    <li class="waves-effect"><a href="/puzzle/11"><i class="material-icons">chevron_left</i></a></li>
+    <li class="waves-effect"><a href="/puzzle/8">3-2</a></li>
+    <li class="waves-effect"><a href="/puzzle/9">3-3</a></li>
+    <li class="grey lighten-4 waves-effect"><a href="/chapter/4">4</a></li>
+    <li class="waves-effect"><a href="/puzzle/10">4-1</a></li>
+    <li class="waves-effect"><a href="/puzzle/11">4-2</a></li>
+    <li class="active indigo lighten-2"><a href="#!">4-3</a></li>
+    <li class="grey lighten-4 waves-effect"><a href="/chapter/5">5</a></li>
+    <li class="waves-effect"><a href="/puzzle/13">5-1</a></li>
+    <li class="waves-effect"><a href="/puzzle/14">5-2</a></li>
+    <li class="waves-effect"><a href="/chapter/5"><i class="material-icons">chevron_right</i></a></li>
+  </ul>
+}
+
+#embed("spo_base")
