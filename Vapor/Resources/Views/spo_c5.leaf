@@ -1,0 +1,90 @@
+#set("title") { SPO Chapter 5 }
+
+#set("chapter_title") { 第五章 &emsp;类与对象 }
+
+#set("chapter_introduction") {
+  <div class="my-blockquote">
+    <h4>类</h4><br>
+    <p>如果要建一座房子，你会用到蓝图。蓝图展示了你的房子需要一些什么功能，如厨房、厕所和卧室。</p>
+    <p>当你使用蓝图建造多所房子时，每所房子看起来都差不多。</p>
+    <p>在编程中，类型就类似于蓝图；而实例就如同你基于蓝图建造的房子。</p><br>
+    <p>蓝图展示了房子的特征和行为。在类型中，特征称为属性，而行为称为方法：</p>
+    <div class="row">
+      <div class="col s4 l4">
+        <div class="card grey lighten-5">
+          <div class="card-content chapter-code-font">
+            <span class="small-card-title">属性 </span>
+            <span>（在类型内部被定义的变量）</span>
+            <p>var color = <span class="blue">__</span></p>
+            <p>var bedrooms = 2</p>
+          </div>
+        </div>
+      </div>
+      <div class="col s1 l1"></div>
+      <div class="col s4 l4">
+        <div class="card grey lighten-5">
+          <div class="card-content chapter-code-font">
+            <span class="small-card-title">方法 </span>
+            <span>（在类型内部被定义的函数）</span>
+            <p>runWater()</p>
+            <p>turnLightsOn()</p>
+          </div>
+        </div>
+      </div>
+    </div><br>
+    <p>现在，假设你要打开房间的车库门。</p>
+    <p>首先，通过房子的名字来引用房子，然后告诉它要做什么：</p>
+    <p class="chapter-code-font">myHouse.openGarageDoor()</p>
+    <p class="chapter-code-font">在点记法中，点前面的部分引用的是实例（特定的房子）；
+       点后面的部分调用的是myHouse实例中的方法openGarageDoor()</p><br>
+    <p>在关卡世界中，你可以使用点记法来切换砖块的颜色：</p>
+    <div class="chapter-code-font">
+      <p>block.isOn = true</p>
+      <p>block.switchMyself()</p>
+    </div>
+    <p>你可以采取两种方式：</p>
+    <p>一是把砖块实例block的属性isOn更改为真或假，使得砖块切换为黄色或者黑色；</p>
+    <p>二是调用实例block中的方法switchMyself()，使得砖块切换为另一种颜色。</p>
+  </div><br>
+  <div class="my-blockquote">
+    <h4>初始化</h4><br>
+    <p>砖块具有Block这个类型，每一个砖块都是Block类型的一个实例。</p>
+    <div class="row">
+      <div class="col s5 l5">
+        <div class="card grey lighten-5">
+          <div class="card-content chapter-code-font">
+            <span class="small-card-title">Block</span>
+            <div class="divider"></span></div><br>
+            <p>block00 ← Block(0, 0)</p>
+            <p>block01 ← Block(0, 1)</p>
+            <p>......</p>
+          </div>
+        </div>
+      </div>
+    </div><br>
+    <p class="chapter-code-font">若要创建一个新的砖块，你需要先使用let声明一个常量，然后使用类型名加参数来进行初始化。</p>
+    <p class="chapter-code-font">let block = Block(x: 2, y: 3)</p>
+    <p class="chapter-code-font">Block类型需要的初始化参数有两个：x, y。它们分别为需要初始化的砖块坐标。</p>
+  </div>
+}
+
+#set("chapter_welcome") {
+  如果你准备好了，那就开始第五章的挑战吧！
+}
+
+#set("chapter_start") {
+  <a href="/puzzle/13" class="btn-floating btn-large purple pulse">GO</a>
+}
+
+#set("chapter_puzzles") {
+  <ul class="pagination">
+    <li class="disabled"><a href="#!"><i class="material-icons">chevron_left</i></a></li>
+    <li class="waves-effect"><a href="/puzzle/13">5-1</a></li>
+    <li class="waves-effect"><a href="/puzzle/14">5-2</a></li>
+    <li class="disabled"><a href="#!"><i class="material-icons">chevron_right</i></a></li>
+  </ul>
+}
+
+#set("chapter_js") {}
+
+#embed("spo_cbase")

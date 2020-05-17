@@ -89,7 +89,7 @@
 }
 
 #set("chapter_start") {
-  <a href="/puzzle/10" class="btn-floating btn-large green pulse">GO</a>
+  <a href="/puzzle/10" class="btn-floating btn-large blue pulse">GO</a>
 }
 
 #set("chapter_puzzles") {

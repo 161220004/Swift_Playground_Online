@@ -136,6 +136,10 @@
   margin-left: 50px !important;
 }
 
+.small-card-title {
+  font-size: 18px !important;
+}
+
 .my-short-width {
   width: 300px;
 }
