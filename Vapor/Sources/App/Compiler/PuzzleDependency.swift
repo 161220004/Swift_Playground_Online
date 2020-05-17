@@ -62,6 +62,8 @@ final class PuzzleDependency {
             return self.generate(functions: .Log, .Trace, .BlockObj, .TMove, .TTurnLeft, .TTurnRight, .TCollect)
         case 10: // Puzzle 4-1
             return self.generate(functions: .Log, .Trace, .BlockObj, .TMove, .TTurnLeft, .TTurnRight, .TCollect, .TSwitchIt)
+        case 11: // Puzzle 4-2
+            return self.generate(functions: .Log, .Move, .Collect, .TurnLeft, .TurnRight)
         default:
             return self.generate(functions: .Log)
         }

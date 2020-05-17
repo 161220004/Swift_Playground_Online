@@ -9,5 +9,5 @@ function getEditorCode() {
   if (!forNumber || forNumber == "") forNumber = "number"; // 禁止为空，避免死循环
   let forCode = "for i in 1..." + forNumber + " {\n" + forContent + "\n}\n";
   let mainCode = mainEditor.getValue();
-  return forCode + mainCode;
+  return mainFuncHead + forCode + mainCode + mainFuncTail;
 }

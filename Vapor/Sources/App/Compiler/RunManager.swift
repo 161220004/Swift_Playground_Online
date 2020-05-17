@@ -66,14 +66,9 @@ final class RunManager {
     
     /// 编译运行
     /// - Returns: 返回运行结果（失败或运行成功的bash输出内容）
-    static public func compile(code mainbody: String, stamp: String, scene: Scene, dependencies: [String]) -> String {
+    static public func compile(code: String, stamp: String, scene: Scene, dependencies: [String]) -> String {
         
-        // 使用用户代码组装main函数
-        let funcHead = "func main() {\nSAVE_RESULT_ON_SERVER_SIDE(\"\")\n" // 保证result文件存在
-        let funcTail = "\n}"
-        let code = funcHead + mainbody + funcTail
-        
-        // 保存组装后的代码为code-$(stamp).swift文件
+        // 保存用户代码为code-$(stamp).swift文件
         do {
             try self.saveCode(code, stamp: stamp, scene: scene, deps: dependencies)
         } catch {

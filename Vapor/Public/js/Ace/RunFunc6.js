@@ -11,5 +11,5 @@ function getEditorCode() {
   let func1Code = "func collectTurnAround() {\n" + func1Editor.getValue() + "\n}\n";
   let func2Code = "func solveRow() {\n" + func2Editor.getValue() + "\n}\n";
   let mainCode = mainEditor.getValue();
-  return func1Code + func2Code + mainCode;
+  return func1Code + func2Code + mainFuncHead + mainCode + mainFuncTail;
 }

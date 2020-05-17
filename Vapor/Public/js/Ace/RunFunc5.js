@@ -6,5 +6,5 @@ let mainEditor = setEditor("main_editor_small");
 function getEditorCode() {
   let funcCode = "func " + $("#func_name").val() + "() {\n" + funcEditor.getValue() + "\n}\n";
   let mainCode = mainEditor.getValue();
-  return funcCode + mainCode;
+  return funcCode + mainFuncHead + mainCode + mainFuncTail;
 }

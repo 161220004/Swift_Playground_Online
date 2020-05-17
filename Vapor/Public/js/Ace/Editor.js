@@ -35,6 +35,11 @@ function setCompleteData(data) {
   });
 }
 
+// 使用main函数包装的头部
+const mainFuncHead = "func main() {\nSAVE_RESULT_ON_SERVER_SIDE(\"\")\n";
+// 使用main函数包装的尾部
+const mainFuncTail = "\n}\n";
+
 // “Run”按钮点击事件
 $("#run_code").click(function(){
   // 仅当一轮结束或未开始时可以开始运行

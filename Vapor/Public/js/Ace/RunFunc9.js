@@ -6,5 +6,5 @@ let exterEditor = setEditor("func_editor_big");
 function getEditorCode() {
   let innerCode = "while " + $("#inner_cond").val() + " {\n" + innerEditor.getValue() + "\n}\n";
   let exterCode = "while " + $("#exter_cond").val() + " {\n" + innerCode + exterEditor.getValue() + "\n}\n";
-  return exterCode;
+  return mainFuncHead + exterCode + mainFuncTail;
 }
