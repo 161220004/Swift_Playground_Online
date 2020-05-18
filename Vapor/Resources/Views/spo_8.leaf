@@ -1,8 +1,8 @@
 #set("title") { SPO Puzzle 3-2 }
 
 #set("pagination_next") {
-  <a href="/spo/7" class="white indigo-text waves-effect waves-indigo btn left"><< Previous</a>
-  <a href="/spo/9" class="white indigo-text waves-effect waves-indigo btn right">Next >></a>
+  <a href="/puzzle/7" class="white indigo-text waves-effect waves-indigo btn left"><< Previous</a>
+  <a href="/puzzle/9" class="white indigo-text waves-effect waves-indigo btn right">Next >></a>
 }
 
 #set("card_content") {
@@ -11,12 +11,24 @@
   <br>
   <p class="chapter-code-font">目标：使用 if 或 else if 来收集宝石或切换砖块。</p>
   <br>
-  <p>尝试运行几次代码，你会发现开关和宝石均为随机出现：</p>
-  <p>(1) 对于红色的砖块，关卡开始后有随机的两种可能：变成有宝石的砖块，变成没有宝石的普通砖块；</p>
-  <p>(2) 对于绿色的砖块，关卡开始后有随机的两种可能：变成可点亮的黑色砖块，变成可熄灭的黄色砖块；</p>
-  <p>(3) 对于蓝色的砖块，关卡开始后有随机的四种可能：变成有宝石的砖块，变成没有宝石的普通砖块，变成可点亮的黑色砖块，变成可熄灭的黄色砖块；</p>
+  <p>尝试运行几次代码，你会发现开关和宝石均为随机出现。</p>
+  <div class="my-blockquote">
+    <p>随机砖块的特性：</p>
+    <p>&emsp; 红色的砖块，关卡开始后有随机的两种可能：变成有宝石的砖块，变成没有宝石的普通砖块；</p>
+    <p>&emsp; 绿色的砖块，关卡开始后有随机的两种可能：变成可点亮的黑色砖块，变成可熄灭的黄色砖块；</p>
+    <p>&emsp; 蓝色的砖块，关卡开始后有随机的四种可能：变成有宝石的砖块，变成没有宝石的普通砖块，变成可点亮的黑色砖块，变成可熄灭的黄色砖块；</p>
+  </div>
   <br>
-  <p class="chapter-code-font">为了确认是否要收集宝石或者切换砖块，使用if语句来检查一种可能的条件，并使用else if语句来检查另一种可能性。</p><br>
+  <p class="chapter-code-font">为了确认是否要收集宝石或者切换砖块，使用if语句来检查一种可能的条件，并使用else if语句来检查另一种可能性。</p>
+  <br>
+  <p>你可能会用到一些条件运算。</p>
+  <div class="my-blockquote chapter-code-font">
+    <p>条件运算符：</p>
+    <p>&emsp; “与”：只有条件a和b同时为真时，(a && b) 即“a与b”为真，否则为假；</p>
+    <p>&emsp; “或”：当条件a和b中至少一个为真时，(a || b) 即“a或b”为真，否则为假；</p>
+    <p>&emsp; “非”：如果条件a为真，则 (!a) 即“非a”为假，反之为真；</p>
+  </div>
+  <br>
   <p class="chapter-code-font">这里我们提供三种条件：位于宝石处（isOnGem），位于点亮的砖块处（isOnYellowBlock），
      以及位于熄灭的砖块处（isOnDarkBlock）。</p>
   <p class="chapter-code-font">另外，在这一关你可以直接调用的函数包括：goForward()、turnLeft()、turnRight()、collect()以及switchIt()。</p><br>
@@ -27,7 +39,7 @@
 }
 
 #set("collapsible_body") {
-  <span class="chapter-code-font">添加if语句检查第一个条件后，可以添加else if块检查第二个条件。
+  <span class="chapter-code-font">添加 if 语句检查第一个条件后，可以添加 else if 块检查第二个条件。
         如果Lappland在宝石处（isOnGem），就收集；如果在黑色砖块处（isOnDarkBlock），就点亮。</span><br>
   <span class="chapter-code-font">你可以使用我们之前学过的For循环简化代码哦！</span>
 }
@@ -43,17 +55,17 @@
 
 #set("pagination_all") {
   <ul class="pagination">
-    <li class="waves-effect"><a href="/spo/7"><i class="material-icons">chevron_left</i></a></li>
-    <li class="waves-effect"><a href="/spo/5">2-2</a></li>
-    <li class="waves-effect"><a href="/spo/6">2-3</a></li>
-    <li class="grey lighten-4 waves-effect"><a href="/spo/chapter/3">3</a></li>
-    <li class="waves-effect"><a href="/spo/7">3-1</a></li>
+    <li class="waves-effect"><a href="/puzzle/7"><i class="material-icons">chevron_left</i></a></li>
+    <li class="waves-effect"><a href="/puzzle/5">2-2</a></li>
+    <li class="waves-effect"><a href="/puzzle/6">2-3</a></li>
+    <li class="grey lighten-4 waves-effect"><a href="/chapter/3">3</a></li>
+    <li class="waves-effect"><a href="/puzzle/7">3-1</a></li>
     <li class="active indigo lighten-2"><a href="#!">3-2</a></li>
-    <li class="waves-effect"><a href="/spo/9">3-3</a></li>
-    <li class="grey lighten-4 waves-effect"><a href="/spo/chapter/4">4</a></li>
-    <li class="waves-effect"><a href="/spo/10">4-1</a></li>
-    <li class="waves-effect"><a href="/spo/11">4-2</a></li>
-    <li class="waves-effect"><a href="/spo/9"><i class="material-icons">chevron_right</i></a></li>
+    <li class="waves-effect"><a href="/puzzle/9">3-3</a></li>
+    <li class="grey lighten-4 waves-effect"><a href="/chapter/4">4</a></li>
+    <li class="waves-effect"><a href="/puzzle/10">4-1</a></li>
+    <li class="waves-effect"><a href="/puzzle/11">4-2</a></li>
+    <li class="waves-effect"><a href="/puzzle/9"><i class="material-icons">chevron_right</i></a></li>
   </ul>
 }
 

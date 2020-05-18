@@ -10,7 +10,7 @@
     <p>挖一个坑</p>
     <p>放一颗种子</p>
     <p>向前移12cm</p><br>
-    <p>若要编写For循环，使用For并指定循环将运行的次数，例如：</p>
+    <p class="chapter-code-font">若要编写for循环，使用for并指定循环将运行的次数，例如：</p>
     <div class="chapter-code-font">
       <p>for eachSeed in 1...4 {</p>
       <p>&emsp;&emsp; makeHole()</p>
@@ -22,10 +22,10 @@
   <div class="my-blockquote">
     <h4>条件代码</h4><br>
     <p>如果遇到了堵车，你可能需要换一条路线。</p>
-    <p>在代码中，使用if语句，就可以为不同的条件做规划。</p><br>
-    <p>若要编写if语句，使用if并添加你的条件，它非真即假。</p>
-    <p>然后添加if块，那么这些命令就会在条件为真时运行。</p>
-    <p>如果条件为假，你可以使用else来指定其他代码运行。</p><br>
+    <p class="chapter-code-font">在代码中，使用if语句，就可以为不同的条件做规划。</p><br>
+    <p class="chapter-code-font">若要编写if语句，使用if并添加你的条件，它非真即假。</p>
+    <p class="chapter-code-font">然后添加if块，那么这些命令就会在条件为真时运行。</p>
+    <p class="chapter-code-font">如果条件为假，你可以使用else来指定其他代码运行。</p><br>
     <p>例如如果绿灯则过马路：</p>
     <div class="chapter-code-font">
       <p>if lightIsGreen {</p>
@@ -38,7 +38,7 @@
   <div class="my-blockquote">
     <h4>While循环</h4><br>
     <p>用锤子敲打钉子时，你不能只敲几下，就希望把钉子敲进去，而是要在钉子仍露在外面时不断地敲击它。</p><br>
-    <p>你可以使用While循环，在条件为真时重复一个命令，或一组命令，例如：</p>
+    <p class="chapter-code-font">你可以使用while循环，在条件为真时重复一个命令，或一组命令，例如：</p>
     <div class="chapter-code-font">
       <p>while nailIsStickingOut {</p>
       <p>&emsp;&emsp; hammerNail() // 这里条件nailIsStickingOut为真，所以执行</p>
@@ -48,19 +48,19 @@
 }
 
 #set("chapter_welcome") {
-  如果你准备好了，那就开始第三章的学习吧！
+  如果你准备好了，那就开始第三章的挑战吧！
 }
 
 #set("chapter_start") {
-  <a href="/spo/7" class="btn-floating btn-large green pulse">GO</a>
+  <a href="/puzzle/7" class="btn-floating btn-large green pulse">GO</a>
 }
 
 #set("chapter_puzzles") {
   <ul class="pagination">
     <li class="disabled"><a href="#!"><i class="material-icons">chevron_left</i></a></li>
-    <li class="waves-effect"><a href="/spo/7">3-1</a></li>
-    <li class="waves-effect"><a href="/spo/8">3-2</a></li>
-    <li class="waves-effect"><a href="/spo/9">3-3</a></li>
+    <li class="waves-effect"><a href="/puzzle/7">3-1</a></li>
+    <li class="waves-effect"><a href="/puzzle/8">3-2</a></li>
+    <li class="waves-effect"><a href="/puzzle/9">3-3</a></li>
     <li class="disabled"><a href="#!"><i class="material-icons">chevron_right</i></a></li>
   </ul>
 }

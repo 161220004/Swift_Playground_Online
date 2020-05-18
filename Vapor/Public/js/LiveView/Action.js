@@ -8,16 +8,20 @@ var ActionType = {
   COLLECT: "COLLECT",
   SWITCHIT: "SWITCHIT",
   // Scene
-  NEWBLOCK: "NEWBLOCK",
-  BLOCKADDGEM: "BLOCKADDGEM",
+  BLOCK: "BLOCK",
+  BLOCKSWITCH: "SWITCH",
+  BLOCKINIT: "INIT",
 }
 
 /** Action 类，描述Lappland动作要素
  * @constructor
  */
-function Action(type, d, dir, log) {
+function Action(type, d, dir, log, pos, b) {
   this.type = type;
   this.d = d; // 行走距离
   this.dir = dir; // 接下来的朝向
   this.log = log; // 语句
+  // Block类
+  this.pos = pos; // Block位置
+  this.b = b; // Block行为
 }

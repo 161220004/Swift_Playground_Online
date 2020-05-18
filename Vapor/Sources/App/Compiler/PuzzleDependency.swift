@@ -20,11 +20,16 @@ enum FunctionDependency: String {
     case SwitchIt = "SwitchIt.swift"
     
     case Trace = "Trace.swift"
-    case BlockObj = "Block.swift"
+    case TLog = "TraceLog.swift"
     case TMove = "TraceMove.swift"
     case TMoveMore = "TraceMoveMore.swift"
+    case TTurnLeft = "TraceTurnLeft.swift"
+    case TTurnRight = "TraceTurnRight.swift"
     case TCollect = "TraceCollect.swift"
     case TSwitchIt = "TraceSwitchIt.swift"
+    
+    case BlockClass = "Block.swift"
+    case BlockObject = "BlockObject.swift"
     
 }
 
@@ -55,7 +60,19 @@ final class PuzzleDependency {
         case 7: // Puzzle 3-1
             return self.generate(functions: .Log, .Move, .Collect, .TurnLeft, .TurnRight, .SwitchIt)
         case 8: // Puzzle 3-2
-            return self.generate(functions: .Log, .Trace, .BlockObj, .TMove, .TCollect, .TurnLeft, .TurnRight, .TSwitchIt)
+            return self.generate(functions: .Log, .Trace, .BlockClass, .TMove, .TTurnLeft, .TTurnRight, .TCollect, .TSwitchIt)
+        case 9: // Puzzle 3-3
+            return self.generate(functions: .Log, .Trace, .BlockClass, .TMove, .TTurnLeft, .TTurnRight, .TCollect)
+        case 10: // Puzzle 4-1
+            return self.generate(functions: .Log, .Trace, .BlockClass, .TMove, .TTurnLeft, .TTurnRight, .TCollect, .TSwitchIt)
+        case 11: // Puzzle 4-2
+            return self.generate(functions: .Log, .Move, .Collect, .TurnLeft, .TurnRight)
+        case 12: // Puzzle 4-3
+            return self.generate(functions: .Log, .Trace, .BlockClass, .TLog, .TMove, .TMoveMore, .TTurnLeft, .TTurnRight, .TCollect, .TSwitchIt)
+        case 13: // Puzzle 5-1
+            return self.generate(functions: .Log, .Trace, .BlockClass, .BlockObject, .TLog, .TMove, .TMoveMore, .TTurnLeft, .TTurnRight, .TSwitchIt)
+        case 14: // Puzzle 5-2
+            return self.generate(functions: .Log, .Trace, .BlockClass, .TLog, .TMove, .TMoveMore, .TTurnLeft, .TTurnRight, .TCollect)
         default:
             return self.generate(functions: .Log)
         }

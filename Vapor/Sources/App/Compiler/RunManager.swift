@@ -27,8 +27,9 @@ final class RunManager {
     
     /// 根据砖块数组生成场景定义代码
     static private func generateSceneCode(scene: Scene, deps: [String]) -> String {
-        if (PuzzleDependency.has(dep: .Trace, inAll: deps) && PuzzleDependency.has(dep: .BlockObj, inAll: deps)) { // 可追踪，则定义场景
-            var sceneCode = "var PUZZLE_SCENE_BLOCK_ARRAY = [\n"
+        if (PuzzleDependency.has(dep: .Trace, inAll: deps) && PuzzleDependency.has(dep: .BlockClass, inAll: deps)) { // 可追踪，则定义场景
+            let directionLine = "var CURRENT_DIRECTION_RAW = \(scene.puzzle.lappInitDir)\n"
+            var sceneCode = directionLine + "var PUZZLE_SCENE_BLOCK_ARRAY = [\n"
             for block in scene.blocks {
                 sceneCode += "Block(id: \(block.id), x: \(block.cellX), y: \(block.cellY), type: \(block.type), item: \"" + block.item + "\"),\n"
             }
@@ -39,18 +40,16 @@ final class RunManager {
         }
     }
     
-    /// 保存用户的源代码，并生成时间戳/方向等变量定义源代码
+    /// 保存用户的源代码，并生成时间戳等变量定义源代码
     static private func saveCode(_ content: String, stamp: String, scene: Scene, deps: [String]) throws {
         
         let fileURL = getCodeFilename(stamp: stamp)
         let globalURL = getGlobalFilename(stamp: stamp)
         // 时间戳定义源码
-        let stampLine = "var CURRENT_STAMP = \"" + stamp + "\""
-        // 初始方向定义源码
-        let directionLine = "var CURRENT_DIRECTION_RAW = \(scene.puzzle.lappInitDir)"
+        let stampLine = "var CURRENT_STAMP = \"" + stamp + "\"\n"
         // 场景定义源码
         let sceneLines = generateSceneCode(scene: scene, deps: deps)
-        let globalLines = stampLine + "\n" + directionLine + "\n" + sceneLines
+        let globalLines = stampLine + sceneLines
         do { // 用户源码保存
             try content.write(to: URL(fileURLWithPath: fileURL), atomically: true, encoding: .utf8)
         } catch {
@@ -67,14 +66,9 @@ final class RunManager {
     
     /// 编译运行
     /// - Returns: 返回运行结果（失败或运行成功的bash输出内容）
-    static public func compile(code mainbody: String, stamp: String, scene: Scene, dependencies: [String]) -> String {
+    static public func compile(code: String, stamp: String, scene: Scene, dependencies: [String]) -> String {
         
-        // 使用用户代码组装main函数
-        let funcHead = "func main() {\nSAVE_RESULT_ON_SERVER_SIDE(\"\")\n" // 保证result文件存在
-        let funcTail = "\n}"
-        let code = funcHead + mainbody + funcTail
-        
-        // 保存组装后的代码为code-$(stamp).swift文件
+        // 保存用户代码为code-$(stamp).swift文件
         do {
             try self.saveCode(code, stamp: stamp, scene: scene, deps: dependencies)
         } catch {
@@ -104,12 +98,12 @@ final class RunManager {
         // 超时处理
         DispatchQueue.global(qos: .background).async {
             sleep(90)
-            _ = Bash.forceTerminate()
+            Bash.forceTerminate(stamp)
         }
         
         // 开始编译成可执行文件，并打印编译结果
         print("\nCompiling Files ...")
-        let compileOutput = Bash.run(command: compileLine) ?? ""
+        let compileOutput = Bash.run(compileLine, stamp) ?? ""
         print(compileOutput)
         
         // 确认可运行项目是否存在，不存在说明编译失败
@@ -120,7 +114,7 @@ final class RunManager {
         
         // 执行该可执行文件
         print("\nRunning Executable Project ...")
-        let runOutput = Bash.run(command: projName) ?? ""
+        let runOutput = Bash.run(projName, stamp) ?? ""
         
         return compileOutput + "\n" + runOutput
     }
@@ -163,7 +157,7 @@ final class RunManager {
                 if let step = Int(action.dropFirst(4)) {
                     paces.append(Pace(step: step))
                 } else {
-                    print("[ Error ] RunManager.translateActions: Failed to Analyse GO Action")
+                    print("[ Error ] RunManager.translateActions: Failed to Analyse \"" + action + "\" Action")
                 }
             } else if (action.contains(Keyword.LOG.rawValue)) {
                 // LOG: $(String)
@@ -171,16 +165,14 @@ final class RunManager {
                 if (log.count > 0) {
                     paces.append(Pace(log: log))
                 } else {
-                    print("[ Error ] RunManager.translateActions: Failed to Analyse LOG Action")
+                    print("[ Error ] RunManager.translateActions: Failed to Analyse \"" + action + "\" Action")
                 }
             } else if (action.contains(Keyword.TURN.rawValue)) {
                 // TURN: $(Direction)
-                if let dirInt = Int(action.dropFirst(6)) {
-                    if let dir = Direction(rawValue: dirInt) {
-                        paces.append(Pace(dir: dir))
-                    }
+                if let dir = Int(action.dropFirst(6)) {
+                    paces.append(Pace(dir: dir))
                 } else {
-                    print("[ Error ] RunManager.translateActions: Failed to Analyse TURN Action")
+                    print("[ Error ] RunManager.translateActions: Failed to Analyse \"" + action + "\" Action")
                 }
             } else if (action.contains(Keyword.COLLECT.rawValue)) {
                 // COLLECT
@@ -188,11 +180,22 @@ final class RunManager {
             } else if (action.contains(Keyword.SWITCHIT.rawValue)) {
                 // SWITCHIT
                 paces.append(Pace(type: Keyword.SWITCHIT.rawValue))
+            } else if (action.contains(Keyword.BLOCK.rawValue)) {
+                // BLOCK x y INIT/SWITCH
+                let actionStrs = action.components(separatedBy: " ")
+                var blockPos: [Int] = []
+                if let blockPosX = Int(actionStrs[1]), let blockPosY = Int(actionStrs[2]) {
+                    blockPos.append(blockPosX)
+                    blockPos.append(blockPosY)
+                    paces.append(Pace(pos: blockPos, b: actionStrs[3]))
+                } else {
+                    print("[ Error ] RunManager.translateActions: Failed to Analyse \"" + action + "\" Action")
+                }
             } else {
-                print("[ Error ] RunManager.translateActions: Undefined Action Appears")
+                print("[ Error ] RunManager.translateActions: Undefined Action \"" + action + "\" Appears")
             }
         }
-        return Actions(isLegal: true, isRight: true, paces: paces, description: description)
+        return Actions(paces, description: description)
     }
     
     /// 取到一个带时间戳文件名内的时间戳（code-..., stamp-..., spo-proj-..., result-...）
@@ -235,8 +238,11 @@ final class RunManager {
     static public func clear() {
         
         print("\nClearing Old Files: ")
-        // 当前600秒之前的时间戳
-        let oldStamp = Double(Date().timeIntervalSince1970.advanced(by: -600))
+        // 当前120秒之前的时间戳
+        let oldStamp = Double(Date().timeIntervalSince1970.advanced(by: -120))
+        // 删除此前的编译进程
+        Bash.removeOldProcess(oldStamp)
+        // 删除此前的文件
         var contentsOfCode: [String]
         var contentsOfResult: [String]
         do {

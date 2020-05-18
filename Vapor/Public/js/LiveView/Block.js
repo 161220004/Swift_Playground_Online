@@ -63,6 +63,15 @@ Block.prototype.removeFromStage = function() {
   }
 }
 
+/** 重新调整zIndex */
+Block.prototype.setZIndex = function() {
+  this.blockSprite.zIndex = 10 + 15 * this.id;
+  if (this.type == BlockType.Purple || this.type == BlockType.Red || this.type == BlockType.Blue) {
+    this.itemSprite.zIndex = 11 + 15 * this.id;
+  }
+}
+
+
 /* 设置随机宝石：代码Run的时候，必须把所有Random项目确定 */
 Block.prototype.setRandomDiam = function() {
   if (Math.random() < RandDiamPercent) { // 有

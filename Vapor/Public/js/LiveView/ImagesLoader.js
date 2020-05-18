@@ -14,7 +14,8 @@ const successImg = "/images/Message/Congratulations.png";
 const failureImg = "/images/Message/TryAgain.png";
 const miniLappImg = "/images/Lappland/Mini.png";
 const lappShockImg = "Shock.png";
-const bubbleImg = ["Emo-happy.png", "Emo-dizzy.png", "Emo-1.png", "Emo-2.png", "Emo-2.png", "Emo-sad.png", "Emo-sad.png", "Emo-3.png"];
+const bubbleImg = ["Emo-happy.png", "Emo-dizzy.png", "Emo-1.png", "Emo-2.png", "Emo-2.png", "Emo-2.png",
+                   "Emo-sad.png", "Emo-sad.png", "Emo-3.png"];
 const lappHairImg = ["Hair-0.png", "Hair-1.png", "Hair-2.png", "Hair-3.png"];
 const lappTailImg = ["Tail-0.png", "Tail-1.png", "Tail-2.png", "Tail-3.png"];
 const lappRibbonImg = ["Ribbon-0.png", "Ribbon-1.png", "Ribbon-2.png", "Ribbon-3.png"];
@@ -101,7 +102,7 @@ loader
   puzzle = new Puzzle();
 
   // GET方法从后端获取数据以布局 Puzzle
-  $.get("/spo/" + PID + "/scene", function(data, status) {
+  $.get("/puzzle/" + PID + "/scene", function(data, status) {
     // alert("Get Scene " + pid + ": \n" + JSON.stringify(data));
     SceneData = data;
     console.log("Scene Data Already Inited: " + SceneData.puzzle.description);

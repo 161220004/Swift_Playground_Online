@@ -17,6 +17,8 @@ function Conductor() {
   this.collectTime = LappCollectInterval; // COLLECT: 收集宝石跳跃时间
   this.switchTime = LappSwitchInterval; // SWITCH: 切换砖块时间
   this.isSwitched = false; // SWITCH: 是否切换砖块完成
+  this.blockInitTime = BlockInitInterval; // INIT: 砖块初始化淡出时间
+  this.blockInitIndex = -1; // INIT: 正在初始化的砖块
   // 场景指令相关
   this.sceneIsActing = false;  // 是否正在动作中，配合着 puzzle.isRunning 鉴定当前状态
 }
@@ -35,6 +37,8 @@ Conductor.prototype.reset = function() {
   this.collectTime = LappCollectInterval; // COLLECT: 收集宝石跳跃时间
   this.switchTime = LappSwitchInterval; // SWITCH: 切换砖块时间
   this.isSwitched = false; // SWITCH: 是否切换砖块完成
+  this.blockInitTime = BlockInitInterval; // INIT: 砖块初始化淡出时间
+  this.blockInitIndex = -1; // INIT: 正在初始化的砖块
 
   this.sceneIsActing = false;  // 是否正在动作中，配合着 puzzle.isRunning 鉴定当前状态
 }
@@ -48,11 +52,22 @@ Conductor.prototype.getCurActType = function() {
   }
 }
 
+/** 获取当前地砖动作类型 */
+Conductor.prototype.getCurBlockActType = function() {
+  return this.actions[this.actionIndex].b;
+}
+
+/** 获取当前地砖位置 */
+Conductor.prototype.getCurBlockActPos = function() {
+  return this.actions[this.actionIndex].pos;
+}
+
 /** 刷新Lappland动作 */
-Conductor.prototype.updateLappland = function() {
+Conductor.prototype.update = function() {
   if (puzzle.isRunning) {
     let currentAction = this.actions[this.actionIndex];
-    if (this.lappIsActing) { // Lappland正在动作
+    /* Lappland正在动作 */
+    if (this.lappIsActing) {
       let isFinished = false;
       switch (currentAction.type) {
         case ActionType.GO:
@@ -82,11 +97,8 @@ Conductor.prototype.updateLappland = function() {
               this.turnXBia = sign * CameraLRSpace * this.turnTime / LappTurnInterval;
               lappland.setTempPosition(this.turnXBia, 0);
             }
-            // 计算转体角度
-            let rotationBia = lappland.direction - lappland.lastDirection;
-            if (rotationBia < -2) rotationBia += 4;
-            if (rotationBia > 2) rotationBia -= 4; // 保证旋转角<180度
-            rotationBia *= Math.PI / 2;
+            // 转体角度，旋转角-180~180度
+            let rotationBia = currentAction.dir * Math.PI / 2;
             this.turnRotation = Math.PI / 2 * lappland.direction - rotationBia * this.turnTime / LappTurnInterval;
           } else { // 动作结束
             lappland.setPosition();
@@ -150,9 +162,46 @@ Conductor.prototype.updateLappland = function() {
         this.lappIsActing = false; // 先休息
         this.restTime = BreakInterval;
       }
-    } else if (this.sceneIsActing) { // Scene动作
-
-    } else { // 正在休息
+    }
+    /* Scene正在动作 */
+    else if (this.sceneIsActing) {
+      let isFinished = false;
+      if (currentAction.b == ActionType.BLOCKSWITCH) {
+        if (this.switchTime > 0) {
+          this.switchTime -= 1;
+          if (Math.random() < 0.9 - this.switchTime * 0.02) {
+            foreground.trySwitchCurrent();
+            this.isSwitched = !this.isSwitched;
+          }
+        } else { // 动作结束
+          if (!this.isSwitched) foreground.trySwitchCurrent();
+          if (foreground.targetOnNum != -1) {
+            console.log("Block Switched (" + foreground.switchOnNum + "/" + foreground.targetOnNum + ")");
+          } else {
+            console.log("Block Switched (" + foreground.switchOnNum + "/" + foreground.totalSwitchNum + ")");
+          }
+          isFinished = true;
+        }
+      } else if (currentAction.b == ActionType.BLOCKINIT) {
+        if (this.blockInitTime > 0) {
+          this.blockInitTime -= 1
+          foreground.blocks[this.blockInitIndex].blockSprite.alpha = 1 - this.blockInitTime / BlockInitInterval;
+        } else { // 动作结束
+          foreground.blocks[this.blockInitIndex].blockSprite.alpha = 1;
+          isFinished = true;
+        }
+      } else {
+        console.log("Error: Block Action Not Valid");
+      }
+      if (isFinished) { // 若当前动作结束
+        console.log("Finish Action [" + this.actionIndex + "]");
+        this.actionIndex += 1; // 下一个动作
+        this.sceneIsActing = false; // 先休息
+        this.restTime = BreakInterval;
+      }
+    }
+    /* 正在休息 */
+    else {
       if (this.restTime > 0) {
         this.restTime -= 1;
       } else if (this.actionIndex >= this.actions.length) { // 到达最后一个动作了
@@ -170,7 +219,8 @@ Conductor.prototype.updateLappland = function() {
           case ActionType.TURN:
             this.lappIsActing = true;
             this.turnTime = LappTurnInterval;
-            lappland.setDirection(currentAction.dir);
+            let targetDirection = (lappland.direction + currentAction.dir + 4) % 4;
+            lappland.setDirection(targetDirection);
             if (lappland.direction != lappland.lastDirection && lappland.direction + lappland.lastDirection != 3){
               let sign = (lappland.direction == 2 || lappland.direction == 1) ? (1) : (-1); // 是否移向左焦点
               this.turnXBia = sign * CameraLRSpace;
@@ -195,6 +245,25 @@ Conductor.prototype.updateLappland = function() {
             this.switchTime = LappSwitchInterval;
             this.isSwitched = false;
             console.log("Start Switching");
+            break;
+          case ActionType.BLOCK:
+            this.sceneIsActing = true;
+            if (currentAction.b == ActionType.BLOCKSWITCH) {
+              this.switchTime = LappSwitchInterval;
+              this.isSwitched = false;
+              console.log("Block Start Switching Itself");
+            } else if (currentAction.b == ActionType.BLOCKINIT) {
+              this.blockInitTime = BlockInitInterval;
+              this.blockInitIndex = foreground.blocks.length;
+              console.log("Init A Block At (" + currentAction.pos + ")");
+              foreground.blocks[this.blockInitIndex] = new Block(BlockType.Normal,
+                         currentAction.pos[0], currentAction.pos[1], "", this.blockInitIndex);
+              foreground.blocks[this.blockInitIndex].blockSprite.alpha = 0;
+              puzzleMap.addNewMapBlock(this.blockInitIndex);
+              foreground.resortBlocks();
+            } else {
+              console.log("Error: Block Action Not Valid");
+            }
             break;
           default: // 无动作
             console.log("Error: No Action to Perform Now");

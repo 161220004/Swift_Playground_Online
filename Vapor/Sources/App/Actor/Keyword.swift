@@ -16,4 +16,7 @@ enum Keyword: String {
     case COLLECT = "COLLECT"
     case SWITCHIT = "SWITCHIT"
     
+    case BLOCK = "BLOCK"
+    case BLOCKSWITCH = "SWITCH"
+    case BLOCKINIT = "INIT"
 }

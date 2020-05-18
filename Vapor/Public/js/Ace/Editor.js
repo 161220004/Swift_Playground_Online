@@ -35,6 +35,11 @@ function setCompleteData(data) {
   });
 }
 
+// 使用main函数包装的头部
+const mainFuncHead = "func main() {\nSAVE_RESULT_ON_SERVER_SIDE(\"\")\n";
+// 使用main函数包装的尾部
+const mainFuncTail = "\n}\n";
+
 // “Run”按钮点击事件
 $("#run_code").click(function(){
   // 仅当一轮结束或未开始时可以开始运行
@@ -63,7 +68,7 @@ $("#run_code").click(function(){
     // 等待后端处理
     puzzle.isCompiling = true;
     puzzle.playLoadingSprite();
-    $.post("/spo/" + PID + "/code", JSON.stringify(runInfo), function(data) {
+    $.post("/puzzle/" + PID + "/code", JSON.stringify(runInfo), function(data) {
       // alert("Get Result: \n" + JSON.stringify(data));
       console.log("Run !");
       // 解析结果并开启动画

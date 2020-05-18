@@ -47,6 +47,19 @@
   width: 7rem !important;
 }
 
+.my-narrow-input {
+  margin-bottom: 0 !important;
+}
+
+.my-very-narrow-input {
+  margin-top: 0 !important;
+  margin-bottom: 0 !important;
+}
+
+.my-tap-code {
+  margin-left: 2rem;
+}
+
 .my-toast-test {
   position: fixed !important;
   max-width: 400px !important;
@@ -121,6 +134,14 @@
 .card-subtitle {
   font-size: 18px !important;
   margin-left: 50px !important;
+}
+
+.small-card-title {
+  font-size: 18px !important;
+}
+
+.my-short-width {
+  width: 300px;
 }
 
 .waves-effect.waves-indigo .waves-ripple {

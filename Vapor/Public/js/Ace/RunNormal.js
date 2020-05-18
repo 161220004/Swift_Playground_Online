@@ -3,5 +3,5 @@ let normalEditor = setEditor("normal_editor");
 
 /** 获取用户代码的方法 */
 function getEditorCode() {
-  return normalEditor.getValue();
+  return mainFuncHead + normalEditor.getValue() + mainFuncTail;
 }

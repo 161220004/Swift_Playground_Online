@@ -1,8 +1,8 @@
 #set("title") { SPO Puzzle 1-3 }
 
 #set("pagination_next") {
-  <a href="/spo/2" class="white indigo-text waves-effect waves-indigo btn left"><< Previous</a>
-  <a href="/spo/chapter/2" class="white indigo-text waves-effect waves-indigo btn right">Next >></a>
+  <a href="/puzzle/2" class="white indigo-text waves-effect waves-indigo btn left"><< Previous</a>
+  <a href="/chapter/2" class="white indigo-text waves-effect waves-indigo btn right">Next >></a>
 }
 
 #set("card_content") {
@@ -15,10 +15,12 @@
      让Lappland四处走动和收集宝石。
      在这一关中，你将用到一个新命令：<span class="chapter-code-font">“switchIt()”</span>（切换砖块颜色）。</p>
   <br>
-  <p>砖块颜色说明：</p>
-  <p>(1) 普通砖块为白色，宝石所在的砖块为紫色，这两种砖块的颜色不可以改变；</p>
-  <p class="chapter-code-font">(2) 黄色的砖块处于“点亮”状态，可以通过“switchIt()”命令变成“熄灭”状态的黑色砖块；</p>
-  <p class="chapter-code-font">(3) 黑色砖块也可以通过“switchIt()”命令变成“点亮”状态的黄色的砖块；</p>
+  <div class="my-blockquote chapter-code-font">
+    <p>砖块颜色说明：</p>
+    <p>&emsp; 普通砖块为白色，宝石所在的砖块为紫色，这两种砖块的颜色不可以改变；</p>
+    <p>&emsp; 黄色的砖块处于“点亮”状态，可以通过“switchIt()”命令变成“熄灭”状态的黑色砖块；</p>
+    <p>&emsp; 黑色砖块也可以通过“switchIt()”命令变成“点亮”状态的黄色的砖块；</p>
+  </div>
   <br>
   <p>(1) 输入命令让Lappland走到宝石处并收集宝石；</p>
   <p>(2) 继续输入命令让Lappland走到“熄灭”的地砖处，然后“点亮”这个地砖；</p>
@@ -40,17 +42,17 @@
 
 #set("pagination_all") {
   <ul class="pagination">
-    <li class="waves-effect"><a href="/spo/2"><i class="material-icons">chevron_left</i></a></li>
-    <li class="grey lighten-4 waves-effect"><a href="/spo/chapter/1">1</a></li>
-    <li class="waves-effect"><a href="/spo/1">1-1</a></li>
-    <li class="waves-effect"><a href="/spo/2">1-2</a></li>
+    <li class="waves-effect"><a href="/puzzle/2"><i class="material-icons">chevron_left</i></a></li>
+    <li class="grey lighten-4 waves-effect"><a href="/chapter/1">1</a></li>
+    <li class="waves-effect"><a href="/puzzle/1">1-1</a></li>
+    <li class="waves-effect"><a href="/puzzle/2">1-2</a></li>
     <li class="active indigo lighten-2"><a href="#!">1-3</a></li>
-    <li class="grey lighten-4 waves-effect"><a href="/spo/chapter/2">2</a></li>
-    <li class="waves-effect"><a href="/spo/4">2-1</a></li>
-    <li class="waves-effect"><a href="/spo/5">2-2</a></li>
-    <li class="waves-effect"><a href="/spo/6">2-3</a></li>
-    <li class="grey lighten-4 waves-effect"><a href="/spo/chapter/3">3</a></li>
-    <li class="waves-effect"><a href="/spo/chapter/2"><i class="material-icons">chevron_right</i></a></li>
+    <li class="grey lighten-4 waves-effect"><a href="/chapter/2">2</a></li>
+    <li class="waves-effect"><a href="/puzzle/4">2-1</a></li>
+    <li class="waves-effect"><a href="/puzzle/5">2-2</a></li>
+    <li class="waves-effect"><a href="/puzzle/6">2-3</a></li>
+    <li class="grey lighten-4 waves-effect"><a href="/chapter/3">3</a></li>
+    <li class="waves-effect"><a href="/chapter/2"><i class="material-icons">chevron_right</i></a></li>
   </ul>
 }
 

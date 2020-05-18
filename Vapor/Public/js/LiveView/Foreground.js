@@ -129,6 +129,57 @@ Foreground.prototype.reset = function() {
   console.log("Foreground Reset");
 }
 
+/* 用户新增砖块时，图层重新排序 */
+Foreground.prototype.resortBlocks = function() {
+  function compareYX(block1, block2) {
+    if (block1.cellY < block2.cellY) { // 则block1在前面
+      return -1;
+    } else if (block1.cellY > block2.cellY) { // 则block2在前面
+      return 1;
+    } else { // Y相同，比较X
+      return (block1.cellX - block2.cellX);
+    }
+  }
+  this.blocks.sort(compareYX);
+  // 同步重排PuzzleMap的mapBlocks/mapDiamonds
+  let mapBlocks = [];
+  let mapDiamonds = [];
+  for (let i = 0; i < this.blocks.length; i++) {
+    mapBlocks[i] = puzzleMap.mapBlocks[this.blocks[i].id];
+    mapDiamonds[i] = puzzleMap.mapDiamonds[this.blocks[i].id];
+  }
+  puzzleMap.mapBlocks = mapBlocks;
+  puzzleMap.mapDiamonds = mapDiamonds;
+  // 重新找到conductor.blockInitIndex
+  for (let i = 0; i < this.blocks.length; i++) {
+    if (this.blocks[i].id == conductor.blockInitIndex) {
+      conductor.blockInitIndex = i;
+      break;
+    }
+  }
+  // id改为递增，并重新计算绘制小地图的值
+  let minXIndex = 0; // X跨度左值
+  let maxXIndex = 0; // X跨度右值
+  let minYIndex = 0; // Y跨度左值
+  let maxYIndex = 0; // Y跨度右值
+  for (let i = 0; i < this.blocks.length; i++) {
+    // 重新计算图层
+    this.blocks[i].id = i;
+    this.blocks[i].setZIndex();
+    // X/Y跨度左右值
+    if (this.blocks[i].cellX < this.blocks[minXIndex].cellX) minXIndex = i;
+    if (this.blocks[i].cellX > this.blocks[maxXIndex].cellX) maxXIndex = i;
+    if (this.blocks[i].cellY < this.blocks[minYIndex].cellY) minYIndex = i;
+    if (this.blocks[i].cellY > this.blocks[maxYIndex].cellY) maxYIndex = i;
+  }
+  this.blockNumX = this.blocks[maxXIndex].cellX - this.blocks[minXIndex].cellX + 1;
+  this.blockNumY = this.blocks[maxYIndex].cellY - this.blocks[minYIndex].cellY + 1;
+  this.blockBottom = this.blocks[maxYIndex].cellY;
+  this.blockLeft = this.blocks[minXIndex].cellX;
+  // 重新计算Lappland图层
+  lappland.setZIndex();
+}
+
 /* 代码Run的时候，必须把所有Random项目确定 */
 Foreground.prototype.setRandom = function() {
   for (let i = 0; i < this.blocks.length; i++) {
@@ -173,6 +224,17 @@ Foreground.prototype.detectOnBlock = function() {
   }
 }
 
+/** 用于获取当前地砖动作的地砖的Index，获得则返回该地砖下标，没找到返回-1 */
+Foreground.prototype.detectCurrentBlock = function() {
+  let currentPos = conductor.getCurBlockActPos();
+  if (currentPos.length >= 2) {
+    for (let i = 0; i < this.blocks.length; i++) {
+      if (this.blocks[i].cellX == currentPos[0] && this.blocks[i].cellY == currentPos[1]) return i;
+    }
+  }
+  return -1;
+}
+
 /** 开始收集当前的宝石，若当前位置没有则报错（理论上不应该报错，因为在Puzzle.judgeResult中已经检测出来了） */
 Foreground.prototype.tryCollect = function() {
   let blockIndex = foreground.detectOnBlock();
@@ -186,6 +248,17 @@ Foreground.prototype.tryCollect = function() {
 /** 开始转换当前的地砖，若不能转换则报错（理论上不应该报错，因为在Puzzle.judgeResult中已经检测出来了） */
 Foreground.prototype.trySwitch = function() {
   let blockIndex = foreground.detectOnBlock();
+  if (blockIndex >= 0 && (foreground.blocks[blockIndex].type == BlockType.Dark || foreground.blocks[blockIndex].type == BlockType.Yellow)) {
+    foreground.blocks[blockIndex].switchIt();
+    this.setSwitchMap(false);
+  } else {
+    console.log("Unexpect Error When Switch");
+  }
+}
+
+/** 开始转换特定的地砖，若不能转换则报错（理论上不应该报错，因为在Puzzle.judgeResult中已经检测出来了） */
+Foreground.prototype.trySwitchCurrent = function() {
+  let blockIndex = this.detectCurrentBlock();
   if (blockIndex >= 0 && (foreground.blocks[blockIndex].type == BlockType.Dark || foreground.blocks[blockIndex].type == BlockType.Yellow)) {
     foreground.blocks[blockIndex].switchIt();
     this.setSwitchMap(false);
