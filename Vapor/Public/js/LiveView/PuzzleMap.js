@@ -15,6 +15,22 @@ function PuzzleMap() {
   this.init();
 }
 
+/** 重置 */
+PuzzleMap.prototype.reset = function() {
+  this.isVisible = false;
+  Stage.removeChild(this.mapboard);
+  Stage.removeChild(this.miniLapp);
+  for (let i = 0; i < this.mapBlocks.length; i++) {
+    if (this.mapBlocks[i]) Stage.removeChild(this.mapBlocks[i]);
+  }
+  for (let i = 0; i < this.mapDiamonds.length; i++) {
+    if (this.mapDiamonds[i]) Stage.removeChild(this.mapDiamonds[i]);
+  }
+  this.mapBlocks = [];
+  this.mapDiamonds = [];
+  this.init();
+}
+
 /* 绘制黑色背景 */
 PuzzleMap.prototype.setMapBoard = function() {
   this.mapboardWidth = MapMargin * 2 + foreground.blockNumX * MapSpace;
@@ -51,8 +67,16 @@ PuzzleMap.prototype.setMapBlock = function(mapBlock, block) {
   mapBlock.beginFill(colorRGB); // 开始绘制
   mapBlock.drawRect(mapBlockX, mapBlockY, MapBlockSize, MapBlockSize);
   mapBlock.endFill();
+  mapBlock.alpha = block.blockSprite.alpha;
   mapBlock.visible = this.isVisible;
   return [mapBlockX, mapBlockY];
+}
+
+/** 在数组下标i处添加一个新的MapBlock */
+PuzzleMap.prototype.addNewMapBlock = function(index) {
+  this.mapBlocks[index] = new PIXI.Graphics();
+  this.mapBlocks[index].zIndex = 1031;
+  Stage.addChild(this.mapBlocks[index]);
 }
 
 /** 重新确认 MiniLappland 的正确位置 */

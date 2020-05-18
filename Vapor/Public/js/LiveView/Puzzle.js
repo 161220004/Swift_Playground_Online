@@ -5,9 +5,10 @@ var FailReason = {
   FallFromBlock: 2, // Run途中，失败：掉落
   FailedToCollect: 3, // Run途中，失败：collect空地砖
   FailedToSwitch: 4, // Run途中，失败：switch错地砖
-  EndNotEnough: 5, // Run结束，失败：宝石收集不全
-  EndNotOn: 6, // Run结束，失败：砖块未全部点亮
-  Undefined: 7, // Debug: 未知错误
+  FailedToInit: 5, // Run途中，失败：无法在已经有砖块的位置初始化
+  EndNotEnough: 6, // Run结束，失败：宝石收集不全
+  EndNotOn: 7, // Run结束，失败：砖块未全部点亮
+  Undefined: 8, // Debug: 未知错误
 }
 
 /** Puzzle 类，描述当前状态，图层范围是 1020 ~ 1030
@@ -86,7 +87,6 @@ Puzzle.prototype.getActions = function(data) {
     } else {
       conductor.actionsStr += action.type + " - ";
     }
-
     conductor.actions[i] = action;
   }
   console.log("Already Init Actions From User Code: " + conductor.actionsStr);
@@ -155,61 +155,63 @@ Puzzle.prototype.judgeResult = function() {
     return;
   }
   // 运行时失败
-  if (this.isRunning && (conductor.lappIsActing || conductor.sceneIsActing)) {
+  if (this.isRunning) {
     let currentActionType = conductor.getCurActType();
-    if (currentActionType == ActionType.GO) { // 行走时检测
-      // 若不在地砖上
-      if (foreground.detectOnBlock() < 0) {
-        conductor.lappIsActing = false;
-        lappland.showShock();
-        this.isRunning = false;
-        this.isCompleted = true;
-        this.isFailure = true;
-        this.reason = FailReason.FallFromBlock;
-        this.showResultSprite();
-        $("#result_log").html("Result: Failure");
-        $("#reason_log").html("Reason: Lappland Fall From Block");
-        console.log("The End: Fall From Block");
-        return;
+    // 行动时
+    if (conductor.lappIsActing || conductor.sceneIsActing) {
+      // 行走时检测
+      if (currentActionType == ActionType.GO) {
+        // 若不在地砖上
+        if (foreground.detectOnBlock() < 0) {
+          conductor.lappIsActing = false;
+          lappland.showShock();
+          this.isRunning = false;
+          this.isCompleted = true;
+          this.isFailure = true;
+          this.reason = FailReason.FallFromBlock;
+          this.showResultSprite();
+          $("#result_log").html("Result: Failure");
+          $("#reason_log").html("Reason: Lappland Fall From Block");
+          console.log("The End: Fall From Block");
+          return;
+        }
       }
-    }
-    if (currentActionType == ActionType.COLLECT) { // 收集时检测
-      // 若当前地砖没有钻石
-      let blockIndex = foreground.detectOnBlock();
-      if (blockIndex < 0 || foreground.blocks[blockIndex].itemType != ItemType.Diamond || foreground.blocks[blockIndex].isCollected) {
-        conductor.lappIsActing = false;
-        this.isRunning = false;
-        this.isCompleted = true;
-        this.isFailure = true;
-        this.reason = FailReason.FailedToCollect;
-        this.showResultSprite();
-        $("#result_log").html("Result: Failure");
-        $("#reason_log").html("Reason: No Diamond To Collect Here");
-        console.log("The End: Failed To Collect");
-        return;
+      // 收集时检测
+      if (currentActionType == ActionType.COLLECT) {
+        // 若当前地砖没有钻石
+        let blockIndex = foreground.detectOnBlock();
+        if (blockIndex < 0 || foreground.blocks[blockIndex].itemType != ItemType.Diamond || foreground.blocks[blockIndex].isCollected) {
+          conductor.lappIsActing = false;
+          this.isRunning = false;
+          this.isCompleted = true;
+          this.isFailure = true;
+          this.reason = FailReason.FailedToCollect;
+          this.showResultSprite();
+          $("#result_log").html("Result: Failure");
+          $("#reason_log").html("Reason: No Diamond To Collect Here");
+          console.log("The End: Failed To Collect");
+          return;
+        }
       }
-    }
-    if (currentActionType == ActionType.SWITCHIT) { // 转换砖块时检测
-      // 若当前地砖不能转换
-      let blockIndex = foreground.detectOnBlock();
-      if (blockIndex < 0 || (foreground.blocks[blockIndex].type != BlockType.Dark && foreground.blocks[blockIndex].type != BlockType.Yellow)) {
-        conductor.lappIsActing = false;
-        this.isRunning = false;
-        this.isCompleted = true;
-        this.isFailure = true;
-        this.reason = FailReason.FailedToSwitch;
-        this.showResultSprite();
-        $("#result_log").html("Result: Failure");
-        $("#reason_log").html("Reason: No Block To Switch Here");
-        console.log("The End: Failed To Switch");
-        return;
+      // 转换砖块时检测
+      if (currentActionType == ActionType.SWITCHIT) {
+        // 若当前地砖不能转换
+        let blockIndex = foreground.detectOnBlock();
+        if (blockIndex < 0 || (foreground.blocks[blockIndex].type != BlockType.Dark && foreground.blocks[blockIndex].type != BlockType.Yellow)) {
+          conductor.lappIsActing = false;
+          this.isRunning = false;
+          this.isCompleted = true;
+          this.isFailure = true;
+          this.reason = FailReason.FailedToSwitch;
+          this.showResultSprite();
+          $("#result_log").html("Result: Failure");
+          $("#reason_log").html("Reason: No Block To Switch Here");
+          console.log("The End: Failed To Switch");
+          return;
+        }
       }
-    }
-    if (currentActionType == ActionType.BLOCK) { // 地砖操作检测
-      let currentBlockActType = conductor.getCurBlockActType();
-      if (currentBlockActType == ActionType.BLOCKINIT) {
-
-      } else if (currentBlockActType == ActionType.BLOCKSWITCH) {
+      // 地砖操作检测
+      if (currentActionType == ActionType.BLOCK && conductor.getCurBlockActType() == ActionType.BLOCKSWITCH) {
         // 若当前地砖不能转换
         let blockIndex = foreground.detectCurrentBlock();
         if (blockIndex < 0 || (foreground.blocks[blockIndex].type != BlockType.Dark && foreground.blocks[blockIndex].type != BlockType.Yellow)) {
@@ -222,6 +224,24 @@ Puzzle.prototype.judgeResult = function() {
           $("#result_log").html("Result: Failure");
           $("#reason_log").html("Reason: Block Is Not Able To Switch");
           console.log("The End: Failed To Switch");
+          return;
+        }
+      }
+    }
+    // 休息时
+    else {
+      // 砖块初始化失败
+      if (currentActionType == ActionType.BLOCK && conductor.getCurBlockActType() == ActionType.BLOCKINIT) {
+        let blockIndex = foreground.detectCurrentBlock(); // 将要INIT的砖块位置是否被占据
+        if (blockIndex >= 0) { // 被占据，报错
+          this.isRunning = false;
+          this.isCompleted = true;
+          this.isFailure = true;
+          this.reason = FailReason.FailedToInit;
+          this.showResultSprite();
+          $("#result_log").html("Result: Failure");
+          $("#reason_log").html("Reason: Block Is Not Able To Init Here");
+          console.log("The End: Failed To Init");
           return;
         }
       }

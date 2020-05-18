@@ -34,6 +34,7 @@ function resetLiveView() {
   lappland.reset();
   foreground.reset();
   background.reset();
+  puzzleMap.reset();
   // 重置动作指挥
   conductor.reset();
 }
@@ -41,6 +42,7 @@ function resetLiveView() {
 /** 循环刷新 */
 function gameloop() {
   Stage.sortChildren();
+  if (conductor) conductor.update();
   if (lappland) lappland.update();
   if (foreground) foreground.update();
   if (background) background.update();

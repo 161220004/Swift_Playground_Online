@@ -23,7 +23,7 @@
 
 #set("collapsible_body") {
   <span>你会发现Lappland自己无法到达目标砖块的位置，但是这一次，我们可以不再操纵Lappland，
-        <span class="chapter-code-font">而是操纵砖块block，使用block的属性和方法的过程就可以看作操纵这个block的过程。</span></span><br>
+        <span class="chapter-code-font">而是操纵砖块block，使用block的属性和方法的过程就可以看作操纵这个block的过程。</span></span>
 }
 
 #set("editor") {

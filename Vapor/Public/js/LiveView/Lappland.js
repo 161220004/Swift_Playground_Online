@@ -228,6 +228,4 @@ Lappland.prototype.update = function() {
   if (!puzzle.isRunning) {
     if (foreground) this.setZIndex();
   }
-  // 接受动作指挥
-  conductor.updateLappland();
 }

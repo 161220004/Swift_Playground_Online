@@ -17,6 +17,8 @@ function Conductor() {
   this.collectTime = LappCollectInterval; // COLLECT: 收集宝石跳跃时间
   this.switchTime = LappSwitchInterval; // SWITCH: 切换砖块时间
   this.isSwitched = false; // SWITCH: 是否切换砖块完成
+  this.blockInitTime = BlockInitInterval; // INIT: 砖块初始化淡出时间
+  this.blockInitIndex = -1; // INIT: 正在初始化的砖块
   // 场景指令相关
   this.sceneIsActing = false;  // 是否正在动作中，配合着 puzzle.isRunning 鉴定当前状态
 }
@@ -35,6 +37,8 @@ Conductor.prototype.reset = function() {
   this.collectTime = LappCollectInterval; // COLLECT: 收集宝石跳跃时间
   this.switchTime = LappSwitchInterval; // SWITCH: 切换砖块时间
   this.isSwitched = false; // SWITCH: 是否切换砖块完成
+  this.blockInitTime = BlockInitInterval; // INIT: 砖块初始化淡出时间
+  this.blockInitIndex = -1; // INIT: 正在初始化的砖块
 
   this.sceneIsActing = false;  // 是否正在动作中，配合着 puzzle.isRunning 鉴定当前状态
 }
@@ -59,7 +63,7 @@ Conductor.prototype.getCurBlockActPos = function() {
 }
 
 /** 刷新Lappland动作 */
-Conductor.prototype.updateLappland = function() {
+Conductor.prototype.update = function() {
   if (puzzle.isRunning) {
     let currentAction = this.actions[this.actionIndex];
     /* Lappland正在动作 */
@@ -179,7 +183,13 @@ Conductor.prototype.updateLappland = function() {
           isFinished = true;
         }
       } else if (currentAction.b == ActionType.BLOCKINIT) {
-
+        if (this.blockInitTime > 0) {
+          this.blockInitTime -= 1
+          foreground.blocks[this.blockInitIndex].blockSprite.alpha = 1 - this.blockInitTime / BlockInitInterval;
+        } else { // 动作结束
+          foreground.blocks[this.blockInitIndex].blockSprite.alpha = 1;
+          isFinished = true;
+        }
       } else {
         console.log("Error: Block Action Not Valid");
       }
@@ -243,7 +253,14 @@ Conductor.prototype.updateLappland = function() {
               this.isSwitched = false;
               console.log("Block Start Switching Itself");
             } else if (currentAction.b == ActionType.BLOCKINIT) {
-
+              this.blockInitTime = BlockInitInterval;
+              this.blockInitIndex = foreground.blocks.length;
+              console.log("Init A Block At (" + currentAction.pos + ")");
+              foreground.blocks[this.blockInitIndex] = new Block(BlockType.Normal,
+                         currentAction.pos[0], currentAction.pos[1], "", this.blockInitIndex);
+              foreground.blocks[this.blockInitIndex].blockSprite.alpha = 0;
+              puzzleMap.addNewMapBlock(this.blockInitIndex);
+              foreground.resortBlocks();
             } else {
               console.log("Error: Block Action Not Valid");
             }
