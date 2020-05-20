@@ -26,9 +26,9 @@ final class Actions: Codable, Content {
         self.description = description
     }
     
-    init() {
+    init(_ description: String) {
         self.isCompiled = false
         self.paces = []
-        self.description = "Invalid"
+        self.description = description
     }
 }
