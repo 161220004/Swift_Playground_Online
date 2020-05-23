@@ -42,42 +42,37 @@ const mainFuncTail = "\n}\n";
 
 // “Run”按钮点击事件
 $("#run_code").click(function(){
-  // 仅当一轮结束或未开始时可以开始运行
-  if (puzzle.isCompleted || (!puzzle.isCompiled && !puzzle.isCompiling && !puzzle.isCompleted)) {
-    // 重置LiveView
-    resetLiveView();
-    puzzleMap.isVisible = false; // 先关闭小地图
-    // 设置Random场景
-    foreground.setRandom();
-    // 封装传给后端的数据，包括code和Scene（帮助后端确认Random的最终值）
-    let sceneInfo = Object();
-    sceneInfo.puzzle = SceneData.puzzle;
-    sceneInfo.blocks = [];
-    for (let i = 0; i < foreground.blocks.length; i++) {
-      sceneInfo.blocks[i] = Object();
-      sceneInfo.blocks[i].id = foreground.blocks[i].id;
-      sceneInfo.blocks[i].type = foreground.blocks[i].type;
-      sceneInfo.blocks[i].cellX = foreground.blocks[i].cellX;
-      sceneInfo.blocks[i].cellY = foreground.blocks[i].cellY;
-      sceneInfo.blocks[i].item = foreground.blocks[i].itemType;
-    }
-    let runInfo = Object();
-    runInfo.code = getEditorCode();
-    runInfo.scene = sceneInfo;
-    // $("#test_live_view").html("Running...")
-    // 等待后端处理
-    puzzle.isCompiling = true;
-    puzzle.playLoadingSprite();
-    $.post("/puzzle/" + PID + "/code", JSON.stringify(runInfo), function(data) {
-      // alert("Get Result: \n" + JSON.stringify(data));
+  // 重置LiveView
+  resetLiveView();
+  puzzleMap.isVisible = false; // 先关闭小地图
+  // 设置Random场景
+  foreground.setRandom();
+  // 封装传给后端的数据，包括code和Scene（帮助后端确认Random的最终值）
+  let sceneInfo = Object();
+  sceneInfo.puzzle = SceneData.puzzle;
+  sceneInfo.blocks = [];
+  for (let i = 0; i < foreground.blocks.length; i++) {
+    sceneInfo.blocks[i] = Object();
+    sceneInfo.blocks[i].id = foreground.blocks[i].id;
+    sceneInfo.blocks[i].type = foreground.blocks[i].type;
+    sceneInfo.blocks[i].cellX = foreground.blocks[i].cellX;
+    sceneInfo.blocks[i].cellY = foreground.blocks[i].cellY;
+    sceneInfo.blocks[i].item = foreground.blocks[i].itemType;
+  }
+  let runInfo = Object();
+  runInfo.code = getEditorCode();
+  runInfo.scene = sceneInfo;
+  // $("#test_live_view").html("Running...")
+  // 等待后端处理
+  puzzle.isCompiling = true;
+  puzzle.playLoadingSprite();
+  $.post("/puzzle/" + PID + "/code", JSON.stringify(runInfo), function(data) {
+    if (puzzle.isCompiling) {
+      // 防止在编译中Restart的情况
       console.log("Run !");
       // 解析结果并开启动画
       puzzle.getActions(data);
       puzzle.performActions();
-      // Test: 更改LiveView区内容为后端返回的data
-      // $("#test_live_view").html(JSON.stringify(data))
-    })
-  } else {
-    alert("请在未开始编译或动画运行完全结束后开始新的一次尝试～");
-  }
+    }
+  })
 });

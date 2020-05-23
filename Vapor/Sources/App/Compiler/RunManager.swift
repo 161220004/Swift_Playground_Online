@@ -145,7 +145,7 @@ final class RunManager {
             actions = try self.readResult(stamp: stamp)
         } catch {
             print("[ Error ] RunManager.translateActions: Failed in Calling readResult")
-            return Actions()
+            return Actions(description)
         }
         var paces: [Pace] = []
         print("\nActions to Perform: ")

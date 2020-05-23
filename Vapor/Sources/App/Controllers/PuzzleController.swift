@@ -92,7 +92,7 @@ extension PuzzleController {
             print("\nSet Puzzle \(pid) Dependencies: \(dependencies)")
         } catch {
             print("[ Error ] PuzzleController.postCode: Failed to Get Pid From URL")
-            return Actions()
+            return Actions("Server Error")
         }
         if let dataJson = req.http.body.data {
             // 从Json转换为Object
@@ -101,7 +101,7 @@ extension PuzzleController {
                 runInfo = try JSONDecoder().decode(RunInfo.self, from: String(data: dataJson, encoding:.utf8)!)
             } catch {
                 print("[ Error ] PuzzleController.postCode: Failed to Decode Json Data to Object")
-                return Actions()
+                return Actions("Server Error")
             }
             // 编译运行
             let stamp = RunManager.getStamp() // 获取时间戳
@@ -117,7 +117,7 @@ extension PuzzleController {
             return RunManager.translateActions(stamp: stamp, description: output)
         } else {
             print("[ Error ] PuzzleController.postCode: Failed to Get Data from Request")
-            return Actions()
+            return Actions("Server Error")
         }
     }
     

@@ -37,6 +37,12 @@ function Lappland() {
 
 /** 重置所有属性 */
 Lappland.prototype.reset = function() {
+  // 如果正在走动，退回静止Texture
+  if (this.leg.textures.length < lappLegImg.length) {
+    this.leg.textures.unshift(this.legTexture);
+    this.armb.textures.unshift(this.armbTexture);
+    this.armf.textures.unshift(this.armfTexture);
+  }
   this.setDirection(SceneData.puzzle.lappInitDir); // 初始方向
   this.lastDirection = this.direction; // 上一次的朝向
   this.setCell(0, 0, 0);
