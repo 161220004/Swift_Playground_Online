@@ -12,7 +12,7 @@
 
     `vapor run`
 
-  - 若使用xcode，命令行输入：
+  - 若使用xcode，命令行分别输入：
   
     `swift package generate-xcodeproj`
   
