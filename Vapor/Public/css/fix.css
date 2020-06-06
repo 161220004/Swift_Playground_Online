@@ -97,6 +97,15 @@
   line-height: 56px;
 }
 
+.my-home-icon {
+  margin: 10px 25px;
+}
+
+.my-big-num {
+  font-size: 18px !important;
+  font-weight: bolder;
+}
+
 .my-editor-height {
   height: 448px;
 }

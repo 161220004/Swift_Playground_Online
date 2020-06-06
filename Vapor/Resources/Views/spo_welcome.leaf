@@ -19,17 +19,8 @@
   <!-- 导航栏 -->
   <nav class="indigo lighten-3 my-nav-height-large" role="navigation">
     <div class="nav-wrapper">
-      <a id="logo-container" href="#" class="center brand-logo"></a>
-      <ul class="right hide-on-med-and-down">
-        <li><a href="#!">首页</a></li>
-      </ul>
-      <ul id="nav-mobile" class="sidenav">
-        <li class="center-align indigo lighten-3"><h3 style="margin: 0px; padding: 16px 8px;">GoTo</h3></li>
-        <li><a href="#!">首页</a></li>
-      </ul>
-      <a href="#" data-target="nav-mobile" class="sidenav-trigger">
-        <i class="material-icons my-fix-menu">menu</i>
-      </a>
+      <a id="logo-container" href="#" class="center brand-logo">Swift Playground Online</a>
+      <a href="/welcome" class="right my-home-icon"><i class="large material-icons">home</i></a>
     </div>
   </nav>
 
@@ -83,7 +74,7 @@
   <div class="row container center">
     <div class="col s1 l1"></div>
     <div class="col s2 l2">
-      <a class="btn-floating btn-large red pulse" href="/chapter/1">壹</a>
+      <a class="btn-floating btn-large red pulse my-big-num" href="/chapter/1">1</a>
       <div class="my-space-line"></div>
       <div class="divider"></div>
       <div class="my-space-line"></div>
@@ -91,7 +82,7 @@
       <p>这一章中你将学会写出简单的命令语句完成目标</p>
     </div>
     <div class="col s2 l2">
-      <a class="btn-floating btn-large yellow darken-1 pulse" href="/chapter/2">贰</a>
+      <a class="btn-floating btn-large yellow darken-1 pulse my-big-num" href="/chapter/2">2</a>
       <div class="my-space-line"></div>
       <div class="divider"></div>
       <div class="my-space-line"></div>
@@ -99,7 +90,7 @@
       <p>这一章中你将自己定义函数封装一组命令并使用它</p>
     </div>
     <div class="col s2 l2">
-      <a class="btn-floating btn-large green pulse" href="/chapter/3">叁</a>
+      <a class="btn-floating btn-large green pulse my-big-num" href="/chapter/3">3</a>
       <div class="my-space-line"></div>
       <div class="divider"></div>
       <div class="my-space-line"></div>
@@ -107,7 +98,7 @@
       <p>这一章中你将使用if语句处理不同条件分支，以及使用for/while语句重复一组命令</p>
     </div>
     <div class="col s2 l2">
-      <a class="btn-floating btn-large blue pulse" href="/chapter/4">肆</a>
+      <a class="btn-floating btn-large blue pulse my-big-num" href="/chapter/4">4</a>
       <div class="my-space-line"></div>
       <div class="divider"></div>
       <div class="my-space-line"></div>
@@ -115,7 +106,7 @@
       <p>这一章中你将定义变量以储存信息，使用赋值语句和运算符改变变量的值，并学会给函数添加参数</p>
     </div>
     <div class="col s2 l2">
-      <a class="btn-floating btn-large purple pulse" href="/chapter/5">伍</a>
+      <a class="btn-floating btn-large purple pulse my-big-num" href="/chapter/5">5</a>
       <div class="my-space-line"></div>
       <div class="divider"></div>
       <div class="my-space-line"></div>
@@ -131,25 +122,11 @@
   <!-- My Footer -->
   <footer class="page-footer indigo lighten-3">
     <div class="container">
-      <div class="row">
-        <div class="col l6 m6 s12">
-          <h5 class="white-text">Footer Content</h5>
-          <p class="grey-text text-lighten-4">You can use rows and columns here to organize your footer content.</p>
-        </div>
-        <div class="col l4 offset-l2 s12">
-          <h5 class="white-text">Links</h5>
-          <ul>
-            <li><a class="grey-text text-lighten-3" href="#!">Link 1</a></li>
-            <li><a class="grey-text text-lighten-3" href="#!">Link 2</a></li>
-          </ul>
-        </div>
-      </div>
+      <h5><a class="white-text" href="https://github.com/161220004/Swift_Playground_Online">GitHub</a></h5>
+      <p class="grey-text text-lighten-4">欢迎来到Swift在线编程平台！这是本人的毕业设计项目，十分感谢您的支持！</p>
     </div>
     <div class="footer-copyright indigo lighten-2">
-      <div class="container">
-        © 2014 Copyright AldebaRain
-        <a class="grey-text text-lighten-4 right" href="#!">More Links</a>
-      </div>
+      <div class="container">© 2020 Copyright AldebaRain</div>
     </div>
   </footer>
 
