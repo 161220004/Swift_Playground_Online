@@ -1,0 +1,13 @@
+SPO.xcodeproj
+.build
+.clocignore
+.dockerignore
+.gitignore
+circle.yml
+Public/css/materialize.min.css
+Public/css/materialize.css
+Public/images
+Public/js/Ace/src
+Public/js/LiveView/Pixi
+Public/js/Materialize/materialize.min.js
+Public/js/Materialize/materialize.js
